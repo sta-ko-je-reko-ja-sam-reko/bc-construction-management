@@ -5,7 +5,7 @@ using Construction.Core;
 page 50444 "CONS Equipment Meter API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'equipmentMeterEntry';

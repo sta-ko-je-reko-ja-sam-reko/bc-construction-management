@@ -5,7 +5,7 @@ using Microsoft.Projects.Project.Job;
 page 50296 "CONS Project Task API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'projectTask';

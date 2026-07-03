@@ -28,7 +28,7 @@ bc-construction-management/
 
 ## Before first build
 
-1. Set **publisher** in `app/app.json`, `test/app.json`, and the affix/prefix in `app/AppSourceCop.json` (currently `YourCompany` / `CONS`).
+1. Set **publisher** in `app/app.json`, `test/app.json`, and the affix/prefix in `app/AppSourceCop.json` (currently `dmom` / `CONS`).
 2. Replace the **placeholder manifest URLs** in `app/app.json` (`EULA`, `privacyStatement`, `help`, `url`, `contextSensitiveHelpUrl` — currently `https://www.example.com/...`) and the **placeholder logo** `app/img/AppLogo.png` (1×1 stub) with real values before any AppSource submission. AppSourceCop requires non-empty values.
 3. Confirm the **BC target version** (`application`/`runtime`) and run **AL: Download Symbols**.
 4. Build → must be **zero CodeCop / AppSourceCop errors**.

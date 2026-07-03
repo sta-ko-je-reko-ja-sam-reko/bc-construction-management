@@ -56,5 +56,5 @@ permissionset 50194 "CONS Subc - Edit"
         codeunit "CONS Change Order Wf Demo" = X,
         codeunit "CONS Retention Mgt" = X,
         codeunit "CONS Retention Logic" = X,
-        codeunit "CONS Purch Retention Events" = X;
+        codeunit "CONS Subc Wf Reactions" = X;
 }

@@ -33,6 +33,5 @@ permissionset 50010 "CONS Found - Edit"
         codeunit "CONS Feature Mgt." = X,
         codeunit "CONS App Area Subscriber" = X,
         codeunit "CONS Guided Setup" = X,
-        codeunit "CONS Demo Data" = X,
         codeunit "CONS Activities Cue Calc" = X;
 }

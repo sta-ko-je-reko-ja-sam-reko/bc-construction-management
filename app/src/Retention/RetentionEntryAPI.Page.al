@@ -3,7 +3,7 @@ namespace Construction.Retention;
 page 50287 "CONS Retention Entry API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'retentionEntry';

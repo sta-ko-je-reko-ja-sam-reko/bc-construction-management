@@ -3,7 +3,7 @@ namespace Construction.Setup;
 page 50294 "CONS Cost Type Setup API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'costTypeSetup';

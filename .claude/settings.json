@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk '$1>=50200 && $1<=50300')",
+      "Bash(awk '{print $2}')",
+      "Bash(awk '$1>=50015 && $1<=50060' /tmp/usedids.txt)",
+      "Bash(awk '$1>=50300 && $1<=50340' /tmp/usedids.txt)",
+      "Bash(grep -iA8 \"subcontract header\\\\|No\\\\.\")",
+      "Bash(grep -iA10 \"equipment\\\\b\")",
+      "Bash(grep -iB2 -A6 \"equipment\\\\|series\")",
+      "Bash(grep \"///\")",
+      "Bash(grep -rn \"///\" --include=*.al app/src)",
+      "Bash(grep -rn \"///.*[<>&]\" --include=*.al app/src)",
+      "Bash(grep -rnP \"///.*&\\(?!amp;|lt;|gt;|quot;|apos;|#\\)\" --include=*.al app/src)",
+      "Bash(grep -rnoE \"///.*\" --include=*.al app/src)"
+    ]
+  }
+}

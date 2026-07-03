@@ -12,5 +12,5 @@ permissionset 50012 "CONS Admin"
     Assignable = true;
     Caption = 'Construction Management - Admin', Locked = true;
 
-    IncludedPermissionSets = "CONS Found - Edit", "CONS Est - Edit", "CONS Cost - Edit", "CONS Bill - Edit", "CONS Subc - Edit", "CONS Equip - Edit", "CONS Sched - Edit";
+    IncludedPermissionSets = "CONS Found - Edit", "CONS Est - Edit", "CONS Cost - Edit", "CONS Bill - Edit", "CONS Subc - Edit", "CONS Equip - Edit", "CONS Sched - Edit", "CONS Base Subs", "CONS Demo";
 }

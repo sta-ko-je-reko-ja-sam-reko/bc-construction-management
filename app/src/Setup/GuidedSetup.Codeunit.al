@@ -170,8 +170,6 @@ codeunit 50019 "CONS Guided Setup"
     /// ticked. Refreshes application areas but does NOT restart the session (the hub does that once).
     /// </summary>
     procedure ApplyWizardChoices(Module: Enum "CONS Module"; Feature: Enum "CONS Feature"; HasToggle: Boolean; DoEnable: Boolean; DoNoSeries: Boolean; DoDemoData: Boolean)
-    var
-        DemoData: Codeunit "CONS Demo Data";
     begin
         if HasToggle then begin
             FeatureMgt.SetEnabled(Feature, DoEnable);
@@ -180,7 +178,36 @@ codeunit 50019 "CONS Guided Setup"
         if DoNoSeries or DoDemoData then
             SetupNumberSeries(Module);
         if DoDemoData then
-            DemoData.CreateDemoData(Module);
+            ImportDemoData(Module);
+    end;
+
+    /// <summary>Runs the selected module's demo seeder. Each seeder is its own codeunit (the same idempotent Import() the demo API pages call), so the wizard and the MCP/agent path never fork the seeding logic.</summary>
+    local procedure ImportDemoData(Module: Enum "CONS Module")
+    var
+        DemoFoundation: Codeunit "CONS Demo Foundation";
+        DemoEstimating: Codeunit "CONS Demo Estimating";
+        DemoCostControl: Codeunit "CONS Demo Cost Control";
+        DemoProgressBilling: Codeunit "CONS Demo Progress Billing";
+        DemoSubcontracts: Codeunit "CONS Demo Subcontracts";
+        DemoEquipment: Codeunit "CONS Demo Equipment";
+        DemoScheduling: Codeunit "CONS Demo Scheduling";
+    begin
+        case Module of
+            Module::Foundation:
+                DemoFoundation.Import();
+            Module::Estimating:
+                DemoEstimating.Import();
+            Module::"Cost Control":
+                DemoCostControl.Import();
+            Module::"Progress Billing":
+                DemoProgressBilling.Import();
+            Module::Subcontracts:
+                DemoSubcontracts.Import();
+            Module::"Equipment & Plant":
+                DemoEquipment.Import();
+            Module::"Scheduling & Resource Planning":
+                DemoScheduling.Import();
+        end;
     end;
 
     /// <summary>Creates and assigns the number series the module needs, if not already assigned. Idempotent. Cost Control and Scheduling have no document number series, so they are intentionally absent from the case.</summary>

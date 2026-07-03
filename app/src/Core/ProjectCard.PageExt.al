@@ -1,6 +1,8 @@
 namespace Construction.Core;
 
+using Construction.ProgressBilling;
 using Construction.Retention;
+using Construction.Setup;
 using Microsoft.Projects.Project.Job;
 
 pageextension 50006 "CONS Project Card" extends "Job Card"
@@ -12,17 +14,20 @@ pageextension 50006 "CONS Project Card" extends "Job Card"
             field("CONS Construction Project"; Rec."CONS Construction Project")
             {
                 ApplicationArea = All;
+                AccessByPermission = tabledata "CONS Construction Setup" = R;
                 ToolTip = 'Specifies whether this project is managed with Construction Management features.';
             }
             field("CONS Default Cost Type"; Rec."CONS Default Cost Type")
             {
                 ApplicationArea = All;
+                AccessByPermission = tabledata "CONS Construction Setup" = R;
                 ToolTip = 'Specifies the default construction cost type for this project''s estimate and budget lines.';
                 Enabled = Rec."CONS Construction Project";
             }
             field("CONS Contract Value"; Rec."CONS Contract Value")
             {
                 ApplicationArea = All;
+                AccessByPermission = tabledata "CONS Construction Setup" = R;
                 ToolTip = 'Specifies the agreed contract value for the project.';
                 Enabled = Rec."CONS Construction Project";
             }
@@ -35,7 +40,8 @@ pageextension 50006 "CONS Project Card" extends "Job Card"
         {
             action("CONS Release Retention")
             {
-                ApplicationArea = All;
+                ApplicationArea = CONSProgressBilling;
+                AccessByPermission = tabledata "CONS Progress Billing Setup" = R;
                 Caption = 'Release Retention';
                 ToolTip = 'Creates a draft sales invoice that releases the full outstanding retention held for this project.';
                 Image = ReleaseDoc;
@@ -49,7 +55,8 @@ pageextension 50006 "CONS Project Card" extends "Job Card"
             }
             action("CONS Retention Entries")
             {
-                ApplicationArea = All;
+                ApplicationArea = CONSProgressBilling;
+                AccessByPermission = tabledata "CONS Progress Billing Setup" = R;
                 Caption = 'Retention Entries';
                 ToolTip = 'Shows the retention withheld and released for this project.';
                 Image = Entries;

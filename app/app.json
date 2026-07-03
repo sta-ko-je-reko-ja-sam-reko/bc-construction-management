@@ -1,7 +1,7 @@
 {
   "id": "2bc6d77f-04e5-4d07-80e0-d3271a909548",
   "name": "Construction Management",
-  "publisher": "YourCompany",
+  "publisher": "dmom",
   "version": "0.1.0.0",
   "brief": "Construction project management for Business Central — estimating, cost breakdown, progress billing and cost control on top of standard Projects.",
   "description": "Construction Management extends the standard Business Central Projects (Jobs) module with a Bill of Quantities estimating layer, a multi-level cost breakdown structure, committed-cost and cost-to-complete control, progress billing and retention. Built to AppSource standards.",
@@ -24,7 +24,7 @@
     {
       "id": "26d40de3-2d29-4f17-90ae-641718d80075",
       "name": "Construction Management Tests",
-      "publisher": "YourCompany"
+      "publisher": "dmom"
     }
   ],
   "features": [
