@@ -5,7 +5,7 @@ using Microsoft.Integration.Entity;
 page 50341 "CONS Sales Invoice API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'salesInvoice';

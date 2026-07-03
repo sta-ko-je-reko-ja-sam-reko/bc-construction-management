@@ -12,11 +12,13 @@ pageextension 50102 "CONS Job Task Lines" extends "Job Task Lines"
             field("CONS Cost Type"; Rec."CONS Cost Type")
             {
                 ApplicationArea = CONSCostControl;
+                AccessByPermission = tabledata "CONS Cost Control Setup" = R;
                 ToolTip = 'Specifies the construction cost type classification of the task.';
             }
             field("CONS % Complete"; Rec."CONS % Complete")
             {
                 ApplicationArea = CONSCostControl;
+                AccessByPermission = tabledata "CONS Cost Control Setup" = R;
                 ToolTip = 'Specifies the manually entered progress of the task, in percent.';
             }
         }
@@ -29,6 +31,7 @@ pageextension 50102 "CONS Job Task Lines" extends "Job Task Lines"
             action("CONS Cost Breakdown")
             {
                 ApplicationArea = CONSCostControl;
+                AccessByPermission = tabledata "CONS Cost Control Setup" = R;
                 Caption = 'Cost Breakdown';
                 ToolTip = 'Opens the construction cost breakdown (budget, actual, variance) for this project.';
                 Image = CostBudget;
@@ -38,6 +41,7 @@ pageextension 50102 "CONS Job Task Lines" extends "Job Task Lines"
             action("CONS Project Cost Control")
             {
                 ApplicationArea = CONSCostControl;
+                AccessByPermission = tabledata "CONS Cost Control Setup" = R;
                 Caption = 'Cost Control';
                 ToolTip = 'Opens budget vs committed vs actual cost control with EAC/ETC forecasting for this project.';
                 Image = Costs;

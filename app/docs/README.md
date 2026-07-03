@@ -31,4 +31,6 @@ One folder per feature: `FEAT-<AREA>-<NNN>-<Title>/` (dots → dashes; PascalCas
 | FEAT-WBS-001 | Cost Breakdown Structure | Cost Control | 1 | Implemented (pending build) |
 | FEAT-CST-001 | Cost Control & Forecasting | Cost Control | 1 | Implemented (pending build) |
 
+Cross-session context (portable substitute for Claude's local memory): [PROJECT-NOTES.md](PROJECT-NOTES.md).
+
 Modules & licensing: [../../MODULES.md](../../MODULES.md). Roadmap: [../../PLAN.md](../../PLAN.md). Research: [../../docs/research/project-operations-vs-bc-projects.md](../../docs/research/project-operations-vs-bc-projects.md).

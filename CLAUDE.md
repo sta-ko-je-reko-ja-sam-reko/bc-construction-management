@@ -17,10 +17,14 @@ This project uses the **bc-greenfield-template** methodology (in `../bc-greenfie
 |---|---|
 | Affix / prefix | `CONS` |
 | Object ID range | `50000–99999` (PTE) |
-| BC version target | `28.2.0.0` (platform `28.0.0.0`, runtime `15.0`) — confirmed: dev container `bcconstr28` builds BC 28.2 |
+| BC version target | `28.2.0.0` (platform `28.0.0.0`, runtime `17.0`) — confirmed: dev container `bcconstr28` builds BC 28.2 |
 | Foundation | Standard BC **Projects (Jobs)** — extend, don't reinvent |
 | Primary language | English (international); Serbian getting-started optional |
-| Publisher | `YourCompany` — **set in `app/app.json`, `test/app.json`, `AppSourceCop.json` before any build** |
+| Publisher | `dmom` — set in `app/app.json` + `test/app.json` (2026-07-03) |
+
+## Cross-session context
+
+Portable project context (decisions, gotchas, "why we did X") lives in **[app/docs/PROJECT-NOTES.md](app/docs/PROJECT-NOTES.md)** — a checked-in substitute for Claude's local memory, which is machine-specific and never synced via git. Read it at the start of work and append durable cross-session facts there.
 
 ## Working a feature
 

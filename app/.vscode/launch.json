@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "BC Container (bcconstr28)",
+      "name": "BC Container (crm2802)",
       "type": "al",
       "request": "launch",
       "environmentType": "OnPrem",
-      "server": "http://bcconstr28",
+      "server": "http://crm2802",
       "serverInstance": "BC",
       "port": 7049,
       "tenant": "default",

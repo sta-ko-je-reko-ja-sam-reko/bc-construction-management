@@ -5,7 +5,7 @@ using Construction.Core;
 page 50445 "CONS Equipment Assign. API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'equipmentAssignment';

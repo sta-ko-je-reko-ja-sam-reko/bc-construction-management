@@ -11,8 +11,17 @@ using System.Environment.Configuration;
 codeunit 50322 "CONS Feature Mgt."
 {
     Access = Public;
+    SingleInstance = true;
 
-    /// <summary>Returns whether a construction feature is enabled (reads the feature's setup record). Used as the first guard clause in the feature's event-subscriber reactions and to drive its application area.</summary>
+    /// <summary>
+    /// Returns whether a construction feature is enabled (reads the feature's setup record). Used as the first
+    /// guard clause in the feature's event-subscriber reactions and to drive its application area. Each setup
+    /// read is gated by the user's EFFECTIVE read permission on that setup table — checked by object id via the
+    /// shared access policy (CONS Access Policy, over the Microsoft Effective Permissions Mgt.), never by
+    /// instantiating our own (possibly unlicensed) table — so a user who owns only some modules gets "false" for
+    /// the rest instead of a permission error. This is what
+    /// makes the codeunit safe to call from an always-on base-app subscriber that runs for every tenant user.
+    /// </summary>
     procedure IsEnabled(Feature: Enum "CONS Feature"): Boolean
     var
         EstimatingSetup: Record "CONS Estimating Setup";
@@ -24,42 +33,33 @@ codeunit 50322 "CONS Feature Mgt."
     begin
         case Feature of
             Feature::Estimating:
-                begin
-                    EstimatingSetup.SetLoadFields(Enabled);
-                    if EstimatingSetup.Get() then
-                        exit(EstimatingSetup.Enabled);
-                end;
+                if HasEffectiveRead(Database::"CONS Estimating Setup") and EstimatingSetup.Get() then
+                    exit(EstimatingSetup.Enabled);
             Feature::CostControl:
-                begin
-                    CostControlSetup.SetLoadFields(Enabled);
-                    if CostControlSetup.Get() then
-                        exit(CostControlSetup.Enabled);
-                end;
+                if HasEffectiveRead(Database::"CONS Cost Control Setup") and CostControlSetup.Get() then
+                    exit(CostControlSetup.Enabled);
             Feature::ProgressBilling:
-                begin
-                    ProgressBillingSetup.SetLoadFields(Enabled);
-                    if ProgressBillingSetup.Get() then
-                        exit(ProgressBillingSetup.Enabled);
-                end;
+                if HasEffectiveRead(Database::"CONS Progress Billing Setup") and ProgressBillingSetup.Get() then
+                    exit(ProgressBillingSetup.Enabled);
             Feature::Subcontracts:
-                begin
-                    SubcontractsSetup.SetLoadFields(Enabled);
-                    if SubcontractsSetup.Get() then
-                        exit(SubcontractsSetup.Enabled);
-                end;
+                if HasEffectiveRead(Database::"CONS Subcontracts Setup") and SubcontractsSetup.Get() then
+                    exit(SubcontractsSetup.Enabled);
             Feature::Equipment:
-                begin
-                    EquipmentSetup.SetLoadFields(Enabled);
-                    if EquipmentSetup.Get() then
-                        exit(EquipmentSetup.Enabled);
-                end;
+                if HasEffectiveRead(Database::"CONS Equipment Setup") and EquipmentSetup.Get() then
+                    exit(EquipmentSetup.Enabled);
             Feature::Scheduling:
-                begin
-                    SchedulingSetup.SetLoadFields(Enabled);
-                    if SchedulingSetup.Get() then
-                        exit(SchedulingSetup.Enabled);
-                end;
+                if HasEffectiveRead(Database::"CONS Scheduling Setup") and SchedulingSetup.Get() then
+                    exit(SchedulingSetup.Enabled);
         end;
+        exit(false);
+    end;
+
+    /// <summary>The current user's effective read permission on a table — delegated to the shared access policy (checked by id, never touching a product object), so the effective-permission logic lives in one place.</summary>
+    local procedure HasEffectiveRead(TableId: Integer): Boolean
+    var
+        ServiceLocator: Codeunit "CONS Service Locator";
+    begin
+        exit(ServiceLocator.AccessPolicy().HasEffectiveRead(TableId));
     end;
 
     /// <summary>Sets each construction application-area flag from its feature's Enabled state. Called from the Essential-experience subscriber so a disabled feature's pages stay hidden.</summary>

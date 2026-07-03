@@ -5,7 +5,7 @@ using Construction.Core;
 page 50286 "CONS Progress Billing Line API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'progressBillingLine';

@@ -5,7 +5,7 @@ using Construction.Core;
 page 50289 "CONS Subcontract Line API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'subcontractLine';

@@ -1,6 +1,5 @@
 namespace Construction.Subcontracts;
 
-using Construction.Core;
 using System.Automation;
 
 codeunit 50281 "CONS Change Order Approval"
@@ -30,40 +29,5 @@ codeunit 50281 "CONS Change Order Approval"
         ChangeOrderWorkflow: Codeunit "CONS Change Order Workflow";
     begin
         ChangeOrderWorkflow.OnCancelChangeOrderForApproval(ChangeOrderHeader);
-    end;
-
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", OnPopulateApprovalEntryArgument, '', false, false)]
-    local procedure PopulateApprovalEntryArgument(var RecRef: RecordRef; var ApprovalEntryArgument: Record "Approval Entry"; WorkflowStepInstance: Record "Workflow Step Instance")
-    var
-        ChangeOrderHeader: Record "CONS Change Order Header";
-        FeatureMgt: Codeunit "CONS Feature Mgt.";
-    begin
-        if not FeatureMgt.IsEnabled(Enum::"CONS Feature"::Subcontracts) then
-            exit;
-        if RecRef.Number <> Database::"CONS Change Order Header" then
-            exit;
-        RecRef.SetTable(ChangeOrderHeader);
-        ChangeOrderHeader.CalcFields("Total Amount");
-        ApprovalEntryArgument."Table ID" := Database::"CONS Change Order Header";
-        ApprovalEntryArgument."Document No." := ChangeOrderHeader."No.";
-        ApprovalEntryArgument.Amount := ChangeOrderHeader."Total Amount";
-        ApprovalEntryArgument."Amount (LCY)" := ChangeOrderHeader."Total Amount";
-    end;
-
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", OnSetStatusToPendingApproval, '', false, false)]
-    local procedure SetStatusToPendingApproval(RecRef: RecordRef; var Variant: Variant; var IsHandled: Boolean)
-    var
-        ChangeOrderHeader: Record "CONS Change Order Header";
-        FeatureMgt: Codeunit "CONS Feature Mgt.";
-    begin
-        if not FeatureMgt.IsEnabled(Enum::"CONS Feature"::Subcontracts) then
-            exit;
-        if RecRef.Number <> Database::"CONS Change Order Header" then
-            exit;
-        RecRef.SetTable(ChangeOrderHeader);
-        ChangeOrderHeader.Validate(Status, ChangeOrderHeader.Status::"Pending Approval");
-        ChangeOrderHeader.Modify(true);
-        Variant := ChangeOrderHeader;
-        IsHandled := true;
     end;
 }

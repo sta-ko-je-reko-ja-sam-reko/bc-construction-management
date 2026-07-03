@@ -9,14 +9,14 @@
 
 ## Business Process
 
-1. **Every new construction table gets an API page.** Each document/master/sub-ledger table added by the product is projected through a `PageType = API` page under one logical apiGroup, so the whole vertical is reachable as a coherent OData v4 / REST surface: `APIPublisher = 'yourcompany'`, `APIGroup = 'construction'`, `APIVersion = 'v1.0'`.
+1. **Every new construction table gets an API page.** Each document/master/sub-ledger table added by the product is projected through a `PageType = API` page under one logical apiGroup, so the whole vertical is reachable as a coherent OData v4 / REST surface: `APIPublisher = 'dmom'`, `APIGroup = 'construction'`, `APIVersion = 'v1.0'`.
 2. **Document and master entities are read/create/modify.** BoQ, Progress Billing, Subcontracts, Change Orders, Equipment and Scheduling entities are backed by product tables and are writable (create + modify).
 3. **Sub-ledgers and standard-entity mirrors are read-only.** The Retention sub-ledger and the Cost Type Setup master are exposed read-only; the Sales/Purchase document APIs mirror standard BC document buffers/aggregates (`InsertAllowed = ModifyAllowed = DeleteAllowed = false`) so agents can read project-linked orders and invoices without mutating posted/standard documents.
 4. **The MCP Config Demo codeunit builds a ready-to-attach MCP server configuration.** `CONS MCP Config Demo` (codeunit 50300) uses the platform `MCP Config` codeunit to create an MCP server configuration named **"Construction"** that exposes these API pages as **agent tools** — each page becomes one tool, with per-tool read / create / modify permissions matching the writable-vs-read-only intent above. The admin runs it once per environment (directly or via the assisted-setup demo-data option), activates it, and attaches it to an MCP host (GitHub Copilot, Copilot Studio, VS Code).
 
 ## API Pages
 
-All pages: `PageType = API`, `APIPublisher = 'yourcompany'`, `APIGroup = 'construction'`, `APIVersion = 'v1.0'`. "Access" is the intent wired into the MCP configuration by codeunit 50300 (read-only = read tool only; writable = read + create + modify).
+All pages: `PageType = API`, `APIPublisher = 'dmom'`, `APIGroup = 'construction'`, `APIVersion = 'v1.0'`. "Access" is the intent wired into the MCP configuration by codeunit 50300 (read-only = read tool only; writable = read + create + modify).
 
 | Object ID | Page name | Entity set | Source table | Access |
 |---|---|---|---|---|
@@ -64,6 +64,24 @@ All pages: `PageType = API`, `APIPublisher = 'yourcompany'`, `APIGroup = 'constr
 - **Not called anywhere yet** by design — the product's assisted setup offers to run it (demo-data option). It is meant to be run **once per environment**; re-running would create a second "Construction" configuration.
 - **Description label** (shown in the MCP host): *"Construction Management tools for AI clients — estimating, cost control, progress billing, retention, subcontracts, change orders, equipment & plant, and scheduling & resource planning."*
 - Read-only tools: `CONS Retention Entry API`, `CONS Sales Invoice API`, `CONS Sales Order API`, `CONS Purchase Order API`, `CONS Purchase Invoice API`, `CONS Cost Type Setup API`. All other wired pages are writable.
+
+## Demo-data import APIs (per-feature, own groups)
+
+Separate from the functional `construction` group above, each feature ships a **demo-import API page** whose bound `[ServiceEnabled] importDemoData` action seeds that feature's CRONUS-style sample data on the shared `CONS-DEMO` project. Each lives in its **own dedicated API group** (`demo<Feature>`, never `construction`) binding to the shared dummy source table **`CONS Demo Data` (50030)** — the action is the deliverable, the rows are incidental. All: `APIPublisher = 'dmom'`, `APIVersion = 'v1.0'`.
+
+| Object ID | Page name | API group / entity set | Seeder codeunit |
+|---|---|---|---|
+| 50040 | CONS Demo Foundation API | `demoFoundation` | CONS Demo Foundation (50031) |
+| 50041 | CONS Demo Estimating API | `demoEstimating` | CONS Demo Estimating (50032) |
+| 50042 | CONS Demo Cost Control API | `demoCostControl` | CONS Demo Cost Control (50033) |
+| 50043 | CONS Demo Prog. Billing API | `demoProgressBilling` | CONS Demo Progress Billing (50034) |
+| 50044 | CONS Demo Subcontracts API | `demoSubcontracts` | CONS Demo Subcontracts (50035) |
+| 50045 | CONS Demo Equipment API | `demoEquipment` | CONS Demo Equipment (50036) |
+| 50046 | CONS Demo Scheduling API | `demoScheduling` | CONS Demo Scheduling (50037) |
+
+- **`CONS MCP Demo Config` (50038)** — builds **one MCP configuration per importer** (exposing only that feature's demo page), kept separate from `CONS MCP Config Demo` so an agent can be scoped to seed a single feature. Called once (guarded) from `CONS Demo Foundation.Import()`.
+- **Two reach paths, one idempotent seeder** — the assisted-setup wizard (`GuidedSetup` → each `Import()`) and the `importDemoData` API action both call the same `Import()`. Seeders are **message-free** and use **fixed keys** (no number series), so they run cleanly from the agent/API path.
+- **Permissions** — all demo objects are in the shared **`CONS Demo` set (50027)**, included in `CONS Admin`.
 
 ## Tests
 

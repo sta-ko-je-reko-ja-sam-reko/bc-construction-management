@@ -6,7 +6,7 @@ using Microsoft.Projects.Project.Job;
 page 50475 "CONS Task Schedule API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'taskSchedule';

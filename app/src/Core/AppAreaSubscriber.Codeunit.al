@@ -7,7 +7,7 @@ codeunit 50323 "CONS App Area Subscriber"
     Access = Internal;
     SingleInstance = true;
 
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Application Area Mgmt. Facade", OnGetEssentialExperienceAppAreas, '', false, false)]
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Application Area Mgmt. Facade", OnGetEssentialExperienceAppAreas, '', true, true)]
     local procedure SetConstructionAppAreasOnGetEssentialExperienceAppAreas(var TempApplicationAreaSetup: Record "Application Area Setup" temporary)
     var
         FeatureMgt: Codeunit "CONS Feature Mgt.";

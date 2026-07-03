@@ -33,6 +33,5 @@ permissionset 50162 "CONS Bill - Read"
         codeunit "CONS Prog. Billing Invoice" = X,
         codeunit "CONS Retention Mgt" = X,
         codeunit "CONS Retention Logic" = X,
-        codeunit "CONS Retention Release" = X,
-        codeunit "CONS Sales Retention Events" = X;
+        codeunit "CONS Retention Release" = X;
 }

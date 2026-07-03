@@ -5,7 +5,7 @@ using Construction.Core;
 page 50292 "CONS Change Order API"
 {
     PageType = API;
-    APIPublisher = 'yourcompany';
+    APIPublisher = 'dmom';
     APIGroup = 'construction';
     APIVersion = 'v1.0';
     EntityName = 'changeOrder';
