@@ -1,6 +1,6 @@
 namespace Construction.Core;
 
-codeunit 50008 "CONS License Mgt."
+codeunit 60008 "CONS License Mgt."
 {
     Access = Public;
 

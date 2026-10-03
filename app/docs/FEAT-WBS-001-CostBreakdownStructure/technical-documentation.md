@@ -4,7 +4,7 @@
 > **Module:** Cost Control (add-on, license-gated) — see [MODULES.md](../../../../MODULES.md). This is the first feature of the Cost Control module, so it defines the module's permission sets + entitlement (shared with FEAT-CST-001).
 > **Affected objects:** Job Task extension (structural/% fields), Cost Breakdown page, Cost Control permission sets + entitlement.
 > **Namespaces:** default.
-> **Proposed ID block:** 50100–50119 (confirm at implementation).
+> **Proposed ID block:** 60100–60119 (confirm at implementation).
 > **Depends on:** Foundation module.
 
 ## Design decision (made; confirm against symbols)
@@ -40,12 +40,12 @@ _None — this feature extends Job Task; the hierarchy is standard._
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| tableextension | 50100 | CONS Job Task | Cost Type + % Complete. Budget/actual roll-ups use standard `Schedule (Total Cost)` / `Usage (Total Cost)` — not duplicated. |
-| page | 50101 | CONS Cost Breakdown | List over Job Task: Cost Type, Budget (`Schedule (Total Cost)`), Actual (`Usage (Total Cost)`), Variance, % Complete. Searchable (ReportsAndAnalysis). |
-| pageextension | 50102 | CONS Job Task Lines | Extends **Job Task Lines** (the project's task subform) — adds Cost Type + % Complete columns and a Cost Breakdown action. **Not** Job Card: an app allows only one pageextension per page and Foundation already extends Job Card. |
-| permissionset | 50117 | CONS Cost - Edit | Cost Control module objects (WBS + CST), RW (caption 'Construction Cost Control - Edit'). Name ≤20 chars. |
-| permissionset | 50118 | CONS Cost - Read | Cost Control module objects, R (caption 'Construction Cost Control - Read'). |
-| entitlement | 50119 | CONS Cost Ent | Maps Cost Control permission set to license plan (deferred — needs service-plan GUID). |
+| tableextension | 60100 | CONS Job Task | Cost Type + % Complete. Budget/actual roll-ups use standard `Schedule (Total Cost)` / `Usage (Total Cost)` — not duplicated. |
+| page | 60101 | CONS Cost Breakdown | List over Job Task: Cost Type, Budget (`Schedule (Total Cost)`), Actual (`Usage (Total Cost)`), Variance, % Complete. Searchable (ReportsAndAnalysis). |
+| pageextension | 60102 | CONS Job Task Lines | Extends **Job Task Lines** (the project's task subform) — adds Cost Type + % Complete columns and a Cost Breakdown action. **Not** Job Card: an app allows only one pageextension per page and Foundation already extends Job Card. |
+| permissionset | 60117 | CONS Cost - Edit | Cost Control module objects (WBS + CST), RW (caption 'Construction Cost Control - Edit'). Name ≤20 chars. |
+| permissionset | 60118 | CONS Cost - Read | Cost Control module objects, R (caption 'Construction Cost Control - Read'). |
+| entitlement | 60119 | CONS Cost Ent | Maps Cost Control permission set to license plan (deferred — needs service-plan GUID). |
 
 > `CONS Admin` is extended to include `CONS Cost - Edit`.
 

@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-permissionset 50451 "CONS Equip - Read"
+permissionset 60451 "CONS Equip - Read"
 {
     Assignable = true;
     Caption = 'Construction Equipment & Plant - Read', Locked = true;

@@ -1,4 +1,4 @@
-codeunit 50503 "CONS BoQ Budget Tests"
+codeunit 64003 "CONS BoQ Budget Tests"
 {
     // Integration tests for the estimate->budget push (CONS BoQ Create Budget).
     // Unlike the logic unit tests, these exercise real Project (Job) Planning Line

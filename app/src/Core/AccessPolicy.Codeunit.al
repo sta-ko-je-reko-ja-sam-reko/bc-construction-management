@@ -10,7 +10,7 @@ using System.Security.AccessControl;
 /// permission set (every user resolves it from the base-app subscriber proxies). <c>SingleInstance</c> +
 /// per-id caching: effective permissions are constant within a session.
 /// </summary>
-codeunit 50028 "CONS Access Policy" implements "CONS IAccessPolicy"
+codeunit 60028 "CONS Access Policy" implements "CONS IAccessPolicy"
 {
     Access = Public;
     SingleInstance = true;

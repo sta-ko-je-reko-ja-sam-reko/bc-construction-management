@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Core;
 
-page 50262 "CONS Subcontract List"
+page 60262 "CONS Subcontract List"
 {
     PageType = List;
     ApplicationArea = CONSSubcontracts;

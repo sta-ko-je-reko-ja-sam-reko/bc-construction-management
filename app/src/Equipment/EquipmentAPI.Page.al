@@ -2,7 +2,7 @@ namespace Construction.Equipment;
 
 using Construction.Core;
 
-page 50440 "CONS Equipment API"
+page 60440 "CONS Equipment API"
 {
     PageType = API;
     APIPublisher = 'dmom';

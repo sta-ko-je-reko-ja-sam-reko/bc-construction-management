@@ -2,7 +2,7 @@ namespace Construction.CostBreakdown;
 
 using Construction.CostControl;
 
-permissionset 50117 "CONS Cost - Edit"
+permissionset 60117 "CONS Cost - Edit"
 {
     Assignable = true;
     Caption = 'Construction Cost Control - Edit', Locked = true;

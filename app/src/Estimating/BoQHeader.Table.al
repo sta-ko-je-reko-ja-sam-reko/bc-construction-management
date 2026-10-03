@@ -6,7 +6,7 @@ using Microsoft.Foundation.NoSeries;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Sales.Customer;
 
-table 50052 "CONS BoQ Header"
+table 60052 "CONS BoQ Header"
 {
     Caption = 'Bill of Quantities';
     DataClassification = CustomerContent;

@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Construction.Core;
 
-page 50476 "CONS Task Dependency API"
+page 60476 "CONS Task Dependency API"
 {
     PageType = API;
     APIPublisher = 'dmom';

@@ -1,6 +1,6 @@
 namespace Construction.Retention;
 
-page 50208 "CONS Retention Entries"
+page 60208 "CONS Retention Entries"
 {
     PageType = List;
     ApplicationArea = CONSProgressBilling;

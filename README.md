@@ -3,7 +3,7 @@
 An ISV vertical extension that turns standard **Business Central Projects (Jobs)** into a construction project-management solution: **Bill of Quantities estimating**, a **multi-level cost breakdown structure**, **committed-cost & cost-to-complete control**, **progress billing** and **retention**.
 
 - **Foundation:** standard BC Projects — extends, never reinvents.
-- **Distribution:** built to AppSource standards, shipped in the PTE ID range (50000–99999).
+- **Distribution:** built to AppSource standards, shipped in the PTE ID range, block 60000–63999 (tests 64000–64999).
 - **Methodology:** the `bc-greenfield-template` feature workflow + shared AL conventions/object-type guides from `bc-customer-project-template`.
 
 ## Repo layout

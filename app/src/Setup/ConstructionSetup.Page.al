@@ -1,6 +1,6 @@
 namespace Construction.Setup;
 
-page 50003 "CONS Construction Setup"
+page 60003 "CONS Construction Setup"
 {
     PageType = Card;
     ApplicationArea = All;

@@ -2,7 +2,7 @@ namespace Construction.Equipment;
 
 using Microsoft.Projects.Project.Job;
 
-table 50415 "CONS Equipment Assignment"
+table 60415 "CONS Equipment Assignment"
 {
     Caption = 'Equipment Assignment';
     DataClassification = CustomerContent;

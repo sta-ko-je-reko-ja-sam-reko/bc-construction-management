@@ -22,7 +22,7 @@ presented on a certificate before invoicing.
 | Certificate (G702/G703) | — (gap) | report over header + lines |
 | Invoice + retention split | `Job Create-Invoice` → Sales Invoice → `Sales-Post` | standard invoice **plus** the retention G/L line (per RET spike Option D) |
 
-## 3. Data model (sketch — IDs in the BIL block 50150–50199)
+## 3. Data model (sketch — IDs in the BIL block 60150–60199)
 
 - **`CONS Progress Billing Header`** — `Project No.`, `Application No.` (sequential per project),
   `Period Start/End`, `Status` (Open / Certified / Invoiced), `Retention %` (defaults from setup),

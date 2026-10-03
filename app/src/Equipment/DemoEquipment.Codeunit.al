@@ -8,7 +8,7 @@ using Construction.Setup;
 /// demoEquipment [ServiceEnabled] API action. Self-contained — equipment has no project dependency, so it does
 /// not touch the Foundation demo context.
 /// </summary>
-codeunit 50036 "CONS Demo Equipment"
+codeunit 60036 "CONS Demo Equipment"
 {
     Access = Public;
 

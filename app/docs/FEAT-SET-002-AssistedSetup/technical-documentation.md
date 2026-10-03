@@ -4,7 +4,7 @@
 > **Module:** Foundation (Core/Setup) — see [MODULES.md](../../../MODULES.md).
 > **Affected objects:** a feature-list hub registered on Microsoft's Assisted Setup list, a parameterized per-feature wizard, the Guided Setup orchestrator, a Demo Data builder, and the split of the feature-management facade for a single deferred restart.
 > **Namespaces:** `Construction.Setup` (objects), `Construction.Core` (facade changes).
-> **ID block:** 50015–50020.
+> **ID block:** 60015–60020.
 > **Depends on:** the feature setup/toggle architecture (per-feature `Enabled` + application areas + `CONS Feature Mgt.`).
 
 ## Business Process
@@ -24,12 +24,12 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| enum | 50015 | CONS Setup Step Status | Not Started / In Progress / Completed. |
-| table | 50016 | CONS Setup Step | Temporary step buffer for the hub. |
-| page | 50017 | CONS Setup Hub | `List` over the buffer; the **registered Assisted Setup object**; runs the wizard per row; fires the single deferred restart in `OnQueryClosePage`. |
-| page | 50018 | CONS Feature Setup Wizard | `NavigatePage`, parameterized per feature (intro / options / done). |
-| codeunit | 50019 | CONS Guided Setup | Registers the assisted setup; populates steps; runs the wizard; applies choices (enable, number series, demo data); marks complete. |
-| codeunit | 50020 | CONS Demo Data | Idempotent demo dataset per module (demo customer/vendor/project + per-feature artifacts + MCP config). |
+| enum | 60015 | CONS Setup Step Status | Not Started / In Progress / Completed. |
+| table | 60016 | CONS Setup Step | Temporary step buffer for the hub. |
+| page | 60017 | CONS Setup Hub | `List` over the buffer; the **registered Assisted Setup object**; runs the wizard per row; fires the single deferred restart in `OnQueryClosePage`. |
+| page | 60018 | CONS Feature Setup Wizard | `NavigatePage`, parameterized per feature (intro / options / done). |
+| codeunit | 60019 | CONS Guided Setup | Registers the assisted setup; populates steps; runs the wizard; applies choices (enable, number series, demo data); marks complete. |
+| codeunit | 60020 | CONS Demo Data | Idempotent demo dataset per module (demo customer/vendor/project + per-feature artifacts + MCP config). |
 
 ## Patterns used
 

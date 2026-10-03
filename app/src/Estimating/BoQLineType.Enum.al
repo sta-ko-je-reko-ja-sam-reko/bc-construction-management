@@ -1,6 +1,6 @@
 namespace Construction.Estimating;
 
-enum 50051 "CONS BoQ Line Type"
+enum 60051 "CONS BoQ Line Type"
 {
     Extensible = true;
     Caption = 'BoQ Line Type';

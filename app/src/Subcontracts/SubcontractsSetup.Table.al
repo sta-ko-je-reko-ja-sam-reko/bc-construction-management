@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-table 50327 "CONS Subcontracts Setup"
+table 60327 "CONS Subcontracts Setup"
 {
     Caption = 'Subcontracts Setup';
     DataClassification = CustomerContent;

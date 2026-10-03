@@ -1,6 +1,6 @@
 namespace Construction.Estimating;
 
-table 50324 "CONS Estimating Setup"
+table 60324 "CONS Estimating Setup"
 {
     Caption = 'Estimating Setup';
     DataClassification = CustomerContent;

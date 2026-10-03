@@ -2,7 +2,7 @@ namespace Construction.Core;
 
 using System.Environment.Configuration;
 
-codeunit 50323 "CONS App Area Subscriber"
+codeunit 60323 "CONS App Area Subscriber"
 {
     Access = Internal;
     SingleInstance = true;

@@ -1,6 +1,6 @@
 namespace Construction.Setup;
 
-enum 50000 "CONS Cost Type"
+enum 60000 "CONS Cost Type"
 {
     Extensible = true;
     Caption = 'Construction Cost Type';

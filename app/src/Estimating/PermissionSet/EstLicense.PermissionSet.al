@@ -1,7 +1,7 @@
 namespace Construction.Estimating;
 
 #if APPSOURCE
-permissionset 50191 "CONS Est License"
+permissionset 60191 "CONS Est License"
 {
     Assignable = false;
     Caption = 'Construction Estimating - License', Locked = true;

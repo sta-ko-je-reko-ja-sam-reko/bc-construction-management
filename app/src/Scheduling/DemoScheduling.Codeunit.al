@@ -10,7 +10,7 @@ using Microsoft.Projects.Project.Job;
 /// reached from the assisted-setup wizard and the demoScheduling [ServiceEnabled] API action. Ensures the
 /// Foundation demo context (project + tasks) via "CONS Demo Foundation" first.
 /// </summary>
-codeunit 50037 "CONS Demo Scheduling"
+codeunit 60037 "CONS Demo Scheduling"
 {
     Access = Public;
 

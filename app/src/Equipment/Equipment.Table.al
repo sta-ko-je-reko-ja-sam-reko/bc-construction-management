@@ -6,7 +6,7 @@ using Microsoft.Inventory.Location;
 using Microsoft.Projects.Resources.Resource;
 using Microsoft.Purchases.Vendor;
 
-table 50410 "CONS Equipment"
+table 60410 "CONS Equipment"
 {
     Caption = 'Equipment';
     DataClassification = CustomerContent;

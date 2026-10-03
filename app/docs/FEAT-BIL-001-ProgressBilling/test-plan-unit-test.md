@@ -3,7 +3,7 @@
 Progress-billing line math and retention math are tested by calling the logic codeunits directly
 with in-memory records — no `Insert`, no SQL.
 
-## Progress billing line — `CONS Prog Billing Line Tests` (50504)
+## Progress billing line — `CONS Prog Billing Line Tests` (64004)
 
 ### TEST-01 — Completed-to-date, % complete, retention and net due
 
@@ -23,7 +23,7 @@ with in-memory records — no `Insert`, no SQL.
 **Automation:** `CONS Prog Billing Line Tests.ValidateAmounts_ZeroScheduledValue_NoDivideByZero`
 **Status:** ✅ Pass (logic-direct, no DB)
 
-## Retention math — `CONS Retention Mgt Tests` (50505)
+## Retention math — `CONS Retention Mgt Tests` (64005)
 
 ### TEST-03 — Retention = amount × pct
 

@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-page 50425 "CONS Equipment Meter Entries"
+page 60425 "CONS Equipment Meter Entries"
 {
     PageType = List;
     ApplicationArea = CONSEquipment;

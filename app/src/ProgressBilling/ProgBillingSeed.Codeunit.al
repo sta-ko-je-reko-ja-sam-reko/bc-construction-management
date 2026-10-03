@@ -3,7 +3,7 @@ namespace Construction.ProgressBilling;
 using Construction.Core;
 using Microsoft.Projects.Project.Planning;
 
-codeunit 50158 "CONS Prog. Billing Seed"
+codeunit 60158 "CONS Prog. Billing Seed"
 {
     Access = Public;
 

@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Microsoft.Projects.Project.Job;
 
-table 50464 "CONS Task Dependency"
+table 60464 "CONS Task Dependency"
 {
     Caption = 'Task Dependency';
     DataClassification = CustomerContent;

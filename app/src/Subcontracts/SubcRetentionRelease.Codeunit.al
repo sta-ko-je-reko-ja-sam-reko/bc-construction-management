@@ -6,7 +6,7 @@ using Construction.Setup;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Purchases.Document;
 
-codeunit 50270 "CONS Subc Retention Release"
+codeunit 60270 "CONS Subc Retention Release"
 {
     Access = Public;
 

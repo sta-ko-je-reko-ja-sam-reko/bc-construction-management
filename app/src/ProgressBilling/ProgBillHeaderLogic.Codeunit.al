@@ -4,7 +4,7 @@ using Construction.Setup;
 using Microsoft.Foundation.NoSeries;
 using Microsoft.Projects.Project.Job;
 
-codeunit 50154 "CONS Prog. Bill Header Logic" implements "CONS IProgBillingHeader"
+codeunit 60154 "CONS Prog. Bill Header Logic" implements "CONS IProgBillingHeader"
 {
     Access = Public;
 

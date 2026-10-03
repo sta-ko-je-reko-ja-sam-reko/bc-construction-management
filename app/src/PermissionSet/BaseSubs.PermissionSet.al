@@ -21,7 +21,7 @@ using Construction.Subcontracts;
 /// Record types for every user while DATA access stays gated: IsEnabled reads only after an effective-read
 /// check, and AccessByPermission on the surfaced controls keys off tabledata, granted only by the module sets.
 /// </summary>
-permissionset 50026 "CONS Base Subs"
+permissionset 60026 "CONS Base Subs"
 {
     Caption = 'Construction Base Subscribers', Locked = true;
     Assignable = true;

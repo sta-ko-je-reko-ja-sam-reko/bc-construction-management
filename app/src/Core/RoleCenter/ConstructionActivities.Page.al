@@ -7,7 +7,7 @@ using Construction.Scheduling;
 using Construction.Subcontracts;
 using Microsoft.Projects.Project.Job;
 
-page 50022 "CONS Construction Activities"
+page 60022 "CONS Construction Activities"
 {
     PageType = CardPart;
     SourceTable = "CONS Activities Cue";

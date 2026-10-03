@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Microsoft.Integration.Entity;
 
-page 50345 "CONS Purchase Invoice API"
+page 60345 "CONS Purchase Invoice API"
 {
     PageType = API;
     APIPublisher = 'dmom';

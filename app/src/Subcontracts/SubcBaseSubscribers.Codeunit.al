@@ -14,7 +14,7 @@ using System.Automation;
 /// that reaction, not here. Split from the own-event proxies in "CONS Change Order Workflow" /
 /// "CONS Change Order Approval" per the one-origin-per-codeunit rule.
 /// </summary>
-codeunit 50283 "CONS Subc Base Subscribers"
+codeunit 60283 "CONS Subc Base Subscribers"
 {
     SingleInstance = true;
 

@@ -6,7 +6,7 @@ using Microsoft.Foundation.NoSeries;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Projects.Project.Planning;
 
-codeunit 50275 "CONS Change Order Hdr Logic" implements "CONS IChangeOrderHeader"
+codeunit 60275 "CONS Change Order Hdr Logic" implements "CONS IChangeOrderHeader"
 {
     Access = Public;
 

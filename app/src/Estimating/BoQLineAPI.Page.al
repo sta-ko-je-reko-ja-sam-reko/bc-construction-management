@@ -2,7 +2,7 @@ namespace Construction.Estimating;
 
 using Construction.Core;
 
-page 50284 "CONS BoQ Line API"
+page 60284 "CONS BoQ Line API"
 {
     PageType = API;
     APIPublisher = 'dmom';

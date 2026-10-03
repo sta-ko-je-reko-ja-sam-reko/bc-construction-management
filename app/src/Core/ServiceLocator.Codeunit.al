@@ -3,7 +3,7 @@ namespace Construction.Core;
 using Construction.Retention;
 using Construction.Subcontracts;
 
-codeunit 50013 "CONS Service Locator"
+codeunit 60013 "CONS Service Locator"
 {
     Access = Public;
     SingleInstance = true;

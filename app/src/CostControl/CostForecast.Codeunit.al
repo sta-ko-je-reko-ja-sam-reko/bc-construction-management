@@ -3,7 +3,7 @@ namespace Construction.CostControl;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Purchases.Document;
 
-codeunit 50123 "CONS Cost Forecast"
+codeunit 60123 "CONS Cost Forecast"
 {
     Access = Public;
 

@@ -1,4 +1,4 @@
-codeunit 50512 "CONS Schedule Rollup Tests"
+codeunit 64012 "CONS Schedule Rollup Tests"
 {
     Subtype = Test;
 

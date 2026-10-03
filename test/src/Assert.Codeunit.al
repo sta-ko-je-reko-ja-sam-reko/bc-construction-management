@@ -1,4 +1,4 @@
-codeunit 50500 "CONS Assert"
+codeunit 64000 "CONS Assert"
 {
     // Self-contained assertions so the test app builds without the AL Test Toolkit installed.
     // Swap for Microsoft "Library Assert" once the toolkit is guaranteed in CI/container.

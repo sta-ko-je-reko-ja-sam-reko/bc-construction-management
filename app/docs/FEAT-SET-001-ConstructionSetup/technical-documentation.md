@@ -4,7 +4,7 @@
 > **Module:** Foundation (base, required) — see [MODULES.md](../../../../MODULES.md). Ships the license gate, the composite admin permission set, and the shared cost-type model every other module reuses.
 > **Affected objects:** Construction Setup (singleton) + Cost Type model, Project (Job) extension, license-gate + install codeunits, Foundation permission sets + entitlement.
 > **Namespaces:** default.
-> **Proposed ID block:** 50000–50019 (confirm free at implementation; `implement-bc-object` allocates real IDs).
+> **Proposed ID block:** 60000–60019 (confirm free at implementation; `implement-bc-object` allocates real IDs).
 
 ## Business Process
 
@@ -35,21 +35,21 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| enum | 50000 | CONS Cost Type | Labor / Material / Equipment / Subcontract / Other (Extensible). |
-| table | 50001 | CONS Construction Setup | Singleton setup. |
-| table | 50002 | CONS Cost Type Setup | Per-cost-type default G/L account + work type. |
-| page | 50003 | CONS Construction Setup | Setup card. |
-| page | 50004 | CONS Cost Type Setup | List (from setup). |
-| tableextension | 50005 | CONS Job | Construction fields on Job. |
-| pageextension | 50006 | CONS Project Card | Surface construction fields/actions; visibility tied to Construction Project. |
-| pageextension | 50007 | CONS Project List | Construction Project column/filter. |
-| codeunit | 50008 | CONS License Mgt. | License gate — `IsModuleLicensed(Module: Enum "CONS Module")`; MVP returns true. Premium modules call this. |
-| codeunit | 50009 | CONS Install | Install: seed setup + cost type rows. |
-| enum | 50014 | CONS Module | Module identifier for the license gate (Foundation/Estimating/Cost Control/…). |
-| permissionset | 50010 | CONS Found - Edit | Foundation objects, RIMD (caption 'Construction Foundation - Edit'). Name ≤20 chars. |
-| permissionset | 50011 | CONS Found - Read | Foundation objects, R (caption 'Construction Foundation - Read'). |
-| permissionset | 50012 | CONS Admin | Composite (caption 'Construction Management - Admin'); `IncludedPermissionSets` grows as modules are added. |
-| ~~entitlement~~ | 50013 | ~~CONS Construction Found.~~ | **Deferred** — a real AppSource service-plan GUID is required; not fabricated. Added with the commercial model. |
+| enum | 60000 | CONS Cost Type | Labor / Material / Equipment / Subcontract / Other (Extensible). |
+| table | 60001 | CONS Construction Setup | Singleton setup. |
+| table | 60002 | CONS Cost Type Setup | Per-cost-type default G/L account + work type. |
+| page | 60003 | CONS Construction Setup | Setup card. |
+| page | 60004 | CONS Cost Type Setup | List (from setup). |
+| tableextension | 60005 | CONS Job | Construction fields on Job. |
+| pageextension | 60006 | CONS Project Card | Surface construction fields/actions; visibility tied to Construction Project. |
+| pageextension | 60007 | CONS Project List | Construction Project column/filter. |
+| codeunit | 60008 | CONS License Mgt. | License gate — `IsModuleLicensed(Module: Enum "CONS Module")`; MVP returns true. Premium modules call this. |
+| codeunit | 60009 | CONS Install | Install: seed setup + cost type rows. |
+| enum | 60014 | CONS Module | Module identifier for the license gate (Foundation/Estimating/Cost Control/…). |
+| permissionset | 60010 | CONS Found - Edit | Foundation objects, RIMD (caption 'Construction Foundation - Edit'). Name ≤20 chars. |
+| permissionset | 60011 | CONS Found - Read | Foundation objects, R (caption 'Construction Foundation - Read'). |
+| permissionset | 60012 | CONS Admin | Composite (caption 'Construction Management - Admin'); `IncludedPermissionSets` grows as modules are added. |
+| ~~entitlement~~ | 60013 | ~~CONS Construction Found.~~ | **Deferred** — a real AppSource service-plan GUID is required; not fabricated. Added with the commercial model. |
 
 ## Files
 

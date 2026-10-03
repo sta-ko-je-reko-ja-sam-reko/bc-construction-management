@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-codeunit 50432 "CONS Equipment Maint. Logic" implements "CONS IEquipmentMaintenance"
+codeunit 60432 "CONS Equipment Maint. Logic" implements "CONS IEquipmentMaintenance"
 {
     Access = Public;
 

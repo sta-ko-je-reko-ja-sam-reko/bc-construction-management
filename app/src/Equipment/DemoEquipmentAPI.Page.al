@@ -7,7 +7,7 @@ using Construction.Setup;
 /// MCP tool), not its rows — hence the shared empty "CONS Demo Data" source. Lives in its own dedicated
 /// 'demoEquipment' API group so it can be routed to a dedicated MCP configuration / agent.
 /// </summary>
-page 50045 "CONS Demo Equipment API"
+page 60045 "CONS Demo Equipment API"
 {
     PageType = API;
     APIPublisher = 'dmom';

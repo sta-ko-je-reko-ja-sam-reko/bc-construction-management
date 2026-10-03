@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Construction.Core;
 
-page 50477 "CONS Resource Assignment API"
+page 60477 "CONS Resource Assignment API"
 {
     PageType = API;
     APIPublisher = 'dmom';

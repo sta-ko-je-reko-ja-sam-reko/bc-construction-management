@@ -2,7 +2,7 @@ namespace Construction.Estimating;
 
 using Construction.Core;
 
-page 50328 "CONS Estimating Setup"
+page 60328 "CONS Estimating Setup"
 {
     PageType = Card;
     ApplicationArea = All;

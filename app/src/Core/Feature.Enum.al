@@ -1,6 +1,6 @@
 namespace Construction.Core;
 
-enum 50320 "CONS Feature"
+enum 60320 "CONS Feature"
 {
     Extensible = true;
 

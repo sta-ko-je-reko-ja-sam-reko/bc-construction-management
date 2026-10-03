@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-codeunit 50257 "CONS Subcontract Line Logic" implements "CONS ISubcontractLine"
+codeunit 60257 "CONS Subcontract Line Logic" implements "CONS ISubcontractLine"
 {
     Access = Public;
 

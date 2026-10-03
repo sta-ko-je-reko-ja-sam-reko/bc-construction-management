@@ -11,7 +11,7 @@ using Microsoft.Foundation.NoSeries;
 using System.Environment.Configuration;
 using System.Media;
 
-codeunit 50019 "CONS Guided Setup"
+codeunit 60019 "CONS Guided Setup"
 {
     Access = Internal;
 

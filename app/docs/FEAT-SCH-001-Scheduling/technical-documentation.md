@@ -4,7 +4,7 @@
 > **Module:** Scheduling & Resource Planning (add-on, license-gated + Feature-Management-gated) — see [MODULES.md](../../../../MODULES.md).
 > **Affected objects:** Job Task schedule fields, Job header roll-up fields, Task Dependency table, Resource Assignment table, schedule roll-up codeunit, Gantt data + control add-in + Project Gantt page, Scheduling setup, API pages, Scheduling permission sets + entitlement.
 > **Namespaces:** `Construction.Scheduling`.
-> **Proposed ID block:** 50460–50474 (tables/enum/pages/setup), codeunits 50024 + 50472, table extensions 50463/50471.
+> **Proposed ID block:** 60460–60474 (tables/enum/pages/setup), codeunits 60024 + 60472, table extensions 60463/60471.
 > **Depends on:** Foundation module (Feature Mgt., License Mgt., Construction Project gate) and standard BC Projects (Job, Job Task, Resource).
 
 ## Business Process
@@ -28,14 +28,14 @@
 ### New Fields on Existing Tables
 | Object | Field | Type | Notes |
 |---|---|---|---|
-| Job Task | CONS Planned Start Date (50010) | Date | Planned start; set on posting tasks, rolled up onto summary tasks. |
-| Job Task | CONS Planned End Date (50011) | Date | Planned end; set on posting tasks, rolled up onto summary tasks. |
-| Job Task | CONS Duration (Days) (50012) | Decimal | Planned duration; weights the roll-up % complete. |
-| Job Task | CONS Scheduled (50013) | Boolean | Marks a task as placed on the schedule. |
-| Job Task | CONS % Complete (50001) | Decimal | Task progress (defined in the Cost Breakdown extension; consumed by the roll-up). |
-| Job | CONS Planned Start Date (50010) | Date | Roll-up: earliest planned start (read-only). |
-| Job | CONS Planned End Date (50011) | Date | Roll-up: latest planned end (read-only). |
-| Job | CONS Schedule % Complete (50012) | Decimal | Roll-up: duration-weighted average progress (read-only). |
+| Job Task | CONS Planned Start Date (60010) | Date | Planned start; set on posting tasks, rolled up onto summary tasks. |
+| Job Task | CONS Planned End Date (60011) | Date | Planned end; set on posting tasks, rolled up onto summary tasks. |
+| Job Task | CONS Duration (Days) (60012) | Decimal | Planned duration; weights the roll-up % complete. |
+| Job Task | CONS Scheduled (60013) | Boolean | Marks a task as placed on the schedule. |
+| Job Task | CONS % Complete (60001) | Decimal | Task progress (defined in the Cost Breakdown extension; consumed by the roll-up). |
+| Job | CONS Planned Start Date (60010) | Date | Roll-up: earliest planned start (read-only). |
+| Job | CONS Planned End Date (60011) | Date | Roll-up: latest planned end (read-only). |
+| Job | CONS Schedule % Complete (60012) | Decimal | Roll-up: duration-weighted average progress (read-only). |
 
 ## Roll-up Logic
 
@@ -50,26 +50,26 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| enum | 50460 | CONS Dependency Type | Finish-to-Start / Start-to-Start / Finish-to-Finish / Start-to-Finish. |
-| table | 50461 | CONS Scheduling Setup | Singleton setup (feature toggle, defaults). |
-| table | 50464 | CONS Task Dependency | Predecessor → successor links. |
-| table | 50466 | CONS Resource Assignment | Resource/crew assignments to tasks. |
-| tableextension | 50463 | CONS Sched Job Task (extends Job Task) | Planned dates, duration, scheduled flag. |
-| tableextension | 50471 | CONS Sched Job (extends Job) | Rolled-up planned dates + schedule % complete (read-only). |
-| codeunit | 50024 | CONS Gantt Data | Serializes a project's schedule to the Gantt JSON payload; finds the role center's default scheduled project. |
-| codeunit | 50472 | CONS Schedule Rollup | Rolls planned dates + duration-weighted % complete onto summary tasks and the Job header. |
-| page | 50473 | CONS Project Schedule | Editable task list with planned dates/duration/% and Calculate Schedule + Gantt actions. |
-| page | 50474 | CONS Project Gantt | Read-only Gantt card hosting the control add-in, with a Recalculate action. |
+| enum | 60460 | CONS Dependency Type | Finish-to-Start / Start-to-Start / Finish-to-Finish / Start-to-Finish. |
+| table | 60461 | CONS Scheduling Setup | Singleton setup (feature toggle, defaults). |
+| table | 60464 | CONS Task Dependency | Predecessor → successor links. |
+| table | 60466 | CONS Resource Assignment | Resource/crew assignments to tasks. |
+| tableextension | 60463 | CONS Sched Job Task (extends Job Task) | Planned dates, duration, scheduled flag. |
+| tableextension | 60471 | CONS Sched Job (extends Job) | Rolled-up planned dates + schedule % complete (read-only). |
+| codeunit | 60024 | CONS Gantt Data | Serializes a project's schedule to the Gantt JSON payload; finds the role center's default scheduled project. |
+| codeunit | 60472 | CONS Schedule Rollup | Rolls planned dates + duration-weighted % complete onto summary tasks and the Job header. |
+| page | 60473 | CONS Project Schedule | Editable task list with planned dates/duration/% and Calculate Schedule + Gantt actions. |
+| page | 60474 | CONS Project Gantt | Read-only Gantt card hosting the control add-in, with a Recalculate action. |
 | controladdin | — | CONS Gantt Chart | JS/CSS control add-in; `DrawGantt(DataJson)`, events `ControlAddInReady`, `TaskClicked`. |
-| page | 50462 | CONS Scheduling Setup | Setup card for the feature toggle and defaults. |
-| page | 50465 | CONS Task Dependencies | Task dependency list. |
-| page | 50467 | CONS Resource Assignments | Resource assignment list. |
-| page (API) | 50475 | CONS Task Schedule API | API page for the Job Task schedule fields (write path gated by `CONS Feature Mgt.CheckEnabled`). |
-| page (API) | 50476 | CONS Task Dependency API | API page for task dependencies. |
-| page (API) | 50477 | CONS Resource Assignment API | API page for resource assignments. |
-| permissionset | 50468 | CONS Sched - Edit | Scheduling objects, RW. |
-| permissionset | 50469 | CONS Sched - Read | Scheduling objects, R. |
-| permissionset | 50470 | CONS Sched License | License permission set referenced by the entitlement. |
+| page | 60462 | CONS Scheduling Setup | Setup card for the feature toggle and defaults. |
+| page | 60465 | CONS Task Dependencies | Task dependency list. |
+| page | 60467 | CONS Resource Assignments | Resource assignment list. |
+| page (API) | 60475 | CONS Task Schedule API | API page for the Job Task schedule fields (write path gated by `CONS Feature Mgt.CheckEnabled`). |
+| page (API) | 60476 | CONS Task Dependency API | API page for task dependencies. |
+| page (API) | 60477 | CONS Resource Assignment API | API page for resource assignments. |
+| permissionset | 60468 | CONS Sched - Edit | Scheduling objects, RW. |
+| permissionset | 60469 | CONS Sched - Read | Scheduling objects, R. |
+| permissionset | 60470 | CONS Sched License | License permission set referenced by the entitlement. |
 | entitlement | — | CONS Sched Ent | Maps `CONS Sched License` to a per-user offer plan (AppSource-only, `#if APPSOURCE`). |
 
 > All object IDs above are taken from the `app/src/Scheduling/` files. The control add-in and entitlement are named-only (no numeric ID).
@@ -86,7 +86,7 @@
 
 ## Tests
 
-`test/src/ScheduleRollupTests.Codeunit.al` — codeunit 50512 `CONS Schedule Rollup Tests`. Covers summary-task and Job-header roll-up (planned date min/max, duration-weighted % complete, zero-duration simple-average fallback, outline-block boundary, 0D-date handling), the disabled-feature gate, the dependency→Gantt-JSON path, and the Resource Assignment task-key scoping. The Gantt JSON shape and default-project resolution are covered separately by `test/src/GanttDataTests.Codeunit.al` (codeunit 50509).
+`test/src/ScheduleRollupTests.Codeunit.al` — codeunit 64012 `CONS Schedule Rollup Tests`. Covers summary-task and Job-header roll-up (planned date min/max, duration-weighted % complete, zero-duration simple-average fallback, outline-block boundary, 0D-date handling), the disabled-feature gate, the dependency→Gantt-JSON path, and the Resource Assignment task-key scoping. The Gantt JSON shape and default-project resolution are covered separately by `test/src/GanttDataTests.Codeunit.al` (codeunit 64009).
 
 ## Known Limitations
 

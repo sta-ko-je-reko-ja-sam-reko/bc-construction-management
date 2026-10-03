@@ -3,7 +3,7 @@ namespace Construction.Core;
 using Construction.Setup;
 using Microsoft.Projects.Project.Job;
 
-pageextension 50007 "CONS Project List" extends "Job List"
+pageextension 60007 "CONS Project List" extends "Job List"
 {
     layout
     {

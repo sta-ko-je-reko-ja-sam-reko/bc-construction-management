@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Construction.Core;
 
-page 50462 "CONS Scheduling Setup"
+page 60462 "CONS Scheduling Setup"
 {
     PageType = Card;
     ApplicationArea = All;

@@ -4,7 +4,7 @@ using Microsoft.Foundation.NoSeries;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Sales.Customer;
 
-table 50150 "CONS Progress Billing Header"
+table 60150 "CONS Progress Billing Header"
 {
     Caption = 'Progress Billing';
     DataClassification = CustomerContent;

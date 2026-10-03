@@ -7,7 +7,7 @@ using Microsoft.Inventory.Item;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Projects.Resources.Resource;
 
-table 50053 "CONS BoQ Line"
+table 60053 "CONS BoQ Line"
 {
     Caption = 'BoQ Line';
     DataClassification = CustomerContent;

@@ -11,7 +11,7 @@ using Construction.Setup;
 using Construction.Subcontracts;
 using Microsoft.Projects.Project.Job;
 
-page 50023 "CONS Construction Manager RC"
+page 60023 "CONS Construction Manager RC"
 {
     PageType = RoleCenter;
     Caption = 'Construction Manager';

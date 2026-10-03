@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using System.Automation;
 
-codeunit 50282 "CONS Change Order Wf Demo"
+codeunit 60282 "CONS Change Order Wf Demo"
 {
     // Demo-data: builds a ready-to-use change-order approval workflow (send -> pending -> create &
     // send requests; approved -> release/apply; rejected/cancelled -> reopen). Not called anywhere

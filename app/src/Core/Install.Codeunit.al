@@ -2,7 +2,7 @@ namespace Construction.Core;
 
 using Construction.Setup;
 
-codeunit 50009 "CONS Install"
+codeunit 60009 "CONS Install"
 {
     Subtype = Install;
 

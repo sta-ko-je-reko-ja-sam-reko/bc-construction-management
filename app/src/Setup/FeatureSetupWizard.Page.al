@@ -2,7 +2,7 @@ namespace Construction.Setup;
 
 using Construction.Core;
 
-page 50018 "CONS Feature Setup Wizard"
+page 60018 "CONS Feature Setup Wizard"
 {
     PageType = NavigatePage;
     ApplicationArea = All;

@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Core;
 
-page 50289 "CONS Subcontract Line API"
+page 60289 "CONS Subcontract Line API"
 {
     PageType = API;
     APIPublisher = 'dmom';

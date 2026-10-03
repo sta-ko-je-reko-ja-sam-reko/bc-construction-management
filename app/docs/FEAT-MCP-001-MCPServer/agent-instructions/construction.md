@@ -1,6 +1,6 @@
 # Agent instructions — `Construction` (functional, 27 tools)
 
-> Built by `CONS MCP Config Demo` (codeunit 50300). Paste as the bound agent's instructions, or set on the
+> Built by `CONS MCP Config Demo` (codeunit 60300). Paste as the bound agent's instructions, or set on the
 > configuration via the `MCP Config` facade as a `Label`. Keep in sync with the configuration's tools.
 
 ---

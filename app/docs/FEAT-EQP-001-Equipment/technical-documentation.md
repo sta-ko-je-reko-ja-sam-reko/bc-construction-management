@@ -4,7 +4,7 @@
 > **Module:** Equipment & Plant (add-on, license-gated) — see [MODULES.md](../../../../MODULES.md).
 > **Affected objects:** Equipment register (master + rates), usage worksheet + posting codeunit, meter & maintenance logs, Equipment setup, pages/APIs, Equipment permission sets + entitlement.
 > **Namespaces:** `Construction.Equipment`.
-> **ID block:** tables 50410–50414, codeunits 50430–50433, enums 50400–50403, interfaces (no ID), pages/APIs and permission sets in the Equipment range.
+> **ID block:** tables 60410–60414, codeunits 60430–60433, enums 60400–60403, interfaces (no ID), pages/APIs and permission sets in the Equipment range.
 > **Depends on:** Foundation module (`CONS Feature Mgt.`, `CONS License Mgt.`), standard BC Projects (Job / Job Task), Resource, Job Journal posting.
 
 ## Business Process
@@ -38,19 +38,19 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| enum | 50400 | CONS Equipment Status | Available / In Use / In Maintenance / Off Hire / Blocked. |
-| enum | 50401 | CONS Equipment Ownership | Owned / Hired. |
-| enum | 50402 | CONS Equipment Type | Machine / Vehicle / Tool / Other. |
-| enum | 50403 | CONS Maintenance Type | Service / Repair / Inspection / Other. |
-| table | 50410 | CONS Equipment | Equipment register (master). |
-| table | 50411 | CONS Equipment Rate | Project/date-dependent cost & hire rates; `FindUnitCost` / `FindHireRate`. |
-| table | 50412 | CONS Equipment Usage | Usage worksheet line; delegates triggers/validates to logic. |
-| table | 50413 | CONS Equipment Maintenance | Maintenance log; delegates insert to logic. |
-| table | 50414 | CONS Equipment Meter Entry | Meter reading log; delegates insert to logic. |
-| codeunit | 50430 | CONS Equipment Usage-Post | `PostUsage` / `PostBatch` — posts usage to the project as a Job Journal resource line. |
-| codeunit | 50431 | CONS Equipment Usage Logic | Default impl of `CONS IEquipmentUsage` — line-no. assignment, equipment/quantity/unit-cost validation, total-cost recalculation. |
-| codeunit | 50432 | CONS Equipment Maint. Logic | Default impl of `CONS IEquipmentMaintenance` — stamps equipment service/meter fields on maintenance insert. |
-| codeunit | 50433 | CONS Equipment Meter Logic | Default impl of `CONS IEquipmentMeter` — updates equipment meter reading on meter entry insert. |
+| enum | 60400 | CONS Equipment Status | Available / In Use / In Maintenance / Off Hire / Blocked. |
+| enum | 60401 | CONS Equipment Ownership | Owned / Hired. |
+| enum | 60402 | CONS Equipment Type | Machine / Vehicle / Tool / Other. |
+| enum | 60403 | CONS Maintenance Type | Service / Repair / Inspection / Other. |
+| table | 60410 | CONS Equipment | Equipment register (master). |
+| table | 60411 | CONS Equipment Rate | Project/date-dependent cost & hire rates; `FindUnitCost` / `FindHireRate`. |
+| table | 60412 | CONS Equipment Usage | Usage worksheet line; delegates triggers/validates to logic. |
+| table | 60413 | CONS Equipment Maintenance | Maintenance log; delegates insert to logic. |
+| table | 60414 | CONS Equipment Meter Entry | Meter reading log; delegates insert to logic. |
+| codeunit | 60430 | CONS Equipment Usage-Post | `PostUsage` / `PostBatch` — posts usage to the project as a Job Journal resource line. |
+| codeunit | 60431 | CONS Equipment Usage Logic | Default impl of `CONS IEquipmentUsage` — line-no. assignment, equipment/quantity/unit-cost validation, total-cost recalculation. |
+| codeunit | 60432 | CONS Equipment Maint. Logic | Default impl of `CONS IEquipmentMaintenance` — stamps equipment service/meter fields on maintenance insert. |
+| codeunit | 60433 | CONS Equipment Meter Logic | Default impl of `CONS IEquipmentMeter` — updates equipment meter reading on meter entry insert. |
 | interface | — | CONS IEquipmentUsage | Usage trigger/validate logic contract (no object ID). |
 | interface | — | CONS IEquipmentMaintenance | Maintenance trigger logic contract (no object ID). |
 | interface | — | CONS IEquipmentMeter | Meter trigger logic contract (no object ID). |
@@ -82,7 +82,7 @@
 
 ## Tests
 
-Automated tests live in **`test/src/EquipmentTests.Codeunit.al`** — `codeunit 50510 "CONS Equipment Tests"`. Coverage: usage total-cost calculation and rounding, blank-equipment clearing, usage line-no. assignment, equipment-rate selection (`FindUnitCost` / `FindHireRate`: project-vs-blank precedence, latest-starting-date, future-date exclusion, no-rate-returns-zero), meter-reading update on meter-entry insert, and equipment service/meter stamping on maintenance insert.
+Automated tests live in **`test/src/EquipmentTests.Codeunit.al`** — `codeunit 64010 "CONS Equipment Tests"`. Coverage: usage total-cost calculation and rounding, blank-equipment clearing, usage line-no. assignment, equipment-rate selection (`FindUnitCost` / `FindHireRate`: project-vs-blank precedence, latest-starting-date, future-date exclusion, no-rate-returns-zero), meter-reading update on meter-entry insert, and equipment service/meter stamping on maintenance insert.
 
 ## Known Limitations
 

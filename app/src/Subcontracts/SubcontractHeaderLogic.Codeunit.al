@@ -3,7 +3,7 @@ namespace Construction.Subcontracts;
 using Construction.Setup;
 using Microsoft.Foundation.NoSeries;
 
-codeunit 50256 "CONS Subcontract Header Logic" implements "CONS ISubcontractHeader"
+codeunit 60256 "CONS Subcontract Header Logic" implements "CONS ISubcontractHeader"
 {
     Access = Public;
 

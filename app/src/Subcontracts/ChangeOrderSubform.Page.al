@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-page 50278 "CONS Change Order Subform"
+page 60278 "CONS Change Order Subform"
 {
     PageType = ListPart;
     ApplicationArea = CONSSubcontracts;

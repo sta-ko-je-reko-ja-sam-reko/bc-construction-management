@@ -5,7 +5,7 @@ namespace Construction.Setup;
 /// bound [ServiceEnabled] action (the MCP tool), not for their rows — so every "CONS Demo &lt;Feature&gt; API" page
 /// binds to this one empty table. No records are ever written here; it only gives the API pages a SourceTable.
 /// </summary>
-table 50030 "CONS Demo Data"
+table 60030 "CONS Demo Data"
 {
     Caption = 'Demo Data';
     DataClassification = SystemMetadata;

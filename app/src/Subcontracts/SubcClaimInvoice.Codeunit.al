@@ -5,7 +5,7 @@ using Construction.Setup;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Purchases.Document;
 
-codeunit 50269 "CONS Subc Claim Invoice"
+codeunit 60269 "CONS Subc Claim Invoice"
 {
     Access = Public;
 

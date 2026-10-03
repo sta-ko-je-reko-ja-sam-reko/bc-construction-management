@@ -4,7 +4,7 @@
 > **Module:** Subcontracts (add-on, license-gated) — see [MODULES.md](../../../../MODULES.md).
 > **Affected objects:** Subcontract document (header + lines), Subcontract Claim document (header + lines), Change Order document (header + lines), claim-to-invoice and retention-release codeunits, change-order approval workflow, Purchase Header/line table extensions, Subcontracts permission sets + entitlement.
 > **Namespaces:** `Construction.Subcontracts`.
-> **ID block:** 50250–50299 (objects), tests 50506–50507 and 50514–50515.
+> **ID block:** 60250–60299 (objects), tests 64006–64007 and 64014–64015.
 > **Depends on:** Foundation module (Construction Setup, Cost Type, Cost Type Setup, License Mgt., Feature Mgt., Project gate), Retention module (`CONS Retention Mgt`, `CONS Retention Entry`), standard BC Projects (Jobs) and Purchasing.
 
 ## Business Process
@@ -41,25 +41,25 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| enum | 50250 | CONS Subcontract Status | Open / Released / Closed. |
-| enum | 50251 | CONS Subc Claim Status | Open / Certified / Invoiced. |
-| table | 50252 | CONS Subcontract Header | Subcontract document header. |
-| table | 50254 | CONS Subc Claim Header | Subcontractor claim header. |
-| table | 50255 | CONS Subc Claim Line | Subcontractor claim lines (period amounts, retention). |
-| table | 50253 | CONS Subcontract Line | Subcontract scope lines. |
-| codeunit | 50256 | CONS Subcontract Header Logic | Default impl of `CONS ISubcontractHeader` — no-series, cascade delete, **Validate_VendorNo** (retention default). |
-| codeunit | 50257 | CONS Subcontract Line Logic | Default impl of `CONS ISubcontractLine` — **Validate_Amounts** (Line Amount). |
-| codeunit | 50258 | CONS Subc Claim Hdr Logic | Default impl of `CONS ISubcClaimHdr` — no-series, sequential claim no., cascade delete, **Validate_SubcontractNo** (copy project/vendor/retention). |
-| codeunit | 50259 | CONS Subc Claim Line Logic | Default impl of `CONS ISubcClaimLine` — **Trigger_OnInsert** (retention default) and **Validate_Amounts** (completed-to-date, % complete, retention, net payable). |
-| codeunit | 50269 | CONS Subc Claim Invoice | Generates a draft purchase invoice from a certified claim (cost lines + retention line). |
-| codeunit | 50270 | CONS Subc Retention Release | Creates a draft retention-release purchase invoice; validates against outstanding payable retention. |
-| table | 50273 | CONS Change Order Header | Change order (variation) header; `Apply()` releases the variation. |
-| table | 50274 | CONS Change Order Line | Change order lines (amount per job task / cost type). |
-| codeunit | 50275 | CONS Change Order Hdr Logic | Default impl of `CONS IChangeOrderHeader` — no-series, cascade delete, **Apply** (contract value / subcontract variation + budget push). |
-| codeunit | 50281 | CONS Change Order Approval | Send for approval / cancel / workflow-enabled checks + approval-entry subscribers. |
+| enum | 60250 | CONS Subcontract Status | Open / Released / Closed. |
+| enum | 60251 | CONS Subc Claim Status | Open / Certified / Invoiced. |
+| table | 60252 | CONS Subcontract Header | Subcontract document header. |
+| table | 60254 | CONS Subc Claim Header | Subcontractor claim header. |
+| table | 60255 | CONS Subc Claim Line | Subcontractor claim lines (period amounts, retention). |
+| table | 60253 | CONS Subcontract Line | Subcontract scope lines. |
+| codeunit | 60256 | CONS Subcontract Header Logic | Default impl of `CONS ISubcontractHeader` — no-series, cascade delete, **Validate_VendorNo** (retention default). |
+| codeunit | 60257 | CONS Subcontract Line Logic | Default impl of `CONS ISubcontractLine` — **Validate_Amounts** (Line Amount). |
+| codeunit | 60258 | CONS Subc Claim Hdr Logic | Default impl of `CONS ISubcClaimHdr` — no-series, sequential claim no., cascade delete, **Validate_SubcontractNo** (copy project/vendor/retention). |
+| codeunit | 60259 | CONS Subc Claim Line Logic | Default impl of `CONS ISubcClaimLine` — **Trigger_OnInsert** (retention default) and **Validate_Amounts** (completed-to-date, % complete, retention, net payable). |
+| codeunit | 60269 | CONS Subc Claim Invoice | Generates a draft purchase invoice from a certified claim (cost lines + retention line). |
+| codeunit | 60270 | CONS Subc Retention Release | Creates a draft retention-release purchase invoice; validates against outstanding payable retention. |
+| table | 60273 | CONS Change Order Header | Change order (variation) header; `Apply()` releases the variation. |
+| table | 60274 | CONS Change Order Line | Change order lines (amount per job task / cost type). |
+| codeunit | 60275 | CONS Change Order Hdr Logic | Default impl of `CONS IChangeOrderHeader` — no-series, cascade delete, **Apply** (contract value / subcontract variation + budget push). |
+| codeunit | 60281 | CONS Change Order Approval | Send for approval / cancel / workflow-enabled checks + approval-entry subscribers. |
 | codeunit | (workflow) | CONS Change Order Workflow / CONS Change Order Wf Demo | Workflow event registration and demo setup. |
-| enum | 50271 | CONS Change Order Status | Open / Approved / Pending Approval / Rejected / Cancelled. |
-| enum | 50272 | CONS Change Order Type | Owner / Subcontract. |
+| enum | 60271 | CONS Change Order Status | Open / Approved / Pending Approval / Rejected / Cancelled. |
+| enum | 60272 | CONS Change Order Type | Owner / Subcontract. |
 | interface | — | CONS ISubcontractHeader / ISubcontractLine / ISubcClaimHdr / ISubcClaimLine / IChangeOrderHeader | Polymorphic trigger/validate contracts (no object ID). |
 | page | — | Subcontract / Subcontract List / Subform, Subc Claim / List / Subform, Change Order / List / Subform, Subcontracts Setup, plus API pages | UI and API surface. |
 | table | — | CONS Subcontracts Setup | Module setup singleton. |
@@ -70,10 +70,10 @@
 
 | Test codeunit | ID | Covers |
 |---|---|---|
-| CONS Subcontract Line Tests | 50506 | `CONS Subcontract Line Logic.Validate_Amounts` — Line Amount = Quantity × Unit Cost. |
-| CONS Subc Claim Line Tests | 50507 | `CONS Subc Claim Line Logic.Validate_Amounts` — completed-to-date, % complete, retention, net payable (5% retention happy path). |
-| CONS Change Order Tests | 50514 | `CONS Change Order Hdr Logic.Apply` guard paths — blank Project No. (TestField) and already-Approved (`AlreadyAppliedErr`), both before any database access. |
-| CONS Subcontract Header Tests | 50515 | `CONS Subcontract Header Logic.Validate_VendorNo` (vendor-unchanged and retention-already-set early-exit paths); `CONS Subc Claim Hdr Logic.Validate_SubcontractNo` (subcontract-unchanged and blank early-exit paths); `CONS Subc Claim Line Logic.Trigger_OnInsert` (retention-already-set early-exit); `CONS Subc Claim Line Logic.Validate_Amounts` edge cases (zero scheduled value → % complete = 0; 0% retention → net = period). |
+| CONS Subcontract Line Tests | 64006 | `CONS Subcontract Line Logic.Validate_Amounts` — Line Amount = Quantity × Unit Cost. |
+| CONS Subc Claim Line Tests | 64007 | `CONS Subc Claim Line Logic.Validate_Amounts` — completed-to-date, % complete, retention, net payable (5% retention happy path). |
+| CONS Change Order Tests | 64014 | `CONS Change Order Hdr Logic.Apply` guard paths — blank Project No. (TestField) and already-Approved (`AlreadyAppliedErr`), both before any database access. |
+| CONS Subcontract Header Tests | 64015 | `CONS Subcontract Header Logic.Validate_VendorNo` (vendor-unchanged and retention-already-set early-exit paths); `CONS Subc Claim Hdr Logic.Validate_SubcontractNo` (subcontract-unchanged and blank early-exit paths); `CONS Subc Claim Line Logic.Trigger_OnInsert` (retention-already-set early-exit); `CONS Subc Claim Line Logic.Validate_Amounts` edge cases (zero scheduled value → % complete = 0; 0% retention → net = period). |
 
 > All tests are pure / DB-free: they call the public `Logic` codeunit methods directly with in-memory records, matching the existing `Assert`-based convention (no AL Test Toolkit dependency).
 

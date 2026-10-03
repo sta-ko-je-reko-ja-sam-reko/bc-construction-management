@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Microsoft.Projects.Project.Job;
 
-table 50151 "CONS Progress Billing Line"
+table 60151 "CONS Progress Billing Line"
 {
     Caption = 'Progress Billing Line';
     DataClassification = CustomerContent;

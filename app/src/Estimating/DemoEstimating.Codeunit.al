@@ -8,7 +8,7 @@ using Construction.Setup;
 /// demoEstimating [ServiceEnabled] API action alike. Depends on the Foundation demo context (project + customer),
 /// which it ensures via "CONS Demo Foundation" before seeding its own records.
 /// </summary>
-codeunit 50032 "CONS Demo Estimating"
+codeunit 60032 "CONS Demo Estimating"
 {
     Access = Public;
 

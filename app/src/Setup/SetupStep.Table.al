@@ -2,7 +2,7 @@ namespace Construction.Setup;
 
 using Construction.Core;
 
-table 50016 "CONS Setup Step"
+table 60016 "CONS Setup Step"
 {
     Caption = 'Construction Setup Step';
     DataClassification = SystemMetadata;

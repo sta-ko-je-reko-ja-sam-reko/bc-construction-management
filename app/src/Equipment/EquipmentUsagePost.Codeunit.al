@@ -4,7 +4,7 @@ using Construction.Core;
 using Microsoft.Projects.Project.Journal;
 using Microsoft.Projects.Project.Posting;
 
-codeunit 50430 "CONS Equipment Usage-Post"
+codeunit 60430 "CONS Equipment Usage-Post"
 {
     Access = Public;
 

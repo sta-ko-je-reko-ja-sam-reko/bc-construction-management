@@ -1,6 +1,6 @@
 namespace Construction.Setup;
 
-enum 50015 "CONS Setup Step Status"
+enum 60015 "CONS Setup Step Status"
 {
     Extensible = false;
 

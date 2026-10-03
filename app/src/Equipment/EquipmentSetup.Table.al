@@ -3,7 +3,7 @@ namespace Construction.Equipment;
 using Microsoft.Foundation.NoSeries;
 using Microsoft.Foundation.UOM;
 
-table 50416 "CONS Equipment Setup"
+table 60416 "CONS Equipment Setup"
 {
     Caption = 'Equipment Setup';
     DataClassification = CustomerContent;

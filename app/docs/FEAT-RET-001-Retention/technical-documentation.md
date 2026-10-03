@@ -4,7 +4,7 @@
 > **Module:** Progress Billing (add-on, license-gated) — receivable retention; payable retention is gated by the Subcontracts feature. See [MODULES.md](../../../../MODULES.md).
 > **Affected objects:** Retention Entry sub-ledger (table + list + API page), retention math/recording codeunit, sales/purchase posting logic + event subscribers, release codeunit, Sales Header / Sales Invoice Header table extensions, direction/entry-type enums, reactions interface.
 > **Namespaces:** Construction.Retention.
-> **Proposed ID block:** 50200–50210, plus API page 50287, table-ext 50165–50166 (as implemented).
+> **Proposed ID block:** 60200–60210, plus API page 60287, table-ext 60165–60166 (as implemented).
 > **Depends on:** Foundation module (Construction Setup, Feature Mgt., License Mgt., Service Locator), Progress Billing module (Progress Billing Header / Application No.), standard BC Sales & Purchase posting.
 
 ## Business Process
@@ -27,29 +27,29 @@ Retention (retainage) is a percentage of each certified payment that is withheld
 ### New Fields on Existing Tables
 | Object | Field | Type | Notes |
 |---|---|---|---|
-| Sales Header (ext 50165) | CONS Progress Billing No. | Code[20] | Source progress billing application. |
+| Sales Header (ext 60165) | CONS Progress Billing No. | Code[20] | Source progress billing application. |
 | Sales Header | CONS Project No. | Code[20] | Construction project the retention relates to. |
 | Sales Header | CONS Retention Amount | Decimal | Retention withheld (or released) on this invoice. |
 | Sales Header | CONS Retention Is Release | Boolean | Marks the invoice as a retention release rather than a withholding. |
-| Sales Invoice Header (ext 50166) | CONS Progress Billing No. / CONS Project No. / CONS Retention Amount / CONS Retention Is Release | (as above) | Posted-invoice copies read by the Sales-Post subscriber to write the retention entry. |
+| Sales Invoice Header (ext 60166) | CONS Progress Billing No. / CONS Project No. / CONS Retention Amount / CONS Retention Is Release | (as above) | Posted-invoice copies read by the Sales-Post subscriber to write the retention entry. |
 
 ## Objects
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| table | 50200 | CONS Retention Entry | Retention sub-ledger — one row per withholding / release. |
-| enum | 50202 | CONS Retention Direction | Receivable (customer) / Payable (subcontractor). |
-| enum | 50203 | CONS Retention Entry Type | Withheld / Released. |
-| codeunit | 50205 | CONS Retention Mgt | Retention math (`CalcRetention`) + records withheld/released entries and sums outstanding (`OutstandingRetention`, `OutstandingForAccount`). |
-| codeunit | 50206 | CONS Sales Retention Events | Subscribes to Sales Invoice Header OnAfterInsert; delegates via Service Locator. |
-| codeunit | 50207 | CONS Retention Logic | Default impl of `CONS IRetentionReactions` — writes the receivable/payable entry from a posted sales/purchase invoice (feature-gated). |
-| page | 50208 | CONS Retention Entries | List page over the sub-ledger (DrillDown/Lookup target). |
-| codeunit | 50209 | CONS Retention Release | Builds a draft release sales invoice (partial or full outstanding); license-gated. |
-| codeunit | 50210 | CONS Purch Retention Events | Subscribes to Purch. Inv. Header OnAfterInsert; delegates via Service Locator. |
-| page | 50287 | CONS Retention Entry API | Read API (`retentionEntries`) over the sub-ledger. |
+| table | 60200 | CONS Retention Entry | Retention sub-ledger — one row per withholding / release. |
+| enum | 60202 | CONS Retention Direction | Receivable (customer) / Payable (subcontractor). |
+| enum | 60203 | CONS Retention Entry Type | Withheld / Released. |
+| codeunit | 60205 | CONS Retention Mgt | Retention math (`CalcRetention`) + records withheld/released entries and sums outstanding (`OutstandingRetention`, `OutstandingForAccount`). |
+| codeunit | 60206 | CONS Sales Retention Events | Subscribes to Sales Invoice Header OnAfterInsert; delegates via Service Locator. |
+| codeunit | 60207 | CONS Retention Logic | Default impl of `CONS IRetentionReactions` — writes the receivable/payable entry from a posted sales/purchase invoice (feature-gated). |
+| page | 60208 | CONS Retention Entries | List page over the sub-ledger (DrillDown/Lookup target). |
+| codeunit | 60209 | CONS Retention Release | Builds a draft release sales invoice (partial or full outstanding); license-gated. |
+| codeunit | 60210 | CONS Purch Retention Events | Subscribes to Purch. Inv. Header OnAfterInsert; delegates via Service Locator. |
+| page | 60287 | CONS Retention Entry API | Read API (`retentionEntries`) over the sub-ledger. |
 | interface | — | CONS IRetentionReactions | Polymorphic contract for reacting to posted sales/purchase invoices (no object ID). |
-| tableextension | 50165 | CONS Sales Header | Retention/project stamp fields on Sales Header. |
-| tableextension | 50166 | CONS Sales Invoice Header | Same stamp fields on the posted Sales Invoice Header. |
+| tableextension | 60165 | CONS Sales Header | Retention/project stamp fields on Sales Header. |
+| tableextension | 60166 | CONS Sales Invoice Header | Same stamp fields on the posted Sales Invoice Header. |
 
 ## Integration Points
 
@@ -73,7 +73,7 @@ Retention (retainage) is a percentage of each certified payment that is withheld
 
 ## Tests
 
-`test/CONS Retention Mgt Tests` (codeunit 50505) — covers the retention math (`CalcRetention`: percentage, zero-percent, rounding) and the sub-ledger record/outstanding logic.
+`test/CONS Retention Mgt Tests` (codeunit 64005) — covers the retention math (`CalcRetention`: percentage, zero-percent, rounding) and the sub-ledger record/outstanding logic.
 
 ## Known Limitations
 

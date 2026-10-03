@@ -3,7 +3,7 @@ namespace Construction.Estimating;
 using Construction.Setup;
 using Microsoft.Foundation.NoSeries;
 
-codeunit 50064 "CONS BoQ Header Logic" implements "CONS IBoQHeader"
+codeunit 60064 "CONS BoQ Header Logic" implements "CONS IBoQHeader"
 {
     Access = Public;
 

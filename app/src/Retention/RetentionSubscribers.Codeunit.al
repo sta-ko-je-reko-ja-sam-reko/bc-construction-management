@@ -13,7 +13,7 @@ using Microsoft.Sales.History;
 /// — a module-gated object — so only users who own the product forward to the reaction; everyone else's standard
 /// invoice posting runs untouched. The per-feature (Enabled) tier check lives in the reaction, not here.
 /// </summary>
-codeunit 50211 "CONS Retention Subscribers"
+codeunit 60211 "CONS Retention Subscribers"
 {
     SingleInstance = true;
 

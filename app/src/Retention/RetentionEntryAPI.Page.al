@@ -1,6 +1,6 @@
 namespace Construction.Retention;
 
-page 50287 "CONS Retention Entry API"
+page 60287 "CONS Retention Entry API"
 {
     PageType = API;
     APIPublisher = 'dmom';

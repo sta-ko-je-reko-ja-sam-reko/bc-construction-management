@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Construction.Core;
 
-page 50465 "CONS Task Dependencies"
+page 60465 "CONS Task Dependencies"
 {
     PageType = List;
     ApplicationArea = CONSScheduling;

@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-table 50255 "CONS Subc Claim Line"
+table 60255 "CONS Subc Claim Line"
 {
     Caption = 'Subcontract Claim Line';
     DataClassification = CustomerContent;

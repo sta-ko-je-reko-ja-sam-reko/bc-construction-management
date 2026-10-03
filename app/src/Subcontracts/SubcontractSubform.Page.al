@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-page 50261 "CONS Subcontract Subform"
+page 60261 "CONS Subcontract Subform"
 {
     PageType = ListPart;
     ApplicationArea = CONSSubcontracts;

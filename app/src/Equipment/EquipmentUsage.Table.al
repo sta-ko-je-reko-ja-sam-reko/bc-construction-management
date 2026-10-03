@@ -3,7 +3,7 @@ namespace Construction.Equipment;
 using Microsoft.Foundation.UOM;
 using Microsoft.Projects.Project.Job;
 
-table 50412 "CONS Equipment Usage"
+table 60412 "CONS Equipment Usage"
 {
     Caption = 'Equipment Usage';
     DataClassification = CustomerContent;

@@ -1,4 +1,4 @@
-codeunit 50501 "CONS BoQ Line Logic Tests"
+codeunit 64001 "CONS BoQ Line Logic Tests"
 {
     Subtype = Test;
 

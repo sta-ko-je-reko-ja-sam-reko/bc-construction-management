@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Core;
 
-page 50293 "CONS Change Order Line API"
+page 60293 "CONS Change Order Line API"
 {
     PageType = API;
     APIPublisher = 'dmom';

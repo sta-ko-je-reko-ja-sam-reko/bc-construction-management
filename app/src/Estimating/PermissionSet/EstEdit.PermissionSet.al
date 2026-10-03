@@ -1,6 +1,6 @@
 namespace Construction.Estimating;
 
-permissionset 50060 "CONS Est - Edit"
+permissionset 60060 "CONS Est - Edit"
 {
     Assignable = true;
     Caption = 'Construction Estimating - Edit', Locked = true;

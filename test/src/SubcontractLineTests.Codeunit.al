@@ -1,4 +1,4 @@
-codeunit 50506 "CONS Subcontract Line Tests"
+codeunit 64006 "CONS Subcontract Line Tests"
 {
     Subtype = Test;
 
