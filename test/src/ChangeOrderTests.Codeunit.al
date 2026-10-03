@@ -1,4 +1,4 @@
-codeunit 50514 "CONS Change Order Tests"
+codeunit 64014 "CONS Change Order Tests"
 {
     Subtype = Test;
 

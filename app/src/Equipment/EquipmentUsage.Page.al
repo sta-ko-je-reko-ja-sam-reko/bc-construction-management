@@ -2,7 +2,7 @@ namespace Construction.Equipment;
 
 using Construction.Core;
 
-page 50423 "CONS Equipment Usage"
+page 60423 "CONS Equipment Usage"
 {
     PageType = Worksheet;
     ApplicationArea = CONSEquipment;

@@ -1,6 +1,6 @@
 namespace Construction.Setup;
 
-page 50004 "CONS Cost Type Setup"
+page 60004 "CONS Cost Type Setup"
 {
     PageType = ListPart;
     ApplicationArea = All;

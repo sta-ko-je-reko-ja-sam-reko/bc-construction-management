@@ -1,4 +1,4 @@
-codeunit 50504 "CONS Prog Billing Line Tests"
+codeunit 64004 "CONS Prog Billing Line Tests"
 {
     Subtype = Test;
 

@@ -1,6 +1,6 @@
 namespace Construction.Core;
 
-table 50021 "CONS Activities Cue"
+table 60021 "CONS Activities Cue"
 {
     Caption = 'Construction Activities';
     DataClassification = SystemMetadata;

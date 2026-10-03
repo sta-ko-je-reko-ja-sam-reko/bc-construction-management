@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Core;
 
-codeunit 50266 "CONS Subc Claim Seed"
+codeunit 60266 "CONS Subc Claim Seed"
 {
     Access = Public;
 

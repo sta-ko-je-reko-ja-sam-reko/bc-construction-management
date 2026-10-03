@@ -3,7 +3,7 @@ namespace Construction.Subcontracts;
 using Construction.Core;
 using Construction.Retention;
 
-page 50260 "CONS Subcontract"
+page 60260 "CONS Subcontract"
 {
     PageType = Document;
     ApplicationArea = CONSSubcontracts;

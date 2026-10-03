@@ -5,7 +5,7 @@ using Construction.Setup;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Sales.Document;
 
-codeunit 50159 "CONS Prog. Billing Invoice"
+codeunit 60159 "CONS Prog. Billing Invoice"
 {
     Access = Public;
 

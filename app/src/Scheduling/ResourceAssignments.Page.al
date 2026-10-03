@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Construction.Core;
 
-page 50467 "CONS Resource Assignments"
+page 60467 "CONS Resource Assignments"
 {
     PageType = List;
     ApplicationArea = CONSScheduling;

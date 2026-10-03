@@ -1,4 +1,4 @@
-codeunit 50516 "CONS Demo Data Tests"
+codeunit 64016 "CONS Demo Data Tests"
 {
     Subtype = Test;
 

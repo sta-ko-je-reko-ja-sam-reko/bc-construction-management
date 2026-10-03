@@ -12,7 +12,7 @@ using System.IO;
 /// EnsurePackage/AddOwnTable/AddExtendedTable; SnapshotTable then captures the seeded row values into
 /// Config. Package Data, so the package carries the demo data (not just the shape) when exported to another company.
 /// </summary>
-codeunit 50029 "CONS Config Package Builder"
+codeunit 60029 "CONS Config Package Builder"
 {
     Access = Public;
 

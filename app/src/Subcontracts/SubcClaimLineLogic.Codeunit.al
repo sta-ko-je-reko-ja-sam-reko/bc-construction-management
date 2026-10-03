@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Retention;
 
-codeunit 50259 "CONS Subc Claim Line Logic" implements "CONS ISubcClaimLine"
+codeunit 60259 "CONS Subc Claim Line Logic" implements "CONS ISubcClaimLine"
 {
     Access = Public;
 

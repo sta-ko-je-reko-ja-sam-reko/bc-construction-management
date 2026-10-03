@@ -2,7 +2,7 @@ namespace Construction.CostBreakdown;
 
 using Construction.Core;
 
-page 50329 "CONS Cost Control Setup"
+page 60329 "CONS Cost Control Setup"
 {
     PageType = Card;
     ApplicationArea = All;

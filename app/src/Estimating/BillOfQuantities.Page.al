@@ -2,7 +2,7 @@ namespace Construction.Estimating;
 
 using Construction.Core;
 
-page 50054 "CONS Bill of Quantities"
+page 60054 "CONS Bill of Quantities"
 {
     PageType = Document;
     ApplicationArea = CONSEstimating;

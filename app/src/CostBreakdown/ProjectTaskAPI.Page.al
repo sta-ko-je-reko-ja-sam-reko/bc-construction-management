@@ -2,7 +2,7 @@ namespace Construction.CostBreakdown;
 
 using Microsoft.Projects.Project.Job;
 
-page 50296 "CONS Project Task API"
+page 60296 "CONS Project Task API"
 {
     PageType = API;
     APIPublisher = 'dmom';

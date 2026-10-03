@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-enum 50402 "CONS Equipment Type"
+enum 60402 "CONS Equipment Type"
 {
     Extensible = true;
     Caption = 'Equipment type';

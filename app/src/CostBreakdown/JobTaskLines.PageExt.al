@@ -3,7 +3,7 @@ namespace Construction.CostBreakdown;
 using Construction.CostControl;
 using Microsoft.Projects.Project.Job;
 
-pageextension 50102 "CONS Job Task Lines" extends "Job Task Lines"
+pageextension 60102 "CONS Job Task Lines" extends "Job Task Lines"
 {
     layout
     {

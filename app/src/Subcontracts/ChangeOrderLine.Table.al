@@ -3,7 +3,7 @@ namespace Construction.Subcontracts;
 using Construction.Setup;
 using Microsoft.Projects.Project.Job;
 
-table 50274 "CONS Change Order Line"
+table 60274 "CONS Change Order Line"
 {
     Caption = 'Change Order Line';
     DataClassification = CustomerContent;

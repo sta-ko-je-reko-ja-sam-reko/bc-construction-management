@@ -3,7 +3,7 @@ namespace Construction.Scheduling;
 using Construction.Core;
 using Microsoft.Projects.Project.Job;
 
-codeunit 50472 "CONS Schedule Rollup"
+codeunit 60472 "CONS Schedule Rollup"
 {
     Access = Public;
 

@@ -3,7 +3,7 @@ namespace Construction.CostBreakdown;
 using Construction.Core;
 using Microsoft.Projects.Project.Job;
 
-page 50101 "CONS Cost Breakdown"
+page 60101 "CONS Cost Breakdown"
 {
     PageType = List;
     ApplicationArea = CONSCostControl;

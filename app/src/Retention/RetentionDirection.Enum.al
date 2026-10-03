@@ -1,6 +1,6 @@
 namespace Construction.Retention;
 
-enum 50202 "CONS Retention Direction"
+enum 60202 "CONS Retention Direction"
 {
     Extensible = true;
     Caption = 'Retention Direction';

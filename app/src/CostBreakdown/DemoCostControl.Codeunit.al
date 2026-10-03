@@ -9,7 +9,7 @@ using Construction.Setup;
 /// project to open. For a populated cost breakdown, run the Estimating demo (a Bill of Quantities → budget) too.
 /// Idempotent and message-free; reached from the assisted-setup wizard and the demoCostControl API action.
 /// </summary>
-codeunit 50033 "CONS Demo Cost Control"
+codeunit 60033 "CONS Demo Cost Control"
 {
     Access = Public;
 

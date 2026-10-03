@@ -1,4 +1,4 @@
-codeunit 50509 "CONS Gantt Data Tests"
+codeunit 64009 "CONS Gantt Data Tests"
 {
     Subtype = Test;
 

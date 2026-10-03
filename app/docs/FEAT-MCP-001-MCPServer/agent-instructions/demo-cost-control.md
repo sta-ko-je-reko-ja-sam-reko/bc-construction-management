@@ -1,6 +1,6 @@
 # Agent instructions — `Construction Demo Cost Control` (demo-import, 1 tool)
 
-> Built by `CONS MCP Demo Config` (codeunit 50038). Single tool: `importDemoData`. Keep in sync with the tool.
+> Built by `CONS MCP Demo Config` (codeunit 60038). Single tool: `importDemoData`. Keep in sync with the tool.
 
 ---
 

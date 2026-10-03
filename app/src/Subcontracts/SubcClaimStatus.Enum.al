@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-enum 50251 "CONS Subc Claim Status"
+enum 60251 "CONS Subc Claim Status"
 {
     Extensible = true;
     Caption = 'Subcontract Claim Status';

@@ -5,7 +5,7 @@ using Construction.CostBreakdown;
 using Construction.MCP;
 using Construction.Setup;
 
-permissionset 50010 "CONS Found - Edit"
+permissionset 60010 "CONS Found - Edit"
 {
     Assignable = true;
     Caption = 'Construction Foundation - Edit', Locked = true;

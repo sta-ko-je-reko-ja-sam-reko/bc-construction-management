@@ -2,7 +2,7 @@ namespace Construction.Equipment;
 
 using Microsoft.Purchases.Vendor;
 
-table 50413 "CONS Equipment Maintenance"
+table 60413 "CONS Equipment Maintenance"
 {
     Caption = 'Equipment Maintenance';
     DataClassification = CustomerContent;

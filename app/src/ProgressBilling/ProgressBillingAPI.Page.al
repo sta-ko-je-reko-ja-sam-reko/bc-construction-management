@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Construction.Core;
 
-page 50285 "CONS Progress Billing API"
+page 60285 "CONS Progress Billing API"
 {
     PageType = API;
     APIPublisher = 'dmom';

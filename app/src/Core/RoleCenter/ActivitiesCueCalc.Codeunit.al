@@ -6,7 +6,7 @@ using Construction.ProgressBilling;
 using Construction.Subcontracts;
 using Microsoft.Projects.Project.Job;
 
-codeunit 50025 "CONS Activities Cue Calc"
+codeunit 60025 "CONS Activities Cue Calc"
 {
     Access = Internal;
 

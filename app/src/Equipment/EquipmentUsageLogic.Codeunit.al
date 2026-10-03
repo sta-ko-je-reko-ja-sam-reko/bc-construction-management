@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-codeunit 50431 "CONS Equipment Usage Logic" implements "CONS IEquipmentUsage"
+codeunit 60431 "CONS Equipment Usage Logic" implements "CONS IEquipmentUsage"
 {
     Access = Public;
 

@@ -3,7 +3,7 @@ namespace Construction.Setup;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Utilities;
 
-table 50002 "CONS Cost Type Setup"
+table 60002 "CONS Cost Type Setup"
 {
     Caption = 'Construction Cost Type Setup';
     DataClassification = CustomerContent;

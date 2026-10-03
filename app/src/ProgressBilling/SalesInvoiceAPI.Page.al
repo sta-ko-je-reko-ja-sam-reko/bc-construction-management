@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Microsoft.Integration.Entity;
 
-page 50341 "CONS Sales Invoice API"
+page 60341 "CONS Sales Invoice API"
 {
     PageType = API;
     APIPublisher = 'dmom';

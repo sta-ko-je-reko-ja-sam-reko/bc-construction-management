@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using System.Automation;
 
-codeunit 50280 "CONS Change Order Workflow"
+codeunit 60280 "CONS Change Order Workflow"
 {
     Access = Public;
 

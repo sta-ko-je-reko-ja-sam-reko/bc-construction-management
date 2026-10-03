@@ -1,6 +1,6 @@
 namespace Construction.Scheduling;
 
-permissionset 50469 "CONS Sched - Read"
+permissionset 60469 "CONS Sched - Read"
 {
     Assignable = true;
     Caption = 'Construction Scheduling & Resource Planning - Read', Locked = true;

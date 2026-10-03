@@ -1,4 +1,4 @@
-codeunit 50502 "CONS Cost Forecast Tests"
+codeunit 64002 "CONS Cost Forecast Tests"
 {
     Subtype = Test;
 

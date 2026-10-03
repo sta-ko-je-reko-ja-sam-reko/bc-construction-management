@@ -3,7 +3,7 @@ namespace Construction.Scheduling;
 using Construction.Core;
 using Microsoft.Projects.Project.Job;
 
-page 50473 "CONS Project Schedule"
+page 60473 "CONS Project Schedule"
 {
     PageType = List;
     ApplicationArea = CONSScheduling;

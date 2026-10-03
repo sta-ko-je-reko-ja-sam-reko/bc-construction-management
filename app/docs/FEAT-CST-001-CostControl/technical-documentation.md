@@ -4,7 +4,7 @@
 > **Module:** Cost Control (add-on, license-gated) — see [MODULES.md](../../../../MODULES.md). Shares the Cost Control permission sets + entitlement defined in FEAT-WBS-001.
 > **Affected objects:** Job Task / Job extensions (committed + forecast), committed-cost query, forecast codeunit, cost-control page.
 > **Namespaces:** default.
-> **Proposed ID block:** 50120–50139 (confirm at implementation).
+> **Proposed ID block:** 60120–60139 (confirm at implementation).
 > **Depends on:** Foundation + Cost Control/WBS (Job Task structure, Cost Control permission sets).
 
 ## Business Process
@@ -34,13 +34,13 @@ _None._ Budget/Committed/Actual/ETC/EAC/Variance/% are **computed per row on the
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| codeunit | 50123 | CONS Cost Forecast | Computes Budget/Committed/Actual/% complete/ETC/EAC/Variance for a task (`CalcForecast`); committed via `CalcSums` on Purchase Line. |
-| page | 50124 | CONS Project Cost Control | List over Job Task computing Budget/Committed/Actual/ETC/EAC/Variance/% per row; opened from the task subform; searchable. |
-| ~~tableextension~~ | 50120/50121 | ~~Job Task / Job Cost Ctrl~~ | **Not needed** — figures are page-computed, not stored. |
-| ~~query~~ | 50122 | ~~CONS Committed Cost~~ | **Deferred** — committed cost uses `CalcSums` in the codeunit instead. |
-| ~~page~~ | 50125 | ~~CONS Cost Control FactBox~~ | **Deferred** — post-MVP. |
+| codeunit | 60123 | CONS Cost Forecast | Computes Budget/Committed/Actual/% complete/ETC/EAC/Variance for a task (`CalcForecast`); committed via `CalcSums` on Purchase Line. |
+| page | 60124 | CONS Project Cost Control | List over Job Task computing Budget/Committed/Actual/ETC/EAC/Variance/% per row; opened from the task subform; searchable. |
+| ~~tableextension~~ | 60120/60121 | ~~Job Task / Job Cost Ctrl~~ | **Not needed** — figures are page-computed, not stored. |
+| ~~query~~ | 60122 | ~~CONS Committed Cost~~ | **Deferred** — committed cost uses `CalcSums` in the codeunit instead. |
+| ~~page~~ | 60125 | ~~CONS Cost Control FactBox~~ | **Deferred** — post-MVP. |
 
-> Objects are added to the existing **Cost Control** permission sets (50117/50118) from FEAT-WBS-001 — no new permission set/entitlement here.
+> Objects are added to the existing **Cost Control** permission sets (60117/60118) from FEAT-WBS-001 — no new permission set/entitlement here.
 
 ## Files
 

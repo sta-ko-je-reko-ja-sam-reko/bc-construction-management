@@ -3,7 +3,7 @@ namespace Construction.Scheduling;
 using Construction.Core;
 using Microsoft.Projects.Project.Job;
 
-page 50474 "CONS Project Gantt"
+page 60474 "CONS Project Gantt"
 {
     PageType = Card;
     ApplicationArea = CONSScheduling;

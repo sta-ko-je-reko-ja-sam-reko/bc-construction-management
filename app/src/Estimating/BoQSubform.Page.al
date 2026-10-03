@@ -1,6 +1,6 @@
 namespace Construction.Estimating;
 
-page 50055 "CONS BoQ Subform"
+page 60055 "CONS BoQ Subform"
 {
     PageType = ListPart;
     ApplicationArea = CONSEstimating;

@@ -5,7 +5,7 @@ namespace Construction.Setup;
 /// (the MCP tool), not its rows — hence the shared empty "CONS Demo Data" source. Lives in its own dedicated
 /// 'demoFoundation' API group so it can be routed to a dedicated MCP configuration / agent.
 /// </summary>
-page 50040 "CONS Demo Foundation API"
+page 60040 "CONS Demo Foundation API"
 {
     PageType = API;
     APIPublisher = 'dmom';

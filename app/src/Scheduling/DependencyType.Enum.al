@@ -1,6 +1,6 @@
 namespace Construction.Scheduling;
 
-enum 50460 "CONS Dependency Type"
+enum 60460 "CONS Dependency Type"
 {
     Extensible = true;
 

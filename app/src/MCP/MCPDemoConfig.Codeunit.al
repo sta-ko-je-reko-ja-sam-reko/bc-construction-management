@@ -16,7 +16,7 @@ using System.MCP;
 /// Estimating" configuration can seed only estimating demo data and reach none of the functional write tools.
 /// Run once per environment (called from the Foundation demo seeder on first run).
 /// </summary>
-codeunit 50038 "CONS MCP Demo Config"
+codeunit 60038 "CONS MCP Demo Config"
 {
     Access = Public;
 

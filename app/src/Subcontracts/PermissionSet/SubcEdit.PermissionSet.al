@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Retention;
 
-permissionset 50194 "CONS Subc - Edit"
+permissionset 60194 "CONS Subc - Edit"
 {
     Assignable = true;
     Caption = 'Construction Subcontracts - Edit', Locked = true;

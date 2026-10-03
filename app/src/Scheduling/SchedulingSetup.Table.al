@@ -1,6 +1,6 @@
 namespace Construction.Scheduling;
 
-table 50461 "CONS Scheduling Setup"
+table 60461 "CONS Scheduling Setup"
 {
     Caption = 'Scheduling Setup';
     DataClassification = CustomerContent;

@@ -6,7 +6,7 @@ using Construction.Setup;
 using Microsoft.Purchases.History;
 using Microsoft.Sales.History;
 
-codeunit 50207 "CONS Retention Logic" implements "CONS IRetentionReactions"
+codeunit 60207 "CONS Retention Logic" implements "CONS IRetentionReactions"
 {
     Access = Public;
 

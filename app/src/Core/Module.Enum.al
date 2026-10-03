@@ -1,6 +1,6 @@
 namespace Construction.Core;
 
-enum 50014 "CONS Module"
+enum 60014 "CONS Module"
 {
     Extensible = true;
     Caption = 'Construction Module';

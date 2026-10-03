@@ -1,6 +1,6 @@
 namespace Construction.Estimating;
 
-enum 50050 "CONS BoQ Status"
+enum 60050 "CONS BoQ Status"
 {
     Extensible = true;
     Caption = 'Bill of Quantities Status';

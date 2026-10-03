@@ -3,7 +3,7 @@ namespace Construction.Scheduling;
 using Construction.Core;
 using Microsoft.Projects.Project.Job;
 
-page 50475 "CONS Task Schedule API"
+page 60475 "CONS Task Schedule API"
 {
     PageType = API;
     APIPublisher = 'dmom';

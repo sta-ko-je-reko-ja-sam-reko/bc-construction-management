@@ -3,7 +3,7 @@ namespace Construction.Setup;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Foundation.NoSeries;
 
-table 50001 "CONS Construction Setup"
+table 60001 "CONS Construction Setup"
 {
     Caption = 'Construction Setup';
     DataClassification = CustomerContent;

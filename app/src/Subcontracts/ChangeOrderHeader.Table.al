@@ -3,7 +3,7 @@ namespace Construction.Subcontracts;
 using Microsoft.Foundation.NoSeries;
 using Microsoft.Projects.Project.Job;
 
-table 50273 "CONS Change Order Header"
+table 60273 "CONS Change Order Header"
 {
     Caption = 'Change Order';
     DataClassification = CustomerContent;

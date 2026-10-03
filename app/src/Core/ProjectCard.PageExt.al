@@ -5,7 +5,7 @@ using Construction.Retention;
 using Construction.Setup;
 using Microsoft.Projects.Project.Job;
 
-pageextension 50006 "CONS Project Card" extends "Job Card"
+pageextension 60006 "CONS Project Card" extends "Job Card"
 {
     layout
     {

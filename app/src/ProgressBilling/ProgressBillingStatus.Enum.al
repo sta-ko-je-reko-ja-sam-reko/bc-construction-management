@@ -1,6 +1,6 @@
 namespace Construction.ProgressBilling;
 
-enum 50152 "CONS Progress Billing Status"
+enum 60152 "CONS Progress Billing Status"
 {
     Extensible = true;
     Caption = 'Progress Billing Status';

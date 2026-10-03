@@ -4,7 +4,7 @@
 > **Module:** Foundation (Core) — aggregates every feature module.
 > **Affected objects:** one Role Center page + profile, one activities cue part, a Temporary cue table, a Page Background Task that computes the counts, and the shared Gantt JSON builder.
 > **Namespaces:** `Construction.Core` (role center, activities, cue), `Construction.Scheduling` (Gantt builder).
-> **ID block:** 50021–50025.
+> **ID block:** 60021–60025.
 > **Depends on:** all feature modules (it links to their lists/cards and counts their documents); the Scheduling Gantt control add-in.
 
 ## Business Process
@@ -24,11 +24,11 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| table | 50021 | CONS Activities Cue | Temporary cue buffer (count per cue). |
-| page | 50022 | CONS Construction Activities | `CardPart` — per-feature `cuegroup`s (each with its feature `ApplicationArea` on the cue fields) + a Scheduling group hosting the Gantt; enqueues the cue task on open and applies the result in `OnPageBackgroundTaskCompleted`. |
-| page | 50023 | CONS Construction Manager RC | `RoleCenter`; one Activities part; actions grouped per feature (areas on the actions). |
-| codeunit | 50024 | CONS Gantt Data | Builds the schedule JSON for the Gantt; shared with the Project Gantt page; finds the default scheduled project. |
-| codeunit | 50025 | CONS Activities Cue Calc | Page Background Task — counts per feature (keyed by `FieldNo`) returned via `SetBackgroundTaskResult`. |
+| table | 60021 | CONS Activities Cue | Temporary cue buffer (count per cue). |
+| page | 60022 | CONS Construction Activities | `CardPart` — per-feature `cuegroup`s (each with its feature `ApplicationArea` on the cue fields) + a Scheduling group hosting the Gantt; enqueues the cue task on open and applies the result in `OnPageBackgroundTaskCompleted`. |
+| page | 60023 | CONS Construction Manager RC | `RoleCenter`; one Activities part; actions grouped per feature (areas on the actions). |
+| codeunit | 60024 | CONS Gantt Data | Builds the schedule JSON for the Gantt; shared with the Project Gantt page; finds the default scheduled project. |
+| codeunit | 60025 | CONS Activities Cue Calc | Page Background Task — counts per feature (keyed by `FieldNo`) returned via `SetBackgroundTaskResult`. |
 | profile | — | CONS Construction Manager | Sets this Role Center; `Enabled = true`. |
 
 ## Patterns used

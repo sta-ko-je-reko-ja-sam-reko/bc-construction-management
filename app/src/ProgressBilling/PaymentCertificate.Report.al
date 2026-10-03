@@ -1,6 +1,6 @@
 namespace Construction.ProgressBilling;
 
-report 50160 "CONS Payment Certificate"
+report 60160 "CONS Payment Certificate"
 {
     Caption = 'Payment Certificate';
     UsageCategory = None;

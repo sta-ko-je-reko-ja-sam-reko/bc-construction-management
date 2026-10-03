@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Construction.Core;
 
-page 50330 "CONS Progress Billing Setup"
+page 60330 "CONS Progress Billing Setup"
 {
     PageType = Card;
     ApplicationArea = All;

@@ -13,7 +13,7 @@ using Microsoft.Sales.Customer;
 /// re-running (wizard or the demoFoundation MCP tool) is a no-op. Message-free — the same Import() is called from
 /// the assisted-setup wizard AND from the [ServiceEnabled] API action, where UI messages are not allowed.
 /// </summary>
-codeunit 50031 "CONS Demo Foundation"
+codeunit 60031 "CONS Demo Foundation"
 {
     Access = Public;
 

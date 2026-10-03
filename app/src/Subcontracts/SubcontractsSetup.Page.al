@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Core;
 
-page 50331 "CONS Subcontracts Setup"
+page 60331 "CONS Subcontracts Setup"
 {
     PageType = Card;
     ApplicationArea = All;

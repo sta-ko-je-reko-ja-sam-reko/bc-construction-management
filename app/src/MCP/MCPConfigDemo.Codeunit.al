@@ -11,7 +11,7 @@ using Construction.Setup;
 using Construction.Subcontracts;
 using System.MCP;
 
-codeunit 50300 "CONS MCP Config Demo"
+codeunit 60300 "CONS MCP Config Demo"
 {
     Access = Public;
 

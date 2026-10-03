@@ -1,6 +1,6 @@
 namespace Construction.CostBreakdown;
 
-table 50325 "CONS Cost Control Setup"
+table 60325 "CONS Cost Control Setup"
 {
     Caption = 'Cost Control Setup';
     DataClassification = CustomerContent;

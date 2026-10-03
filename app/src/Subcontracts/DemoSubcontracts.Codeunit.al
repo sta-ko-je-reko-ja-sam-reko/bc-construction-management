@@ -8,7 +8,7 @@ using Construction.Setup;
 /// from the assisted-setup wizard and the demoSubcontracts [ServiceEnabled] API action. Ensures the Foundation
 /// demo context (project + vendor) via "CONS Demo Foundation" first.
 /// </summary>
-codeunit 50035 "CONS Demo Subcontracts"
+codeunit 60035 "CONS Demo Subcontracts"
 {
     Access = Public;
 

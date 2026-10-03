@@ -10,7 +10,7 @@ using System.Automation;
 /// guard-plus-delegation. Each method's first line is the <c>Feature Mgt.IsEnabled</c> guard, so a disabled
 /// Subcontracts feature reacts to nothing.
 /// </summary>
-codeunit 50284 "CONS Subc Wf Reactions" implements "CONS ISubc Wf Reactions"
+codeunit 60284 "CONS Subc Wf Reactions" implements "CONS ISubc Wf Reactions"
 {
     Access = Public;
 

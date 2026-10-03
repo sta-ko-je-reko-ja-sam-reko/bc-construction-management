@@ -6,7 +6,7 @@ using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Sales.Document;
 
-codeunit 50209 "CONS Retention Release"
+codeunit 60209 "CONS Retention Release"
 {
     Access = Public;
 

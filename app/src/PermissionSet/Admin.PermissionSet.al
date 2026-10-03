@@ -7,7 +7,7 @@ using Construction.ProgressBilling;
 using Construction.Scheduling;
 using Construction.Subcontracts;
 
-permissionset 50012 "CONS Admin"
+permissionset 60012 "CONS Admin"
 {
     Assignable = true;
     Caption = 'Construction Management - Admin', Locked = true;

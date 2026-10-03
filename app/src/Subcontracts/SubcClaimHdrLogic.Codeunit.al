@@ -3,7 +3,7 @@ namespace Construction.Subcontracts;
 using Construction.Setup;
 using Microsoft.Foundation.NoSeries;
 
-codeunit 50258 "CONS Subc Claim Hdr Logic" implements "CONS ISubcClaimHdr"
+codeunit 60258 "CONS Subc Claim Hdr Logic" implements "CONS ISubcClaimHdr"
 {
     Access = Public;
 

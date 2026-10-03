@@ -4,7 +4,7 @@ using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Inventory.Item;
 using Microsoft.Projects.Resources.Resource;
 
-codeunit 50063 "CONS BoQ Line Logic" implements "CONS IBoQLine"
+codeunit 60063 "CONS BoQ Line Logic" implements "CONS IBoQLine"
 {
     Access = Public;
 

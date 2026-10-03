@@ -19,7 +19,7 @@ using System.IO;
 /// Kept as one shared set per the demo-data pattern (routing to agents is by API group / MCP configuration,
 /// independent of the permission split), rather than scattering demo objects across the module sets.
 /// </summary>
-permissionset 50027 "CONS Demo"
+permissionset 60027 "CONS Demo"
 {
     Assignable = true;
     Caption = 'Construction Demo Data', Locked = true;

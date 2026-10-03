@@ -1,6 +1,6 @@
 # Construction Management — BC AL Extension (Greenfield ISV)
 
-A from-scratch Microsoft Dynamics 365 Business Central AL extension: a **Construction Management** vertical built **on top of standard BC Projects (Jobs)**. This is an **ISV product** built to **AppSource standards** but shipped in the **PTE object ID range (50000–99999)**. Not a Navision/NAV port.
+A from-scratch Microsoft Dynamics 365 Business Central AL extension: a **Construction Management** vertical built **on top of standard BC Projects (Jobs)**. This is an **ISV product** built to **AppSource standards** but shipped in the **PTE object ID range (60000–63999)**. Not a Navision/NAV port.
 
 ## Methodology this project follows
 
@@ -16,7 +16,7 @@ This project uses the **bc-greenfield-template** methodology (in `../bc-greenfie
 | What | Value |
 |---|---|
 | Affix / prefix | `CONS` |
-| Object ID range | `50000–99999` (PTE) |
+| Object ID range | app `60000–63999`, test `64000–64999` — this app's block in the PTE range shared by all the owner's apps, which must install side by side; never use IDs outside it (registry: bc-dev-templates) |
 | BC version target | `28.2.0.0` (platform `28.0.0.0`, runtime `17.0`) — confirmed: dev container `bcconstr28` builds BC 28.2 |
 | Foundation | Standard BC **Projects (Jobs)** — extend, don't reinvent |
 | Primary language | English (international); Serbian getting-started optional |
@@ -38,7 +38,7 @@ Portable project context (decisions, gotchas, "why we did X") lives in **[app/do
 - **Extend, never edit base** — tableextension/pageextension/enumextension + event subscribers.
 - **Build on BC Projects & its models** — Job/Job Task/Job Planning Line/Job Ledger Entry; dimensions via Dimension Set, posting via standard routines, prices via Price List. Read standard objects from `.alpackages` symbols — don't assume field/event names.
 - **Mandatory affix `CONS`** on every new object and every new field on a standard table.
-- **Object IDs** inside 50000–99999. **Zero CodeCop errors** on build.
+- **Object IDs** inside 60000–63999 (tests 64000–64999). **Zero CodeCop errors** on build.
 - **No legacy port** — no NAV baselines, no `nav2bc-object-mapping.md`.
 - **Test + document each segment as you build it** — every segment with behavior gets an automated `[Test]` in `test/` in the same pass, and the feature's `app/docs/FEAT-*/technical-documentation.md` + getting-started are updated to match. Don't batch tests or docs to the end. See `../bc-greenfield-template/instructions/02-feature-workflow.md`.
 

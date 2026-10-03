@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-table 50414 "CONS Equipment Meter Entry"
+table 60414 "CONS Equipment Meter Entry"
 {
     Caption = 'Equipment Meter Entry';
     DataClassification = CustomerContent;

@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Construction.Core;
 
-page 50157 "CONS Progress Billing List"
+page 60157 "CONS Progress Billing List"
 {
     PageType = List;
     ApplicationArea = CONSProgressBilling;

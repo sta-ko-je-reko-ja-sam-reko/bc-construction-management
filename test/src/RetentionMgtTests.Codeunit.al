@@ -1,4 +1,4 @@
-codeunit 50505 "CONS Retention Mgt Tests"
+codeunit 64005 "CONS Retention Mgt Tests"
 {
     Subtype = Test;
 

@@ -3,7 +3,7 @@ namespace Construction.Subcontracts;
 using Construction.Setup;
 using Microsoft.Projects.Project.Job;
 
-table 50253 "CONS Subcontract Line"
+table 60253 "CONS Subcontract Line"
 {
     Caption = 'Subcontract Line';
     DataClassification = CustomerContent;

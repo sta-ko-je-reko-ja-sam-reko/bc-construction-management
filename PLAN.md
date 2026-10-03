@@ -1,6 +1,6 @@
 # Construction Management — Build Plan
 
-Product: a **general/international construction** vertical for BC, built **on standard Projects (Jobs)**, to **AppSource standards** in the **PTE ID range (50000–99999)**. Selected concepts adapted from **Dynamics 365 Project Operations** — capability map researched in [docs/research/project-operations-vs-bc-projects.md](docs/research/project-operations-vs-bc-projects.md).
+Product: a **general/international construction** vertical for BC, built **on standard Projects (Jobs)**, to **AppSource standards** in the **PTE ID range**, block **60000–63999** (tests 64000–64999). Selected concepts adapted from **Dynamics 365 Project Operations** — capability map researched in [docs/research/project-operations-vs-bc-projects.md](docs/research/project-operations-vs-bc-projects.md).
 
 Shipped as **independently sellable modules**, each with its own permission set + entitlement + license gate — see [MODULES.md](MODULES.md). The feature areas below are grouped into those modules.
 

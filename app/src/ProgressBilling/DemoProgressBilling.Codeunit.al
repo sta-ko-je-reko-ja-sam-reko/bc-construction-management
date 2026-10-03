@@ -9,7 +9,7 @@ using Construction.Setup;
 /// CONS-DEMO project context exists, giving the progress-billing pages a project to work from. Idempotent and
 /// message-free; reached from the assisted-setup wizard and the demoProgressBilling API action.
 /// </summary>
-codeunit 50034 "CONS Demo Progress Billing"
+codeunit 60034 "CONS Demo Progress Billing"
 {
     Access = Public;
 

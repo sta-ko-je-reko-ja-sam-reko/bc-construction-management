@@ -4,7 +4,7 @@ using Microsoft.Foundation.NoSeries;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Purchases.Vendor;
 
-table 50254 "CONS Subc Claim Header"
+table 60254 "CONS Subc Claim Header"
 {
     Caption = 'Subcontract Claim';
     DataClassification = CustomerContent;

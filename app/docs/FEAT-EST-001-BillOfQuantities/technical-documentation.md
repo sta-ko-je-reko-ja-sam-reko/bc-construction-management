@@ -4,7 +4,7 @@
 > **Module:** Estimating (add-on, license-gated) — see [MODULES.md](../../../../MODULES.md).
 > **Affected objects:** BoQ document (header + lines), BoQ pages, budget-push codeunit, Estimating permission sets + entitlement.
 > **Namespaces:** default.
-> **Proposed ID block:** 50050–50069 (confirm at implementation).
+> **Proposed ID block:** 60050–60069 (confirm at implementation).
 > **Depends on:** Foundation module (Cost Type, Cost Type Setup, Construction Setup, Project gate).
 
 ## Business Process
@@ -32,22 +32,22 @@
 
 | Type | ID | Name | Purpose |
 |---|---|---|---|
-| enum | 50050 | CONS BoQ Status | Open / Released / Awarded / Closed. |
-| enum | 50051 | CONS BoQ Line Type | Position / Heading / Comment (per-section Begin/End-Total subtotaling deferred). |
-| table | 50052 | CONS BoQ Header | Estimate header. |
-| table | 50053 | CONS BoQ Line | Estimate lines (hierarchical). |
-| page | 50054 | CONS Bill of Quantities | Document page (header + lines subform). |
-| page | 50055 | CONS BoQ Subform | Lines list part. |
-| page | 50056 | CONS Bill of Quantities List | List of BoQ documents. |
-| codeunit | 50057 | CONS BoQ Create Budget | Generates Job Planning Lines (Budget) from BoQ Position lines onto project tasks; idempotent; sets BoQ to Awarded. |
+| enum | 60050 | CONS BoQ Status | Open / Released / Awarded / Closed. |
+| enum | 60051 | CONS BoQ Line Type | Position / Heading / Comment (per-section Begin/End-Total subtotaling deferred). |
+| table | 60052 | CONS BoQ Header | Estimate header. |
+| table | 60053 | CONS BoQ Line | Estimate lines (hierarchical). |
+| page | 60054 | CONS Bill of Quantities | Document page (header + lines subform). |
+| page | 60055 | CONS BoQ Subform | Lines list part. |
+| page | 60056 | CONS Bill of Quantities List | List of BoQ documents. |
+| codeunit | 60057 | CONS BoQ Create Budget | Generates Job Planning Lines (Budget) from BoQ Position lines onto project tasks; idempotent; sets BoQ to Awarded. |
 | interface | — | CONS IBoQHeader / CONS IBoQLine | Polymorphic trigger/validate logic contracts (no object ID). |
-| codeunit | 50063 | CONS BoQ Line Logic | Default impl of `CONS IBoQLine` — line trigger/validate logic (amounts, type, lookups). |
-| codeunit | 50064 | CONS BoQ Header Logic | Default impl of `CONS IBoQHeader` — header no-series + cascade delete. |
-| ~~codeunit~~ | 50058 | ~~CONS BoQ Mgt.~~ | **Deferred** — line totals/markup live in the BoQ Line table; license gate via Foundation `CONS License Mgt.CheckModuleLicensed` (added there). |
-| ~~report~~ | 50059 | ~~CONS Bill of Quantities~~ | **Deferred** — printable BoQ, post-MVP. |
-| permissionset | 50060 | CONS Est - Edit | Estimating objects, RW (caption 'Construction Estimating - Edit'). Name ≤20 chars. |
-| permissionset | 50061 | CONS Est - Read | Estimating objects, R (caption 'Construction Estimating - Read'). |
-| entitlement | 50062 | CONS Est Ent | Maps Estimating permission set to license plan (deferred — needs service-plan GUID). |
+| codeunit | 60063 | CONS BoQ Line Logic | Default impl of `CONS IBoQLine` — line trigger/validate logic (amounts, type, lookups). |
+| codeunit | 60064 | CONS BoQ Header Logic | Default impl of `CONS IBoQHeader` — header no-series + cascade delete. |
+| ~~codeunit~~ | 60058 | ~~CONS BoQ Mgt.~~ | **Deferred** — line totals/markup live in the BoQ Line table; license gate via Foundation `CONS License Mgt.CheckModuleLicensed` (added there). |
+| ~~report~~ | 60059 | ~~CONS Bill of Quantities~~ | **Deferred** — printable BoQ, post-MVP. |
+| permissionset | 60060 | CONS Est - Edit | Estimating objects, RW (caption 'Construction Estimating - Edit'). Name ≤20 chars. |
+| permissionset | 60061 | CONS Est - Read | Estimating objects, R (caption 'Construction Estimating - Read'). |
+| entitlement | 60062 | CONS Est Ent | Maps Estimating permission set to license plan (deferred — needs service-plan GUID). |
 
 > `CONS Admin` (Foundation) is extended to include `CONS Est - Edit`.
 

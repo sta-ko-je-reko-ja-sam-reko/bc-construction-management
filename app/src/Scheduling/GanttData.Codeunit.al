@@ -2,7 +2,7 @@ namespace Construction.Scheduling;
 
 using Microsoft.Projects.Project.Job;
 
-codeunit 50024 "CONS Gantt Data"
+codeunit 60024 "CONS Gantt Data"
 {
     Access = Public;
 

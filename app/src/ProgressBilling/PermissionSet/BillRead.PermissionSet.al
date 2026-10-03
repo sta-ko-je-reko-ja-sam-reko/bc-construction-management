@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Construction.Retention;
 
-permissionset 50162 "CONS Bill - Read"
+permissionset 60162 "CONS Bill - Read"
 {
     Assignable = true;
     Caption = 'Construction Progress Billing - Read', Locked = true;

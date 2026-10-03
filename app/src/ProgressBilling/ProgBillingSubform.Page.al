@@ -1,6 +1,6 @@
 namespace Construction.ProgressBilling;
 
-page 50156 "CONS Prog. Billing Subform"
+page 60156 "CONS Prog. Billing Subform"
 {
     PageType = ListPart;
     ApplicationArea = CONSProgressBilling;

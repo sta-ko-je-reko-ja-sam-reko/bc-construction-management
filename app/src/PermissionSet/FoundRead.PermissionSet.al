@@ -4,7 +4,7 @@ using Construction.Core;
 using Construction.CostBreakdown;
 using Construction.Setup;
 
-permissionset 50011 "CONS Found - Read"
+permissionset 60011 "CONS Found - Read"
 {
     Assignable = true;
     Caption = 'Construction Foundation - Read', Locked = true;

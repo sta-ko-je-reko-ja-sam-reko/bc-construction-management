@@ -2,7 +2,7 @@ namespace Construction.Setup;
 
 using Construction.Core;
 
-page 50017 "CONS Setup Hub"
+page 60017 "CONS Setup Hub"
 {
     PageType = List;
     ApplicationArea = All;

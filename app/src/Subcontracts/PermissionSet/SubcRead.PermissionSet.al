@@ -2,7 +2,7 @@ namespace Construction.Subcontracts;
 
 using Construction.Retention;
 
-permissionset 50195 "CONS Subc - Read"
+permissionset 60195 "CONS Subc - Read"
 {
     Assignable = true;
     Caption = 'Construction Subcontracts - Read', Locked = true;

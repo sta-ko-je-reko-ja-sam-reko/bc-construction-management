@@ -1,7 +1,7 @@
 namespace Construction.Subcontracts;
 
 #if APPSOURCE
-permissionset 50196 "CONS Subc License"
+permissionset 60196 "CONS Subc License"
 {
     Assignable = false;
     Caption = 'Construction Subcontracts - License', Locked = true;

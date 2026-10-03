@@ -2,7 +2,7 @@ namespace Construction.Core;
 
 using Microsoft.Projects.Project.Job;
 
-page 50295 "CONS Project API"
+page 60295 "CONS Project API"
 {
     PageType = API;
     APIPublisher = 'dmom';

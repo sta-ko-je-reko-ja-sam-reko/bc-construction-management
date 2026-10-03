@@ -1,6 +1,6 @@
 namespace Construction.Equipment;
 
-codeunit 50433 "CONS Equipment Meter Logic" implements "CONS IEquipmentMeter"
+codeunit 60433 "CONS Equipment Meter Logic" implements "CONS IEquipmentMeter"
 {
     Access = Public;
 

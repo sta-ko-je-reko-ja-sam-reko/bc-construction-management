@@ -1,7 +1,7 @@
 # FEAT-CST-001 — Unit Test Plan (DB-free)
 
 The forecast math is extracted into a pure `Compute(Budget, Actual, Committed; var ETC, EAC, Variance)`
-so it is tested without reading any ledger. Codeunit: `CONS Cost Forecast Tests` (50502).
+so it is tested without reading any ledger. Codeunit: `CONS Cost Forecast Tests` (64002).
 
 ## TEST-01 — Under budget
 

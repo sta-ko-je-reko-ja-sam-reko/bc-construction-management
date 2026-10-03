@@ -1,6 +1,6 @@
 namespace Construction.Retention;
 
-codeunit 50205 "CONS Retention Mgt"
+codeunit 60205 "CONS Retention Mgt"
 {
     Access = Public;
 

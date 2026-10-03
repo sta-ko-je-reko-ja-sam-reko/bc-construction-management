@@ -1,6 +1,6 @@
 namespace Construction.ProgressBilling;
 
-table 50326 "CONS Progress Billing Setup"
+table 60326 "CONS Progress Billing Setup"
 {
     Caption = 'Progress Billing Setup';
     DataClassification = CustomerContent;

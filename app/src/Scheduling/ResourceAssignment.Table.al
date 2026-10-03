@@ -3,7 +3,7 @@ namespace Construction.Scheduling;
 using Microsoft.Projects.Project.Job;
 using Microsoft.Projects.Resources.Resource;
 
-table 50466 "CONS Resource Assignment"
+table 60466 "CONS Resource Assignment"
 {
     Caption = 'Resource Assignment';
     DataClassification = CustomerContent;

@@ -1,6 +1,6 @@
 namespace Construction.Subcontracts;
 
-enum 50272 "CONS Change Order Type"
+enum 60272 "CONS Change Order Type"
 {
     Extensible = true;
     Caption = 'Change Order Type';

@@ -3,7 +3,7 @@
 These tests exercise real Project (Job) Planning Line creation, so they need a database.
 Run them in the **bcconstr28** container (or any CRONUS-based W1 sandbox) via
 `AL: Run Test Codeunit`. Each runs in its own rolled-back transaction.
-Codeunit: `CONS BoQ Budget Tests` (50503).
+Codeunit: `CONS BoQ Budget Tests` (64003).
 
 ## TEST-01 — Pushing the BoQ creates a Budget planning line and awards the BoQ
 

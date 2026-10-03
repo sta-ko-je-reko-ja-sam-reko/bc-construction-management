@@ -8,7 +8,7 @@ using Construction.Scheduling;
 using Construction.Subcontracts;
 using System.Environment.Configuration;
 
-codeunit 50322 "CONS Feature Mgt."
+codeunit 60322 "CONS Feature Mgt."
 {
     Access = Public;
     SingleInstance = true;

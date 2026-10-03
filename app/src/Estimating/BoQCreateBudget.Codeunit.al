@@ -5,7 +5,7 @@ using Construction.Setup;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Projects.Project.Planning;
 
-codeunit 50057 "CONS BoQ Create Budget"
+codeunit 60057 "CONS BoQ Create Budget"
 {
     TableNo = "CONS BoQ Header";
 

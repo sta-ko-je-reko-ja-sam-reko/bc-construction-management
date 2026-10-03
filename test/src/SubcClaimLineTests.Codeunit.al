@@ -1,4 +1,4 @@
-codeunit 50507 "CONS Subc Claim Line Tests"
+codeunit 64007 "CONS Subc Claim Line Tests"
 {
     Subtype = Test;
 

@@ -2,7 +2,7 @@ namespace Construction.ProgressBilling;
 
 using Construction.Retention;
 
-codeunit 50153 "CONS Prog. Billing Line Logic" implements "CONS IProgBillingLine"
+codeunit 60153 "CONS Prog. Billing Line Logic" implements "CONS IProgBillingLine"
 {
     Access = Public;
 

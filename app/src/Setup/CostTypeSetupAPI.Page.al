@@ -1,6 +1,6 @@
 namespace Construction.Setup;
 
-page 50294 "CONS Cost Type Setup API"
+page 60294 "CONS Cost Type Setup API"
 {
     PageType = API;
     APIPublisher = 'dmom';

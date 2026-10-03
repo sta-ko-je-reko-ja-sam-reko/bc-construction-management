@@ -3,7 +3,7 @@ namespace Construction.Retention;
 using Microsoft.Finance.GeneralLedger.Account;
 using Microsoft.Projects.Project.Job;
 
-table 50200 "CONS Retention Entry"
+table 60200 "CONS Retention Entry"
 {
     Caption = 'Retention Entry';
     DataClassification = CustomerContent;
