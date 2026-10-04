@@ -1,0 +1,11 @@
+{
+    "name": "Construction Management Tests - project ruleset",
+    "description": "The test project uses the app's ruleset unchanged, so the test code is held to the same rules as the product code.",
+    "includedRuleSets": [
+        {
+            "action": "Default",
+            "path": "../app/ruleset.json"
+        }
+    ],
+    "rules": []
+}

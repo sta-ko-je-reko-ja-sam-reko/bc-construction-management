@@ -14,6 +14,12 @@ Durable, machine-independent context for this repo. **This file is checked into 
 
 <!-- newest first; format: ### YYYY-MM-DD — short title -->
 
+### 2026-10-04 — Test suite on the Microsoft test toolkit, BC 29 build scripts
+- The home-made `CONS Assert` is gone; tests use Microsoft `Library Assert` and the `Application Test Library` (`Library - Job/Sales/Purchase/ERM/Resource`). `test/src/<Feature>/codeunits/`, one unit codeunit per feature plus `...Integration` codeunits that post real documents (BoQ → budget, cost roll-up, progress invoice → retention, claim invoice → payable retention, retention release, change orders, equipment usage posting).
+- `CONS Test Library` (64000): `Initialize()` injects `CONS Test Access Policy` through the Service Locator (grants everything, switchable to deny) and restores the default retention/workflow reactions. The Service Locator is single-instance, so every test that depends on it calls `Initialize()` first.
+- `tools/build.ps1` compiles app + test with all four cops against `c:\bcartifacts.cache\sandbox\29.0.54011.55616`; `tools/test.ps1` publishes both to a container (default `bc29loc`) and runs the tests. `test/ruleset.json` includes `app/ruleset.json`; `test/AppSourceCop.json` carries the same affix.
+- Fixed while writing the tests: BoQ line, progress billing line and subcontractor claim line inserts now recalculate amounts after inheriting the header markup / retention % (they kept prices or retention computed with 0%).
+
 ### 2026-07-03 — Per-feature RapidStart Config. Packages on demo opt-in (demo-data §6)
 Implemented §6 of `demo-data-and-import-apis.md`: each feature seeder's `Import()` now also builds a **RapidStart Configuration Package** — so a package exists **only** when the user opts to import that feature's demo data (never eager/on install), idempotent on the package code.
 - New shared builder **[CONS Config Package Builder](../src/Setup/ConfigPackageBuilder.Codeunit.al)** (60029): `EnsurePackage(code,name)` (→ `Config. Package Management.InsertPackage(..., ExcludeConfigTables := true)`, returns false if it exists), `AddOwnTable` (all fields), `AddExtendedTable` (adds the standard table, then narrows `Config. Package Field."Include Field"` to **`"Primary Key" OR "Field Name".StartsWith('CONS ')`** — keeps the PK + our affix fields, drops Microsoft's/other extensions' columns). API signatures verified against the BC 28 Base App symbols (8611 in `System.IO`).

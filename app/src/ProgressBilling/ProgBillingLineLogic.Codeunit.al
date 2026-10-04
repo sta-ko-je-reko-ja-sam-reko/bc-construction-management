@@ -12,8 +12,10 @@ codeunit 60153 "CONS Prog. Billing Line Logic" implements "CONS IProgBillingLine
     begin
         if ProgBillingLine."Retention %" <> 0 then
             exit;
-        if ProgBillingHeader.Get(ProgBillingLine."Document No.") then
+        if ProgBillingHeader.Get(ProgBillingLine."Document No.") then begin
             ProgBillingLine."Retention %" := ProgBillingHeader."Retention %";
+            Validate_Amounts(ProgBillingLine);
+        end;
     end;
 
     procedure Validate_Amounts(var ProgBillingLine: Record "CONS Progress Billing Line")

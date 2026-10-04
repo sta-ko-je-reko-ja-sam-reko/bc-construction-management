@@ -12,8 +12,10 @@ codeunit 60259 "CONS Subc Claim Line Logic" implements "CONS ISubcClaimLine"
     begin
         if SubcClaimLine."Retention %" <> 0 then
             exit;
-        if SubcClaimHeader.Get(SubcClaimLine."Document No.") then
+        if SubcClaimHeader.Get(SubcClaimLine."Document No.") then begin
             SubcClaimLine."Retention %" := SubcClaimHeader."Retention %";
+            Validate_Amounts(SubcClaimLine);
+        end;
     end;
 
     procedure Validate_Amounts(var SubcClaimLine: Record "CONS Subc Claim Line")

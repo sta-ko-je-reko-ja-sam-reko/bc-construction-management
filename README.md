@@ -33,6 +33,19 @@ bc-construction-management/
 3. Confirm the **BC target version** (`application`/`runtime`) and run **AL: Download Symbols**.
 4. Build → must be **zero CodeCop / AppSourceCop errors**.
 
+## Build and test locally
+
+The `test/` app (IDs 64000–64999) depends on the app and on the Microsoft test toolkit (`Library Assert`, `Any`, `Library Variable Storage`, `Test Runner`, `Application Test Library`). Tests live in `test/src/<Feature>/codeunits/`: one unit-test codeunit per feature (logic codeunits called directly on in-memory records, fakes injected through `Define()` / the Service Locator) plus `...Integration` codeunits that post real Projects, sales and purchase documents. `CONS Test Library` resets the swappable seams and builds the shared context.
+
+```powershell
+# compile app + test with CodeCop, UICop, AppSourceCop and PerTenantExtensionCop against the local BC 29 artifact
+.\tools\build.ps1
+# publish both packages to the dev container and run every test (elevated PowerShell, BcContainerHelper)
+.\tools\test.ps1 -ContainerName bc29loc
+```
+
+`tools\test.ps1` writes the full results to `.output\TestResults.xml` and prints the failures.
+
 ## GitHub & AL-Go for GitHub
 
 CI/CD runs on **AL-Go for GitHub** (PTE template, v9.0). The system files live in `.github/` (workflows + `AL-Go-Settings.json`) and `.AL-Go/settings.json` (points at `appFolders: ["app"]`, `testFolders: ["test"]`, `country: w1`).

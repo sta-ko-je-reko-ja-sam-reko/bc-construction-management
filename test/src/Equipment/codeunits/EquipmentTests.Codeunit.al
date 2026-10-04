@@ -1,9 +1,16 @@
+namespace Construction.Test;
+
+using Construction.Equipment;
+using System.TestLibraries.Utilities;
+
 codeunit 64010 "CONS Equipment Tests"
 {
     Subtype = Test;
+    TestPermissions = Disabled;
 
     var
-        Assert: Codeunit "CONS Assert";
+        Assert: Codeunit "Library Assert";
+        TestLibrary: Codeunit "CONS Test Library";
 
     [Test]
     procedure ValidateQuantity_ComputesTotalCost()
@@ -65,7 +72,7 @@ codeunit 64010 "CONS Equipment Tests"
         Logic.Validate_EquipmentNo(Usage);
         // [THEN] unit cost and unit of measure are cleared and total cost falls to zero
         Assert.AreEqual(0, Usage."Unit Cost", 'Unit Cost cleared when equipment is blank');
-        Assert.AreEqualText('', Usage."Unit of Measure Code", 'Unit of Measure cleared when equipment is blank');
+        Assert.AreEqual('', Usage."Unit of Measure Code", 'Unit of Measure cleared when equipment is blank');
         Assert.AreEqual(0, Usage."Total Cost", 'Total Cost recalculated to 0 when equipment is blank');
     end;
 
@@ -293,6 +300,161 @@ codeunit 64010 "CONS Equipment Tests"
         Assert.IsTrue(Equipment."Next Service Date" = 20260901D, 'next service date preserved when maintenance value is zero');
         Assert.AreEqual(8000, Equipment."Next Service Meter", 'next service meter preserved when maintenance value is zero');
         Assert.AreEqual(7000, Equipment."Meter Reading", 'meter reading preserved when maintenance value is zero');
+    end;
+
+    [Test]
+    procedure ValidateEquipmentNo_UsesProjectRateOnPostingDate()
+    var
+        Usage: Record "CONS Equipment Usage";
+        Logic: Codeunit "CONS Equipment Usage Logic";
+    begin
+        // [GIVEN] equipment with cost rate 30 per HOUR and a project rate of 45 from 1 June
+        InsertEquipment('EQRATE1', 30);
+        InsertRate('EQRATE1', 'PROJ-R', 20260601D, 45, 0);
+        Usage."Equipment No." := 'EQRATE1';
+        Usage."Project No." := 'PROJ-R';
+        Usage."Posting Date" := 20260615D;
+        Usage.Quantity := 4;
+        // [WHEN] the equipment is chosen on the usage line
+        Logic.Validate_EquipmentNo(Usage);
+        // [THEN] the project rate valid on the posting date and the equipment's rate unit are used
+        Assert.AreEqual(45, Usage."Unit Cost", 'project rate on the posting date');
+        Assert.AreEqual('HOUR', Usage."Unit of Measure Code", 'rate unit of measure from the equipment');
+        Assert.AreEqual(180, Usage."Total Cost", 'total recalculated');
+    end;
+
+    [Test]
+    procedure ValidateEquipmentNo_NoRate_FallsBackToCostRate()
+    var
+        Usage: Record "CONS Equipment Usage";
+        Logic: Codeunit "CONS Equipment Usage Logic";
+    begin
+        // [GIVEN] equipment with cost rate 30 and no rate table entries
+        InsertEquipment('EQRATE2', 30);
+        Usage."Equipment No." := 'EQRATE2';
+        Usage."Posting Date" := 20260615D;
+        Usage.Quantity := 2;
+        // [WHEN] the equipment is chosen on the usage line
+        Logic.Validate_EquipmentNo(Usage);
+        // [THEN] the equipment's default cost rate is used
+        Assert.AreEqual(30, Usage."Unit Cost", 'default cost rate');
+        Assert.AreEqual(60, Usage."Total Cost", 'total recalculated');
+    end;
+
+    [Test]
+    procedure ValidateEquipmentNo_BlankPostingDate_UsesWorkDate()
+    var
+        Usage: Record "CONS Equipment Usage";
+        Logic: Codeunit "CONS Equipment Usage Logic";
+    begin
+        // [GIVEN] equipment with cost rate 30 and a rate of 99 that only starts after the work date
+        InsertEquipment('EQRATE3', 30);
+        InsertRate('EQRATE3', '', WorkDate() + 1, 99, 0);
+        Usage."Equipment No." := 'EQRATE3';
+        Usage.Quantity := 1;
+        // [WHEN] the equipment is chosen on a usage line without a posting date
+        Logic.Validate_EquipmentNo(Usage);
+        // [THEN] the rate is looked up on the work date, so the future rate does not apply yet
+        Assert.AreEqual(30, Usage."Unit Cost", 'rate looked up on the work date');
+    end;
+
+    [Test]
+    procedure ValidateEquipmentNo_UnknownEquipment_Errors()
+    var
+        Usage: Record "CONS Equipment Usage";
+        Logic: Codeunit "CONS Equipment Usage Logic";
+    begin
+        // [GIVEN] a usage line pointing to equipment that does not exist
+        Usage."Equipment No." := 'NO-SUCH-EQ';
+        // [WHEN] the equipment is validated
+        asserterror Logic.Validate_EquipmentNo(Usage);
+        // [THEN] the missing equipment is reported
+        Assert.ExpectedErrorCode('DB:RecordNotFound');
+    end;
+
+    [Test]
+    procedure FindHireRate_FallsBackToBlankProjectRate()
+    var
+        Rate: Record "CONS Equipment Rate";
+    begin
+        // [GIVEN] only a blank-project hire rate of 70
+        Rate.DeleteAll();
+        InsertRate('EQ08', '', 20260101D, 0, 70);
+        // [WHEN]/[THEN] any project gets the blank-project hire rate
+        Assert.AreEqual(70, Rate.FindHireRate('EQ08', 'PROJ-X', 20260601D), 'blank-project hire rate');
+    end;
+
+    [Test]
+    procedure EquipmentInsert_BlankNo_TakesNumberFromSeries()
+    var
+        Equipment: Record "CONS Equipment";
+        EquipmentSetup: Record "CONS Equipment Setup";
+        LibraryUtility: Codeunit "Library - Utility";
+    begin
+        // [GIVEN] an equipment number series
+        TestLibrary.Initialize();
+        EquipmentSetup.InitSetup();
+        EquipmentSetup.Get();
+        EquipmentSetup."Equipment Nos." := LibraryUtility.GetGlobalNoSeriesCode();
+        EquipmentSetup.Modify();
+        // [WHEN] equipment is inserted without a number
+        Equipment.Init();
+        Equipment.Insert(true);
+        // [THEN] it is numbered from the series
+        Assert.AreNotEqual('', Equipment."No.", 'number assigned');
+        Assert.AreEqual(EquipmentSetup."Equipment Nos.", Equipment."No. Series", 'series remembered');
+    end;
+
+    [Test]
+    procedure EquipmentInsert_BlankNoWithoutSeries_Errors()
+    var
+        Equipment: Record "CONS Equipment";
+        EquipmentSetup: Record "CONS Equipment Setup";
+    begin
+        // [GIVEN] no equipment number series
+        TestLibrary.Initialize();
+        EquipmentSetup.InitSetup();
+        EquipmentSetup.Get();
+        EquipmentSetup."Equipment Nos." := '';
+        EquipmentSetup.Modify();
+        // [WHEN] equipment is inserted without a number
+        Equipment.Init();
+        asserterror Equipment.Insert(true);
+        // [THEN] the missing series is reported
+        Assert.ExpectedError('Equipment Nos.');
+    end;
+
+    [Test]
+    procedure MeterEntryInsert_TableTriggerUpdatesEquipment()
+    var
+        Equipment: Record "CONS Equipment";
+        MeterEntry: Record "CONS Equipment Meter Entry";
+    begin
+        // [GIVEN] equipment at meter reading 100
+        InsertEquipment('METER02', 0);
+        Equipment.Get('METER02');
+        Equipment."Meter Reading" := 100;
+        Equipment.Modify();
+        // [WHEN] a meter entry of 180 is inserted through the table
+        MeterEntry.Init();
+        MeterEntry."Equipment No." := 'METER02';
+        MeterEntry."Reading Date" := WorkDate();
+        MeterEntry."Meter Reading" := 180;
+        MeterEntry.Insert(true);
+        // [THEN] the table trigger delegated to the meter logic and the equipment shows the new reading
+        Equipment.Get('METER02');
+        Assert.AreEqual(180, Equipment."Meter Reading", 'meter reading updated via the table trigger');
+    end;
+
+    local procedure InsertEquipment(EquipmentNo: Code[20]; CostRate: Decimal)
+    var
+        Equipment: Record "CONS Equipment";
+    begin
+        Equipment.Init();
+        Equipment."No." := EquipmentNo;
+        Equipment."Cost Rate" := CostRate;
+        Equipment."Rate Unit of Measure" := 'HOUR';
+        Equipment.Insert();
     end;
 
     local procedure InsertRate(EquipmentNo: Code[20]; ProjectNo: Code[20]; StartingDate: Date; UnitCost: Decimal; HireRate: Decimal)
