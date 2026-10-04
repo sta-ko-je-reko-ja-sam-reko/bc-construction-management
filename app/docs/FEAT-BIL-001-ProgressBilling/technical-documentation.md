@@ -39,7 +39,12 @@ presented on a certificate before invoicing.
 ## 4. Flow
 
 1. **Create application** for a project + period → seed SoV lines from billable Job Planning Lines
-   (or carry forward the previous application's lines with their completed-to-date).
+   (`CONS Prog. Billing Seed`). Each seeded line's **Previous Amount** is the **Completed To Date** of the
+   same planning line on the latest earlier application of the project that is Certified or Invoiced
+   (draft applications are ignored), so applications are cumulative to date. Previous Amount stays
+   editable. A line inserted with no retention % inherits the header's and its amounts are recalculated.
+   Tests: `CONS Prog Billing Integration.SeedFromProject_SuccessiveApplications_CarryPreviousAmount`,
+   `SeedFromProject_DraftPriorApplication_IsNotCarried`.
 2. **Enter progress** per line (% complete or measured qty). Logic computes this-period, retention,
    net due. Idempotent recalculation; nothing posted yet.
 3. **Certify** → status Certified; print the **certificate report**. Optional approval/Feature-Management

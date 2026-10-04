@@ -1,10 +1,12 @@
 namespace Construction.Test;
 
 using Construction.Core;
+using Construction.CostControl;
 using Construction.Retention;
 using Construction.Setup;
 using Construction.Subcontracts;
 using Microsoft.Projects.Project.Job;
+using Microsoft.Projects.Project.Ledger;
 using Microsoft.Purchases.Document;
 using Microsoft.Purchases.History;
 using System.TestLibraries.Utilities;
@@ -259,6 +261,183 @@ codeunit 64031 "CONS Subc Claim Integration"
         asserterror SubcRetentionRelease.ReleaseFullOutstanding(SubcontractHeader."No.");
         // [THEN] it is refused
         Assert.ExpectedError('no outstanding retention');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure CreateInvoice_LinksCostLineToProjectTask()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        SubcontractHeader: Record "CONS Subcontract Header";
+        SubcClaimHeader: Record "CONS Subc Claim Header";
+        ConstructionSetup: Record "CONS Construction Setup";
+        PurchaseLine: Record "Purchase Line";
+        SubcClaimInvoice: Codeunit "CONS Subc Claim Invoice";
+        InvoiceNo: Code[20];
+    begin
+        // [GIVEN] a claim line of 1500 on a project task, at 10% retention
+        Initialize(Job, JobTask);
+        ConstructionSetup.Get();
+        CreateSubcontract(SubcontractHeader, Job."No.", 10);
+        CreateClaim(SubcClaimHeader, SubcontractHeader);
+        InsertClaimLineOnTask(SubcClaimHeader, 10000, JobTask."Job Task No.", 1500);
+
+        // [WHEN] the draft purchase invoice is created
+        InvoiceNo := SubcClaimInvoice.CreateInvoice(SubcClaimHeader);
+
+        // [THEN] the cost line is linked to the project task, the retention line is not
+        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Invoice);
+        PurchaseLine.SetRange("Document No.", InvoiceNo);
+        PurchaseLine.SetRange("No.", ConstructionSetup."Subcontract Cost Account");
+        PurchaseLine.FindFirst();
+        Assert.AreEqual(Job."No.", PurchaseLine."Job No.", 'cost line on the project');
+        Assert.AreEqual(JobTask."Job Task No.", PurchaseLine."Job Task No.", 'cost line on the task');
+        PurchaseLine.SetRange("No.", ConstructionSetup."Retention Payable Acc.");
+        PurchaseLine.FindFirst();
+        Assert.AreEqual('', PurchaseLine."Job No.", 'retention is a balance-sheet line, not project cost');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure PostInvoice_PostsSubcontractCostToProjectLedger()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        SubcontractHeader: Record "CONS Subcontract Header";
+        SubcClaimHeader: Record "CONS Subc Claim Header";
+        PurchaseHeader: Record "Purchase Header";
+        JobLedgerEntry: Record "Job Ledger Entry";
+        SubcClaimInvoice: Codeunit "CONS Subc Claim Invoice";
+        CostForecast: Codeunit "CONS Cost Forecast";
+        Budget: Decimal;
+        Committed: Decimal;
+        Actual: Decimal;
+        ETC: Decimal;
+        EAC: Decimal;
+        Variance: Decimal;
+        PctComplete: Decimal;
+    begin
+        // [GIVEN] a claim of 4000 on a project task with 5% retention, invoiced
+        Initialize(Job, JobTask);
+        CreateSubcontract(SubcontractHeader, Job."No.", 5);
+        CreateClaim(SubcClaimHeader, SubcontractHeader);
+        InsertClaimLineOnTask(SubcClaimHeader, 10000, JobTask."Job Task No.", 4000);
+        PurchaseHeader.Get(PurchaseHeader."Document Type"::Invoice, SubcClaimInvoice.CreateInvoice(SubcClaimHeader));
+
+        // [WHEN] the invoice is posted
+        PostPurchaseInvoice(PurchaseHeader);
+
+        // [THEN] the full claimed amount (before retention) is project usage on the task
+        JobLedgerEntry.SetRange("Job No.", Job."No.");
+        JobLedgerEntry.SetRange("Job Task No.", JobTask."Job Task No.");
+        JobLedgerEntry.SetRange("Entry Type", JobLedgerEntry."Entry Type"::Usage);
+        Assert.RecordCount(JobLedgerEntry, 1);
+        JobLedgerEntry.FindFirst();
+        Assert.AreEqual(4000, JobLedgerEntry."Total Cost (LCY)", 'subcontract cost on the project ledger');
+
+        // [THEN] cost control shows it as actual cost
+        JobTask.Get(JobTask."Job No.", JobTask."Job Task No.");
+        CostForecast.CalcForecast(JobTask, Budget, Committed, Actual, ETC, EAC, Variance, PctComplete);
+        Assert.AreEqual(4000, Actual, 'actual cost includes the subcontract claim');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure SeedFromSubcontract_SuccessiveClaims_CarryPreviousAmount()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        SubcontractHeader: Record "CONS Subcontract Header";
+        FirstClaim: Record "CONS Subc Claim Header";
+        SecondClaim: Record "CONS Subc Claim Header";
+        ThirdClaim: Record "CONS Subc Claim Header";
+        SubcClaimLine: Record "CONS Subc Claim Line";
+    begin
+        // [GIVEN] a subcontract scope line of 8000 and a first claim that certified 1000
+        Initialize(Job, JobTask);
+        CreateSubcontract(SubcontractHeader, Job."No.", 0);
+        InsertScopeLine(SubcontractHeader."No.", 10000, JobTask."Job Task No.", 1, 8000);
+        CreateSeededClaim(FirstClaim, SubcontractHeader, 1000, FirstClaim.Status::Certified);
+
+        // [WHEN] a second claim is seeded and claims 3000 (then invoiced)
+        CreateSeededClaim(SecondClaim, SubcontractHeader, 3000, SecondClaim.Status::Invoiced);
+
+        // [THEN] it starts from the 1000 already certified
+        FindClaimLine(SubcClaimLine, SecondClaim."No.");
+        Assert.AreEqual(2, SecondClaim."Claim No.", 'second claim');
+        Assert.AreEqual(1000, SubcClaimLine."Previous Amount", 'previous = completed to date on claim 1');
+        Assert.AreEqual(4000, SubcClaimLine."Completed To Date", 'completed to date = 1000 + 3000');
+        Assert.AreEqual(50, SubcClaimLine."% Complete", '% complete is cumulative');
+
+        // [WHEN] a third claim is seeded
+        CreateSeededClaim(ThirdClaim, SubcontractHeader, 0, ThirdClaim.Status::Open);
+
+        // [THEN] it carries the cumulative 4000 forward
+        FindClaimLine(SubcClaimLine, ThirdClaim."No.");
+        Assert.AreEqual(4000, SubcClaimLine."Previous Amount", 'previous is cumulative to date');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure SeedFromSubcontract_DraftPriorClaim_IsNotCarried()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        SubcontractHeader: Record "CONS Subcontract Header";
+        FirstClaim: Record "CONS Subc Claim Header";
+        SecondClaim: Record "CONS Subc Claim Header";
+        SubcClaimLine: Record "CONS Subc Claim Line";
+    begin
+        // [GIVEN] a first claim that is still an uncertified draft with 1000 entered
+        Initialize(Job, JobTask);
+        CreateSubcontract(SubcontractHeader, Job."No.", 0);
+        InsertScopeLine(SubcontractHeader."No.", 10000, JobTask."Job Task No.", 1, 8000);
+        CreateSeededClaim(FirstClaim, SubcontractHeader, 1000, FirstClaim.Status::Open);
+
+        // [WHEN] a second claim is seeded
+        CreateSeededClaim(SecondClaim, SubcontractHeader, 0, SecondClaim.Status::Open);
+
+        // [THEN] the draft is not treated as previously certified work
+        FindClaimLine(SubcClaimLine, SecondClaim."No.");
+        Assert.AreEqual(0, SubcClaimLine."Previous Amount", 'draft claims are not carried forward');
+    end;
+
+    local procedure CreateSeededClaim(var SubcClaimHeader: Record "CONS Subc Claim Header"; SubcontractHeader: Record "CONS Subcontract Header"; ThisPeriod: Decimal; NewStatus: Enum "CONS Subc Claim Status")
+    var
+        SubcClaimLine: Record "CONS Subc Claim Line";
+        SubcClaimSeed: Codeunit "CONS Subc Claim Seed";
+    begin
+        CreateClaim(SubcClaimHeader, SubcontractHeader);
+        SubcClaimSeed.SeedFromSubcontract(SubcClaimHeader);
+        LibraryVariableStorage.DequeueText();
+        FindClaimLine(SubcClaimLine, SubcClaimHeader."No.");
+        SubcClaimLine.Validate("This Period Amount", ThisPeriod);
+        SubcClaimLine.Modify(true);
+        SubcClaimHeader.Status := NewStatus;
+        SubcClaimHeader.Modify(true);
+    end;
+
+    local procedure FindClaimLine(var SubcClaimLine: Record "CONS Subc Claim Line"; DocumentNo: Code[20])
+    begin
+        SubcClaimLine.Reset();
+        SubcClaimLine.SetRange("Document No.", DocumentNo);
+        SubcClaimLine.SetRange("Subcontract Line No.", 10000);
+        SubcClaimLine.FindFirst();
+    end;
+
+    local procedure InsertClaimLineOnTask(SubcClaimHeader: Record "CONS Subc Claim Header"; LineNo: Integer; JobTaskNo: Code[20]; ThisPeriod: Decimal)
+    var
+        SubcClaimLine: Record "CONS Subc Claim Line";
+    begin
+        SubcClaimLine.Init();
+        SubcClaimLine."Document No." := SubcClaimHeader."No.";
+        SubcClaimLine."Line No." := LineNo;
+        SubcClaimLine."Job Task No." := JobTaskNo;
+        SubcClaimLine."Retention %" := SubcClaimHeader."Retention %";
+        SubcClaimLine.Validate("Scheduled Value", 10000);
+        SubcClaimLine.Validate("This Period Amount", ThisPeriod);
+        SubcClaimLine.Insert(true);
     end;
 
     local procedure Initialize(var Job: Record Job; var JobTask: Record "Job Task")

@@ -11,7 +11,7 @@
 
 1. The estimator creates a **Bill of Quantities** (BoQ) — linked to a construction **Project**, or standalone for a tender. The No. comes from `Construction Setup.BoQ Nos.`
 2. The estimator builds **hierarchical BoQ lines**: headings (Begin-Total), positions/items (Posting), and totals (End-Total), with **indentation**, mirroring the Project Task pattern.
-3. Each position line carries a **Cost Type** (Labor/Material/Equipment/Subcontract/Other), **quantity**, **unit of measure**, **unit cost**, and **markup %** → the line computes **total cost**, **unit price**, **total price**. Headings roll up their positions.
+3. Each position line carries a **Cost Type** (Labor/Material/Equipment/Subcontract/Other), **quantity**, **unit of measure**, **unit cost**, and **markup %** → the line computes **total cost**, **unit price**, **total price**. A line inserted without its own markup takes the header's **Default Markup %** and is repriced with it. Headings roll up their positions.
 4. The BoQ totals cost and price (with markup) per heading and overall, giving the tender/estimate value.
 5. On award, the estimator sets status **Awarded** and runs **Create Project Budget** — the budget-push codeunit generates **Job Planning Lines (Budget)** on the linked project's tasks from the BoQ lines, and stamps each BoQ line with its linked planning line for traceability.
 

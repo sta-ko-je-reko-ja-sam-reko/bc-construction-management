@@ -380,6 +380,89 @@ codeunit 64028 "CONS Prog Billing Integration"
         Assert.ExpectedError('no outstanding retention');
     end;
 
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure SeedFromProject_SuccessiveApplications_CarryPreviousAmount()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        PlanningLine: Record "Job Planning Line";
+        FirstHeader: Record "CONS Progress Billing Header";
+        SecondHeader: Record "CONS Progress Billing Header";
+        ThirdHeader: Record "CONS Progress Billing Header";
+        Line: Record "CONS Progress Billing Line";
+    begin
+        // [GIVEN] a billable planning line of 10000 and a first application that certified 3000 of it
+        Initialize(Job, JobTask);
+        CreatePlanningLine(JobTask, PlanningLine."Line Type"::Billable, 1, 10000, PlanningLine);
+        CreateSeededApplication(FirstHeader, Job, PlanningLine."Line No.", 3000, 0, FirstHeader.Status::Certified);
+
+        // [WHEN] a second application is created and seeded, and bills 2000 + 500 stored materials (then invoiced)
+        CreateSeededApplication(SecondHeader, Job, PlanningLine."Line No.", 2000, 500, SecondHeader.Status::Invoiced);
+
+        // [THEN] its line starts from the 3000 completed on the first application
+        FindLine(Line, SecondHeader."No.", PlanningLine."Line No.");
+        Assert.AreEqual(2, SecondHeader."Application No.", 'second application');
+        Assert.AreEqual(3000, Line."Previous Amount", 'previous = completed to date on application 1');
+        Assert.AreEqual(5500, Line."Completed To Date", 'completed to date = 3000 + 2000 + 500');
+        Assert.AreEqual(55, Line."% Complete", '% complete is cumulative');
+
+        // [WHEN] a third application is seeded
+        CreateSeededApplication(ThirdHeader, Job, PlanningLine."Line No.", 0, 0, ThirdHeader.Status::Open);
+
+        // [THEN] it carries the cumulative 5500 forward
+        FindLine(Line, ThirdHeader."No.", PlanningLine."Line No.");
+        Assert.AreEqual(5500, Line."Previous Amount", 'previous is cumulative to date');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure SeedFromProject_DraftPriorApplication_IsNotCarried()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        PlanningLine: Record "Job Planning Line";
+        FirstHeader: Record "CONS Progress Billing Header";
+        SecondHeader: Record "CONS Progress Billing Header";
+        Line: Record "CONS Progress Billing Line";
+    begin
+        // [GIVEN] a first application that is still an uncertified draft with 3000 entered
+        Initialize(Job, JobTask);
+        CreatePlanningLine(JobTask, PlanningLine."Line Type"::Billable, 1, 10000, PlanningLine);
+        CreateSeededApplication(FirstHeader, Job, PlanningLine."Line No.", 3000, 0, FirstHeader.Status::Open);
+
+        // [WHEN] a second application is seeded
+        CreateSeededApplication(SecondHeader, Job, PlanningLine."Line No.", 0, 0, SecondHeader.Status::Open);
+
+        // [THEN] the draft is not treated as previously certified work
+        FindLine(Line, SecondHeader."No.", PlanningLine."Line No.");
+        Assert.AreEqual(0, Line."Previous Amount", 'draft applications are not carried forward');
+    end;
+
+    local procedure CreateSeededApplication(var Header: Record "CONS Progress Billing Header"; Job: Record Job; JobPlanningLineNo: Integer; ThisPeriod: Decimal; StoredMaterials: Decimal; NewStatus: Enum "CONS Progress Billing Status")
+    var
+        Line: Record "CONS Progress Billing Line";
+        ProgBillingSeed: Codeunit "CONS Prog. Billing Seed";
+    begin
+        CreateApplication(Header, Job, 0);
+        ProgBillingSeed.SeedFromProject(Header);
+        LibraryVariableStorage.DequeueText();
+        FindLine(Line, Header."No.", JobPlanningLineNo);
+        Line.Validate("This Period Amount", ThisPeriod);
+        Line.Validate("Stored Materials", StoredMaterials);
+        Line.Modify(true);
+        Header.Status := NewStatus;
+        Header.Modify(true);
+    end;
+
+    local procedure FindLine(var Line: Record "CONS Progress Billing Line"; DocumentNo: Code[20]; JobPlanningLineNo: Integer)
+    begin
+        Line.Reset();
+        Line.SetRange("Document No.", DocumentNo);
+        Line.SetRange("Job Planning Line No.", JobPlanningLineNo);
+        Line.FindFirst();
+    end;
+
     local procedure Initialize(var Job: Record Job; var JobTask: Record "Job Task")
     begin
         TestLibrary.Initialize();

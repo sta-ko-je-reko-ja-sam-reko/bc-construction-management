@@ -56,9 +56,38 @@ codeunit 60158 "CONS Prog. Billing Seed"
         ProgBillingLine."Job Task No." := JobPlanningLine."Job Task No.";
         ProgBillingLine."Job Planning Line No." := JobPlanningLine."Line No.";
         ProgBillingLine.Description := JobPlanningLine.Description;
-        ProgBillingLine."Scheduled Value" := JobPlanningLine."Line Amount";
         ProgBillingLine."Retention %" := ProgBillingHeader."Retention %";
+        ProgBillingLine.Validate("Scheduled Value", JobPlanningLine."Line Amount");
+        ProgBillingLine.Validate("Previous Amount", PreviousCompletedToDate(ProgBillingHeader, JobPlanningLine."Line No."));
         ProgBillingLine.Insert(true);
+    end;
+
+    /// <summary>
+    /// Returns the value completed to date on the same planning line in the latest earlier application of the project that
+    /// has been certified or invoiced (draft applications do not count). That cumulative value is this application's
+    /// "previous" amount, so each application only bills the work done since the last certified one.
+    /// </summary>
+    local procedure PreviousCompletedToDate(ProgBillingHeader: Record "CONS Progress Billing Header"; JobPlanningLineNo: Integer): Decimal
+    var
+        PriorHeader: Record "CONS Progress Billing Header";
+        PriorLine: Record "CONS Progress Billing Line";
+    begin
+        if ProgBillingHeader."Application No." <= 1 then
+            exit(0);
+        PriorHeader.SetCurrentKey("Project No.", "Application No.");
+        PriorHeader.SetRange("Project No.", ProgBillingHeader."Project No.");
+        PriorHeader.SetRange("Application No.", 1, ProgBillingHeader."Application No." - 1);
+        PriorHeader.SetFilter(Status, '<>%1', PriorHeader.Status::Open);
+        PriorHeader.SetFilter("No.", '<>%1', ProgBillingHeader."No.");
+        PriorHeader.Ascending(false);
+        if PriorHeader.FindSet() then
+            repeat
+                PriorLine.SetRange("Document No.", PriorHeader."No.");
+                PriorLine.SetRange("Job Planning Line No.", JobPlanningLineNo);
+                if PriorLine.FindFirst() then
+                    exit(PriorLine."Completed To Date");
+            until PriorHeader.Next() = 0;
+        exit(0);
     end;
 
     local procedure NextLineNo(DocumentNo: Code[20]): Integer

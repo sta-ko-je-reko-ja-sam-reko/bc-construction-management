@@ -42,7 +42,7 @@ codeunit 60269 "CONS Subc Claim Invoice"
         if SubcClaimLine.FindSet() then
             repeat
                 if SubcClaimLine."This Period Amount" <> 0 then begin
-                    CreateCostLine(PurchaseHeader, ConstructionSetup."Subcontract Cost Account", SubcClaimLine);
+                    CreateCostLine(PurchaseHeader, ConstructionSetup."Subcontract Cost Account", SubcClaimHeader."Project No.", SubcClaimLine);
                     TotalRetention += SubcClaimLine."Retention This Period";
                     Created += 1;
                 end;
@@ -79,7 +79,8 @@ codeunit 60269 "CONS Subc Claim Invoice"
         PurchaseHeader.Modify(true);
     end;
 
-    local procedure CreateCostLine(PurchaseHeader: Record "Purchase Header"; CostAccount: Code[20]; SubcClaimLine: Record "CONS Subc Claim Line")
+    /// <summary>Creates one cost line for a claim line. When the claim line names a project task, the purchase line is linked to the project and task, so posting the invoice records the subcontract cost as project usage (actual cost).</summary>
+    local procedure CreateCostLine(PurchaseHeader: Record "Purchase Header"; CostAccount: Code[20]; ProjectNo: Code[20]; SubcClaimLine: Record "CONS Subc Claim Line")
     var
         PurchaseLine: Record "Purchase Line";
     begin
@@ -90,6 +91,10 @@ codeunit 60269 "CONS Subc Claim Invoice"
         PurchaseLine.Validate(Type, PurchaseLine.Type::"G/L Account");
         PurchaseLine.Validate("No.", CostAccount);
         PurchaseLine.Validate(Quantity, 1);
+        if (ProjectNo <> '') and (SubcClaimLine."Job Task No." <> '') then begin
+            PurchaseLine.Validate("Job No.", ProjectNo);
+            PurchaseLine.Validate("Job Task No.", SubcClaimLine."Job Task No.");
+        end;
         PurchaseLine.Validate("Direct Unit Cost", SubcClaimLine."This Period Amount");
         if SubcClaimLine.Description <> '' then
             PurchaseLine.Description := SubcClaimLine.Description;
