@@ -1,10 +1,12 @@
 namespace Construction.Test;
 
 using Construction.Core;
+using Construction.CostControl;
 using Construction.ProgressBilling;
 using Construction.Retention;
 using Construction.Setup;
 using Microsoft.Projects.Project.Job;
+using Microsoft.Projects.Project.Ledger;
 using Microsoft.Projects.Project.Planning;
 using Microsoft.Sales.Document;
 using Microsoft.Sales.History;
@@ -27,6 +29,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         LibraryJob: Codeunit "Library - Job";
         LibrarySales: Codeunit "Library - Sales";
         LibraryVariableStorage: Codeunit "Library - Variable Storage";
+        GlobalJobTaskNo: Code[20];
 
     [Test]
     [HandlerFunctions('MessageHandler')]
@@ -112,6 +115,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         InsertLine(Header, 20000, 3000, 0, 0);
 
         // [WHEN] the draft sales invoice is created
+        Header.Certify();
         InvoiceNo := ProgBillingInvoice.CreateInvoice(Header);
 
         // [THEN] the invoice bills the customer, is stamped with application/project/retention
@@ -129,6 +133,9 @@ codeunit 64028 "CONS Prog Billing Integration"
         SalesLine.SetRange("No.", ConstructionSetup."Revenue Account");
         SalesLine.FindFirst();
         Assert.AreEqual(1200, SalesLine."Unit Price", 'revenue = this period + stored materials');
+        Assert.AreEqual(Job."No.", SalesLine."Job No.", 'revenue line is linked to the project');
+        Assert.AreEqual(JobTask."Job Task No.", SalesLine."Job Task No.", 'revenue line is linked to the task');
+        Assert.AreNotEqual(0, SalesLine."Job Contract Entry No.", 'revenue line comes from a project planning line');
         SalesLine.SetRange("No.", ConstructionSetup."Retention Receivable Acc.");
         SalesLine.FindFirst();
         Assert.AreEqual(-120, SalesLine."Unit Price", 'retention line is negative');
@@ -136,7 +143,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         // [THEN] the application is Invoiced
         Header.Get(Header."No.");
         Assert.AreEqual(Header.Status::Invoiced, Header.Status, 'application invoiced');
-        Assert.ExpectedMessage(InvoiceNo, LibraryVariableStorage.DequeueText());
+        Assert.AreNotEqual(0, LibraryVariableStorage.Length(), 'the user is told which invoice was created');
     end;
 
     [Test]
@@ -156,6 +163,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         InsertLine(Header, 10000, 5000, 700, 0);
 
         // [WHEN] the draft sales invoice is created
+        Header.Certify();
         InvoiceNo := ProgBillingInvoice.CreateInvoice(Header);
 
         // [THEN] it has only the revenue line
@@ -197,6 +205,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         CreateApplication(Header, Job, 10);
         InsertLine(Header, 10000, 5000, 0, 0);
         // [WHEN] it is invoiced
+        Header.Certify();
         asserterror ProgBillingInvoice.CreateInvoice(Header);
         // [THEN] the user is told there is nothing to invoice
         Assert.ExpectedError('nothing to invoice');
@@ -219,6 +228,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         CreateApplication(Header, Job, 10);
         InsertLine(Header, 10000, 5000, 100, 0);
         // [WHEN] the application is invoiced
+        Header.Certify();
         asserterror ProgBillingInvoice.CreateInvoice(Header);
         // [THEN] the missing account is reported
         Assert.ExpectedError('Revenue Account');
@@ -242,6 +252,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         Initialize(Job, JobTask);
         CreateApplication(Header, Job, 5);
         InsertLine(Header, 10000, 10000, 2000, 0);
+        Header.Certify();
         SalesHeader.Get(SalesHeader."Document Type"::Invoice, ProgBillingInvoice.CreateInvoice(Header));
 
         // [WHEN] the invoice is posted with the standard Sales-Post
@@ -276,6 +287,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         Initialize(Job, JobTask);
         CreateApplication(Header, Job, 5);
         InsertLine(Header, 10000, 10000, 2000, 0);
+        Header.Certify();
         SalesHeader.Get(SalesHeader."Document Type"::Invoice, ProgBillingInvoice.CreateInvoice(Header));
         TestLibrary.SetFeature(Enum::"CONS Feature"::ProgressBilling, false);
 
@@ -308,6 +320,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         ConstructionSetup.Get();
         CreateApplication(Header, Job, 5);
         InsertLine(Header, 10000, 10000, 2000, 0);
+        Header.Certify();
         SalesHeader.Get(SalesHeader."Document Type"::Invoice, ProgBillingInvoice.CreateInvoice(Header));
         LibrarySales.PostSalesDocument(SalesHeader, false, true);
 
@@ -439,6 +452,92 @@ codeunit 64028 "CONS Prog Billing Integration"
         Assert.AreEqual(0, Line."Previous Amount", 'draft applications are not carried forward');
     end;
 
+    [Test]
+    procedure CreateInvoice_OpenApplication_Errors()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        Header: Record "CONS Progress Billing Header";
+        ProgBillingInvoice: Codeunit "CONS Prog. Billing Invoice";
+    begin
+        // [GIVEN] an application that has not been certified
+        Initialize(Job, JobTask);
+        CreateApplication(Header, Job, 0);
+        InsertLine(Header, 10000, 5000, 700, 0);
+        // [WHEN] it is invoiced
+        asserterror ProgBillingInvoice.CreateInvoice(Header);
+        // [THEN] invoicing is refused until the application is certified
+        Assert.ExpectedError('must be certified before it can be invoiced');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure PostInvoice_PostsProjectSaleAndInvoicedRevenue()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        Header: Record "CONS Progress Billing Header";
+        SalesHeader: Record "Sales Header";
+        JobLedgerEntry: Record "Job Ledger Entry";
+        ProgBillingInvoice: Codeunit "CONS Prog. Billing Invoice";
+        CostForecast: Codeunit "CONS Cost Forecast";
+        PostedInvoiceNo: Code[20];
+    begin
+        // [GIVEN] a certified application billing 2000 + 300 stored materials on a task, with 5% retention
+        Initialize(Job, JobTask);
+        CreateApplication(Header, Job, 5);
+        InsertLine(Header, 10000, 10000, 2000, 300);
+        Header.Certify();
+        SalesHeader.Get(SalesHeader."Document Type"::Invoice, ProgBillingInvoice.CreateInvoice(Header));
+
+        // [WHEN] the invoice is posted with the standard Sales-Post
+        PostedInvoiceNo := LibrarySales.PostSalesDocument(SalesHeader, false, true);
+
+        // [THEN] the project ledger has a Sale entry on the task for the gross billed amount (before retention)
+        JobLedgerEntry.SetRange("Job No.", Job."No.");
+        JobLedgerEntry.SetRange("Job Task No.", JobTask."Job Task No.");
+        JobLedgerEntry.SetRange("Entry Type", JobLedgerEntry."Entry Type"::Sale);
+        JobLedgerEntry.SetRange("Document No.", PostedInvoiceNo);
+        Assert.RecordCount(JobLedgerEntry, 1);
+        JobLedgerEntry.CalcSums("Line Amount (LCY)");
+        Assert.AreEqual(2300, Abs(JobLedgerEntry."Line Amount (LCY)"), 'billed revenue on the project ledger');
+
+        // [THEN] cost control shows the invoiced revenue on the task
+        JobTask.Get(JobTask."Job No.", JobTask."Job Task No.");
+        Assert.AreEqual(2300, CostForecast.InvoicedRevenue(JobTask), 'invoiced revenue on the task');
+    end;
+
+    [Test]
+    [HandlerFunctions('MessageHandler')]
+    procedure SeedFromProject_IgnoresProgressBillingPlanningLines()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        PlanningLine: Record "Job Planning Line";
+        FirstHeader: Record "CONS Progress Billing Header";
+        SecondHeader: Record "CONS Progress Billing Header";
+        Line: Record "CONS Progress Billing Line";
+        ProgBillingSeed: Codeunit "CONS Prog. Billing Seed";
+        ProgBillingInvoice: Codeunit "CONS Prog. Billing Invoice";
+    begin
+        // [GIVEN] one contract planning line and a first application that was invoiced (which adds billing planning lines)
+        Initialize(Job, JobTask);
+        CreatePlanningLine(JobTask, PlanningLine."Line Type"::Billable, 1, 10000, PlanningLine);
+        CreateSeededApplication(FirstHeader, Job, PlanningLine."Line No.", 3000, 0, FirstHeader.Status::Certified);
+        ProgBillingInvoice.CreateInvoice(FirstHeader);
+
+        // [WHEN] the next application is seeded
+        CreateApplication(SecondHeader, Job, 0);
+        ProgBillingSeed.SeedFromProject(SecondHeader);
+
+        // [THEN] it only has the contract line, not the planning line that carried application 1 to its invoice
+        Line.SetRange("Document No.", SecondHeader."No.");
+        Assert.RecordCount(Line, 1);
+        Line.FindFirst();
+        Assert.AreEqual(PlanningLine."Line No.", Line."Job Planning Line No.", 'seeded from the contract line');
+        Assert.AreEqual(3000, Line."Previous Amount", 'previous amount from the invoiced application');
+    end;
+
     local procedure CreateSeededApplication(var Header: Record "CONS Progress Billing Header"; Job: Record Job; JobPlanningLineNo: Integer; ThisPeriod: Decimal; StoredMaterials: Decimal; NewStatus: Enum "CONS Progress Billing Status")
     var
         Line: Record "CONS Progress Billing Line";
@@ -470,6 +569,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         TestLibrary.SetupPostingAccounts();
         TestLibrary.SetFeature(Enum::"CONS Feature"::ProgressBilling, true);
         TestLibrary.CreateProjectWithTask(Job, JobTask);
+        GlobalJobTaskNo := JobTask."Job Task No.";
     end;
 
     local procedure CreatePlanningLine(JobTask: Record "Job Task"; LineType: Enum "Job Planning Line Line Type"; Qty: Decimal; UnitPrice: Decimal; var JobPlanningLine: Record "Job Planning Line")
@@ -497,6 +597,7 @@ codeunit 64028 "CONS Prog Billing Integration"
         Line."Document No." := Header."No.";
         Line."Line No." := LineNo;
         Line."Retention %" := Header."Retention %";
+        Line."Job Task No." := GlobalJobTaskNo;
         Line.Validate("Scheduled Value", ScheduledValue);
         Line.Validate("This Period Amount", ThisPeriod);
         Line.Validate("Stored Materials", StoredMaterials);

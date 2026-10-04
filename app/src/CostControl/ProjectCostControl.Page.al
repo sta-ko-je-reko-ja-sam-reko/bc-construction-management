@@ -61,6 +61,11 @@ page 60124 "CONS Project Cost Control"
                     ToolTip = 'Specifies budget minus forecast (EAC). Negative means a forecast overrun.';
                     StyleExpr = VarianceStyle;
                 }
+                field(InvoicedRevenue; InvoicedRevenueAmt)
+                {
+                    Caption = 'Invoiced Revenue';
+                    ToolTip = 'Specifies the revenue invoiced on the task through the project (posted sales invoices, including progress billing).';
+                }
                 field("% Complete"; PctCompleteAmt)
                 {
                     Caption = '% Complete';
@@ -71,7 +76,7 @@ page 60124 "CONS Project Cost Control"
     }
 
     var
-        BudgetAmt, CommittedAmt, ActualAmt, ETCAmt, EACAmt, VarianceAmt, PctCompleteAmt : Decimal;
+        BudgetAmt, CommittedAmt, ActualAmt, ETCAmt, EACAmt, VarianceAmt, PctCompleteAmt, InvoicedRevenueAmt : Decimal;
         VarianceStyle: Text;
 
     trigger OnOpenPage()
@@ -86,6 +91,7 @@ page 60124 "CONS Project Cost Control"
         Forecast: Codeunit "CONS Cost Forecast";
     begin
         Forecast.CalcForecast(Rec, BudgetAmt, CommittedAmt, ActualAmt, ETCAmt, EACAmt, VarianceAmt, PctCompleteAmt);
+        InvoicedRevenueAmt := Forecast.InvoicedRevenue(Rec);
         if VarianceAmt < 0 then
             VarianceStyle := 'Unfavorable'
         else

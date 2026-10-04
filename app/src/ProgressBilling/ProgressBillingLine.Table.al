@@ -162,6 +162,16 @@ table 60151 "CONS Progress Billing Line"
         Logic().Trigger_OnInsert(Rec);
     end;
 
+    trigger OnModify()
+    begin
+        Logic().Trigger_OnModify(Rec);
+    end;
+
+    trigger OnDelete()
+    begin
+        Logic().Trigger_OnDelete(Rec);
+    end;
+
     var
         ILogic: Interface "CONS IProgBillingLine";
         ILogicDefined: Boolean;

@@ -142,6 +142,106 @@ codeunit 64029 "CONS Subc Claim Header Tests"
         Assert.RecordIsEmpty(SubcClaimLine);
     end;
 
+    [Test]
+    procedure Certify_LocksLines()
+    var
+        Header: Record "CONS Subc Claim Header";
+        Line: Record "CONS Subc Claim Line";
+        NewLine: Record "CONS Subc Claim Line";
+    begin
+        // [GIVEN] an open claim with one line
+        CreateLockTestDocument(Header, Line);
+
+        // [WHEN] the claim is certified
+        Header.Certify();
+
+        // [THEN] its lines can no longer be changed, added or deleted
+        Assert.AreEqual(Header.Status::Certified, Header.Status, 'certified');
+        Line.Validate("This Period Amount", 999);
+        asserterror Line.Modify(true);
+        Assert.ExpectedError('Reopen the claim first');
+        NewLine.Init();
+        NewLine."Document No." := Header."No.";
+        NewLine."Line No." := 20000;
+        asserterror NewLine.Insert(true);
+        Assert.ExpectedError('Reopen the claim first');
+        Line.Get(Line."Document No.", Line."Line No.");
+        asserterror Line.Delete(true);
+        Assert.ExpectedError('Reopen the claim first');
+    end;
+
+    [Test]
+    procedure Reopen_UnlocksLines()
+    var
+        Header: Record "CONS Subc Claim Header";
+        Line: Record "CONS Subc Claim Line";
+    begin
+        // [GIVEN] a certified claim
+        CreateLockTestDocument(Header, Line);
+        Header.Certify();
+
+        // [WHEN] it is reopened
+        Header.Reopen();
+
+        // [THEN] it is Open and its lines can be changed again
+        Assert.AreEqual(Header.Status::Open, Header.Status, 'reopened');
+        Line.Get(Line."Document No.", Line."Line No.");
+        Line.Validate("This Period Amount", 450);
+        Line.Modify(true);
+        Line.Get(Line."Document No.", Line."Line No.");
+        Assert.AreEqual(450, Line."This Period Amount", 'line changed after reopening');
+    end;
+
+    [Test]
+    procedure Reopen_Invoiced_Errors()
+    var
+        Header: Record "CONS Subc Claim Header";
+        Line: Record "CONS Subc Claim Line";
+    begin
+        // [GIVEN] an invoiced claim
+        CreateLockTestDocument(Header, Line);
+        Header.Status := Header.Status::Invoiced;
+        Header.Modify();
+
+        // [WHEN] it is reopened
+        asserterror Header.Reopen();
+
+        // [THEN] it is refused and the claim stays locked
+        Assert.ExpectedError('cannot be reopened');
+    end;
+
+    [Test]
+    procedure Certify_AlreadyCertified_Errors()
+    var
+        Header: Record "CONS Subc Claim Header";
+        Line: Record "CONS Subc Claim Line";
+    begin
+        // [GIVEN] a certified claim
+        CreateLockTestDocument(Header, Line);
+        Header.Certify();
+
+        // [WHEN] it is certified again
+        asserterror Header.Certify();
+
+        // [THEN] only open documents can be certified
+        Assert.ExpectedError('Status');
+    end;
+
+    local procedure CreateLockTestDocument(var Header: Record "CONS Subc Claim Header"; var Line: Record "CONS Subc Claim Line")
+    begin
+        TestLibrary.Initialize();
+        Header.Init();
+        Header."No." := TestLibrary.NewCode();
+        Header."Subcontract No." := TestLibrary.NewCode();
+        Header.Insert(true);
+        Line.Init();
+        Line."Document No." := Header."No.";
+        Line."Line No." := 10000;
+        Line.Validate("Scheduled Value", 1000);
+        Line.Validate("This Period Amount", 100);
+        Line.Insert(true);
+    end;
+
     local procedure CreateSubcontract(var SubcontractHeader: Record "CONS Subcontract Header"; RetentionPct: Decimal)
     begin
         SubcontractHeader.Init();

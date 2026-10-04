@@ -12,4 +12,10 @@ interface "CONS IProgBillingHeader"
 
     /// <summary>Cascades deletion to the application's lines.</summary>
     procedure Trigger_OnDelete(var ProgBillingHeader: Record "CONS Progress Billing Header");
+
+    /// <summary>Certifies an open application, which locks its lines and allows it to be invoiced.</summary>
+    procedure Certify(var ProgBillingHeader: Record "CONS Progress Billing Header");
+
+    /// <summary>Returns a certified application to Open so its lines can be changed again. Invoiced applications cannot be reopened.</summary>
+    procedure Reopen(var ProgBillingHeader: Record "CONS Progress Billing Header");
 }

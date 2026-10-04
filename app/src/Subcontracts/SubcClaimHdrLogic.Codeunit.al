@@ -46,6 +46,22 @@ codeunit 60258 "CONS Subc Claim Hdr Logic" implements "CONS ISubcClaimHdr"
             SubcClaimHeader."Retention %" := SubcontractHeader."Retention %";
     end;
 
+    procedure Certify(var SubcClaimHeader: Record "CONS Subc Claim Header")
+    begin
+        SubcClaimHeader.TestField("Subcontract No.");
+        SubcClaimHeader.TestField(Status, SubcClaimHeader.Status::Open);
+        SubcClaimHeader.Status := SubcClaimHeader.Status::Certified;
+        SubcClaimHeader.Modify(true);
+    end;
+
+    procedure Reopen(var SubcClaimHeader: Record "CONS Subc Claim Header")
+    begin
+        if SubcClaimHeader.Status = SubcClaimHeader.Status::Invoiced then
+            Error(CannotReopenInvoicedErr, SubcClaimHeader."No.");
+        SubcClaimHeader.Status := SubcClaimHeader.Status::Open;
+        SubcClaimHeader.Modify(true);
+    end;
+
     local procedure NextClaimNo(SubcontractNo: Code[20]): Integer
     var
         SubcClaimHeader: Record "CONS Subc Claim Header";
@@ -56,4 +72,7 @@ codeunit 60258 "CONS Subc Claim Hdr Logic" implements "CONS ISubcClaimHdr"
             exit(SubcClaimHeader."Claim No." + 1);
         exit(1);
     end;
+
+    var
+        CannotReopenInvoicedErr: Label 'Subcontractor claim %1 has been invoiced and cannot be reopened.', Comment = '%1 = claim no.';
 }

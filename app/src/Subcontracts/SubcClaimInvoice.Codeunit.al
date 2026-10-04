@@ -32,6 +32,8 @@ codeunit 60269 "CONS Subc Claim Invoice"
         SubcClaimHeader.TestField("Buy-from Vendor No.");
         if SubcClaimHeader.Status = SubcClaimHeader.Status::Invoiced then
             Error(AlreadyInvoicedErr);
+        if SubcClaimHeader.Status <> SubcClaimHeader.Status::Certified then
+            Error(NotCertifiedErr, SubcClaimHeader."No.");
         ConstructionSetup.Get();
         ConstructionSetup.TestField("Subcontract Cost Account");
         ConstructionSetup.TestField("Retention Payable Acc.");
@@ -130,6 +132,7 @@ codeunit 60269 "CONS Subc Claim Invoice"
 
     var
         AlreadyInvoicedErr: Label 'This claim has already been invoiced.';
+        NotCertifiedErr: Label 'Subcontractor claim %1 must be certified before it can be invoiced.', Comment = '%1 = claim no.';
         NothingToInvoiceErr: Label 'There is nothing to invoice on this claim (no period amounts).';
         InvoiceCreatedMsg: Label 'Purchase invoice %1 was created. Enter the vendor invoice number, review and post it to record the retention.', Comment = '%1 = invoice no.';
         RetentionLineLbl: Label 'Retention withheld';

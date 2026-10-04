@@ -146,6 +146,18 @@ table 60150 "CONS Progress Billing Header"
         Logic().Trigger_OnDelete(Rec);
     end;
 
+    /// <summary>Certifies the application (locks its lines; required before invoicing).</summary>
+    procedure Certify()
+    begin
+        Logic().Certify(Rec);
+    end;
+
+    /// <summary>Returns a certified application to Open.</summary>
+    procedure Reopen()
+    begin
+        Logic().Reopen(Rec);
+    end;
+
     var
         ILogic: Interface "CONS IProgBillingHeader";
         ILogicDefined: Boolean;

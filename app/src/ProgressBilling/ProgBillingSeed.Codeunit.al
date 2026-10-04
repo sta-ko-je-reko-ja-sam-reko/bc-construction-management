@@ -25,6 +25,7 @@ codeunit 60158 "CONS Prog. Billing Seed"
         JobPlanningLine.SetRange("Job No.", ProgBillingHeader."Project No.");
         JobPlanningLine.SetFilter("Line Type", '%1|%2',
             JobPlanningLine."Line Type"::Billable, JobPlanningLine."Line Type"::"Both Budget and Billable");
+        JobPlanningLine.SetRange("CONS Progress Billing No.", '');
         if JobPlanningLine.FindSet() then
             repeat
                 if not LineExists(ProgBillingHeader."No.", JobPlanningLine."Line No.") then begin

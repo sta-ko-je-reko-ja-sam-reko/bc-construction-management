@@ -110,6 +110,7 @@ codeunit 64031 "CONS Subc Claim Integration"
         InsertClaimLine(SubcClaimHeader, 20000, 0);
 
         // [WHEN] the draft purchase invoice is created
+        SubcClaimHeader.Certify();
         InvoiceNo := SubcClaimInvoice.CreateInvoice(SubcClaimHeader);
 
         // [THEN] it is for the subcontractor, stamped with claim/project/retention
@@ -172,6 +173,7 @@ codeunit 64031 "CONS Subc Claim Integration"
         CreateClaim(SubcClaimHeader, SubcontractHeader);
         InsertClaimLine(SubcClaimHeader, 10000, 0);
         // [WHEN] it is invoiced
+        SubcClaimHeader.Certify();
         asserterror SubcClaimInvoice.CreateInvoice(SubcClaimHeader);
         // [THEN] the user is told there is nothing to invoice
         Assert.ExpectedError('nothing to invoice');
@@ -199,6 +201,7 @@ codeunit 64031 "CONS Subc Claim Integration"
         CreateSubcontract(SubcontractHeader, Job."No.", 5);
         CreateClaim(SubcClaimHeader, SubcontractHeader);
         InsertClaimLine(SubcClaimHeader, 10000, 4000);
+        SubcClaimHeader.Certify();
         PurchaseHeader.Get(PurchaseHeader."Document Type"::Invoice, SubcClaimInvoice.CreateInvoice(SubcClaimHeader));
 
         // [WHEN] the vendor invoice number is entered and the invoice is posted with the standard Purch.-Post
@@ -284,6 +287,7 @@ codeunit 64031 "CONS Subc Claim Integration"
         InsertClaimLineOnTask(SubcClaimHeader, 10000, JobTask."Job Task No.", 1500);
 
         // [WHEN] the draft purchase invoice is created
+        SubcClaimHeader.Certify();
         InvoiceNo := SubcClaimInvoice.CreateInvoice(SubcClaimHeader);
 
         // [THEN] the cost line is linked to the project task, the retention line is not
@@ -323,6 +327,7 @@ codeunit 64031 "CONS Subc Claim Integration"
         CreateSubcontract(SubcontractHeader, Job."No.", 5);
         CreateClaim(SubcClaimHeader, SubcontractHeader);
         InsertClaimLineOnTask(SubcClaimHeader, 10000, JobTask."Job Task No.", 4000);
+        SubcClaimHeader.Certify();
         PurchaseHeader.Get(PurchaseHeader."Document Type"::Invoice, SubcClaimInvoice.CreateInvoice(SubcClaimHeader));
 
         // [WHEN] the invoice is posted
@@ -401,6 +406,26 @@ codeunit 64031 "CONS Subc Claim Integration"
         // [THEN] the draft is not treated as previously certified work
         FindClaimLine(SubcClaimLine, SecondClaim."No.");
         Assert.AreEqual(0, SubcClaimLine."Previous Amount", 'draft claims are not carried forward');
+    end;
+
+    [Test]
+    procedure CreateInvoice_OpenClaim_Errors()
+    var
+        Job: Record Job;
+        JobTask: Record "Job Task";
+        SubcontractHeader: Record "CONS Subcontract Header";
+        SubcClaimHeader: Record "CONS Subc Claim Header";
+        SubcClaimInvoice: Codeunit "CONS Subc Claim Invoice";
+    begin
+        // [GIVEN] a claim that has not been certified
+        Initialize(Job, JobTask);
+        CreateSubcontract(SubcontractHeader, Job."No.", 0);
+        CreateClaim(SubcClaimHeader, SubcontractHeader);
+        InsertClaimLine(SubcClaimHeader, 10000, 100);
+        // [WHEN] it is invoiced
+        asserterror SubcClaimInvoice.CreateInvoice(SubcClaimHeader);
+        // [THEN] invoicing is refused until the claim is certified
+        Assert.ExpectedError('must be certified before it can be invoiced');
     end;
 
     local procedure CreateSeededClaim(var SubcClaimHeader: Record "CONS Subc Claim Header"; SubcontractHeader: Record "CONS Subcontract Header"; ThisPeriod: Decimal; NewStatus: Enum "CONS Subc Claim Status")
