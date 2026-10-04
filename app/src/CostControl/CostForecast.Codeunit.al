@@ -53,6 +53,15 @@ codeunit 60123 "CONS Cost Forecast"
         exit(PurchaseLine."Outstanding Amount (LCY)");
     end;
 
+    /// <summary>Revenue invoiced on the task through the project (posted Sale ledger entries), in LCY.</summary>
+    /// <param name="JobTask">The project task.</param>
+    /// <returns>The invoiced price in LCY.</returns>
+    internal procedure InvoicedRevenue(var JobTask: Record "Job Task"): Decimal
+    begin
+        JobTask.CalcFields("Contract (Invoiced Price)");
+        exit(JobTask."Contract (Invoiced Price)");
+    end;
+
     local procedure PercentComplete(var JobTask: Record "Job Task"; Budget: Decimal; Actual: Decimal): Decimal
     begin
         if JobTask."CONS % Complete" > 0 then

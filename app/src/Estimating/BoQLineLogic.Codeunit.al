@@ -14,8 +14,10 @@ codeunit 60063 "CONS BoQ Line Logic" implements "CONS IBoQLine"
     begin
         if not BoQHeader.Get(BoQLine."Document No.") then
             exit;
-        if BoQLine."Markup %" = 0 then
+        if BoQLine."Markup %" = 0 then begin
             BoQLine."Markup %" := BoQHeader."Default Markup %";
+            UpdateAmounts(BoQLine);
+        end;
     end;
 
     procedure Validate_LineType(var BoQLine: Record "CONS BoQ Line")

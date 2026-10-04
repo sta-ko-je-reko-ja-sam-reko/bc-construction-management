@@ -67,9 +67,20 @@ page 60263 "CONS Subc Claim"
 
                 trigger OnAction()
                 begin
-                    Rec.TestField("Subcontract No.");
-                    Rec.Status := Rec.Status::Certified;
-                    Rec.Modify(true);
+                    Rec.Certify();
+                    CurrPage.Update(false);
+                end;
+            }
+            action(Reopen)
+            {
+                Caption = 'Reopen';
+                Image = ReOpen;
+                ToolTip = 'Returns a certified document to Open so its lines can be changed again. Invoiced documents cannot be reopened.';
+
+                trigger OnAction()
+                begin
+                    Rec.Reopen();
+                    CurrPage.Update(false);
                 end;
             }
             action(CreatePurchaseInvoice)
@@ -93,6 +104,7 @@ page 60263 "CONS Subc Claim"
             {
                 actionref(SeedFromSubcontract_Promoted; SeedFromSubcontract) { }
                 actionref(Certify_Promoted; Certify) { }
+                actionref(Reopen_Promoted; Reopen) { }
                 actionref(CreatePurchaseInvoice_Promoted; CreatePurchaseInvoice) { }
             }
         }

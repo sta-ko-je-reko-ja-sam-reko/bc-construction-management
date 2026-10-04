@@ -46,6 +46,22 @@ codeunit 60154 "CONS Prog. Bill Header Logic" implements "CONS IProgBillingHeade
             ProgBillingHeader."Retention %" := ConstructionSetup."Default Retention %";
     end;
 
+    procedure Certify(var ProgBillingHeader: Record "CONS Progress Billing Header")
+    begin
+        ProgBillingHeader.TestField("Project No.");
+        ProgBillingHeader.TestField(Status, ProgBillingHeader.Status::Open);
+        ProgBillingHeader.Status := ProgBillingHeader.Status::Certified;
+        ProgBillingHeader.Modify(true);
+    end;
+
+    procedure Reopen(var ProgBillingHeader: Record "CONS Progress Billing Header")
+    begin
+        if ProgBillingHeader.Status = ProgBillingHeader.Status::Invoiced then
+            Error(CannotReopenInvoicedErr, ProgBillingHeader."No.");
+        ProgBillingHeader.Status := ProgBillingHeader.Status::Open;
+        ProgBillingHeader.Modify(true);
+    end;
+
     local procedure NextApplicationNo(ProjectNo: Code[20]): Integer
     var
         ProgBillingHeader: Record "CONS Progress Billing Header";
@@ -56,4 +72,7 @@ codeunit 60154 "CONS Prog. Bill Header Logic" implements "CONS IProgBillingHeade
             exit(ProgBillingHeader."Application No." + 1);
         exit(1);
     end;
+
+    var
+        CannotReopenInvoicedErr: Label 'Progress billing application %1 has been invoiced and cannot be reopened.', Comment = '%1 = application no.';
 }

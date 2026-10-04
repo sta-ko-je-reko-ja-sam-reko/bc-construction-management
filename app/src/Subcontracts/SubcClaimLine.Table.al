@@ -139,6 +139,16 @@ table 60255 "CONS Subc Claim Line"
         Logic().Trigger_OnInsert(Rec);
     end;
 
+    trigger OnModify()
+    begin
+        Logic().Trigger_OnModify(Rec);
+    end;
+
+    trigger OnDelete()
+    begin
+        Logic().Trigger_OnDelete(Rec);
+    end;
+
     var
         ILogic: Interface "CONS ISubcClaimLine";
         ILogicDefined: Boolean;

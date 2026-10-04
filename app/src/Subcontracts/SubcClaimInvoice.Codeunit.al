@@ -32,6 +32,8 @@ codeunit 60269 "CONS Subc Claim Invoice"
         SubcClaimHeader.TestField("Buy-from Vendor No.");
         if SubcClaimHeader.Status = SubcClaimHeader.Status::Invoiced then
             Error(AlreadyInvoicedErr);
+        if SubcClaimHeader.Status <> SubcClaimHeader.Status::Certified then
+            Error(NotCertifiedErr, SubcClaimHeader."No.");
         ConstructionSetup.Get();
         ConstructionSetup.TestField("Subcontract Cost Account");
         ConstructionSetup.TestField("Retention Payable Acc.");
@@ -42,7 +44,7 @@ codeunit 60269 "CONS Subc Claim Invoice"
         if SubcClaimLine.FindSet() then
             repeat
                 if SubcClaimLine."This Period Amount" <> 0 then begin
-                    CreateCostLine(PurchaseHeader, ConstructionSetup."Subcontract Cost Account", SubcClaimLine);
+                    CreateCostLine(PurchaseHeader, ConstructionSetup."Subcontract Cost Account", SubcClaimHeader."Project No.", SubcClaimLine);
                     TotalRetention += SubcClaimLine."Retention This Period";
                     Created += 1;
                 end;
@@ -79,7 +81,8 @@ codeunit 60269 "CONS Subc Claim Invoice"
         PurchaseHeader.Modify(true);
     end;
 
-    local procedure CreateCostLine(PurchaseHeader: Record "Purchase Header"; CostAccount: Code[20]; SubcClaimLine: Record "CONS Subc Claim Line")
+    /// <summary>Creates one cost line for a claim line. When the claim line names a project task, the purchase line is linked to the project and task, so posting the invoice records the subcontract cost as project usage (actual cost).</summary>
+    local procedure CreateCostLine(PurchaseHeader: Record "Purchase Header"; CostAccount: Code[20]; ProjectNo: Code[20]; SubcClaimLine: Record "CONS Subc Claim Line")
     var
         PurchaseLine: Record "Purchase Line";
     begin
@@ -90,6 +93,10 @@ codeunit 60269 "CONS Subc Claim Invoice"
         PurchaseLine.Validate(Type, PurchaseLine.Type::"G/L Account");
         PurchaseLine.Validate("No.", CostAccount);
         PurchaseLine.Validate(Quantity, 1);
+        if (ProjectNo <> '') and (SubcClaimLine."Job Task No." <> '') then begin
+            PurchaseLine.Validate("Job No.", ProjectNo);
+            PurchaseLine.Validate("Job Task No.", SubcClaimLine."Job Task No.");
+        end;
         PurchaseLine.Validate("Direct Unit Cost", SubcClaimLine."This Period Amount");
         if SubcClaimLine.Description <> '' then
             PurchaseLine.Description := SubcClaimLine.Description;
@@ -125,6 +132,7 @@ codeunit 60269 "CONS Subc Claim Invoice"
 
     var
         AlreadyInvoicedErr: Label 'This claim has already been invoiced.';
+        NotCertifiedErr: Label 'Subcontractor claim %1 must be certified before it can be invoiced.', Comment = '%1 = claim no.';
         NothingToInvoiceErr: Label 'There is nothing to invoice on this claim (no period amounts).';
         InvoiceCreatedMsg: Label 'Purchase invoice %1 was created. Enter the vendor invoice number, review and post it to record the retention.', Comment = '%1 = invoice no.';
         RetentionLineLbl: Label 'Retention withheld';

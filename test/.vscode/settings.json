@@ -3,9 +3,10 @@
   "al.codeAnalyzers": [
     "${CodeCop}",
     "${UICop}",
+    "${AppSourceCop}",
     "${PerTenantExtensionCop}"
   ],
-  "al.ruleSetPath": "../app/ruleset.json",
+  "al.ruleSetPath": "ruleset.json",
   "al.packageCachePath": [ ".alpackages", "../app/.alpackages" ],
   "al.assemblyProbingPaths": [ ".netpackages" ],
   "editor.formatOnSave": true

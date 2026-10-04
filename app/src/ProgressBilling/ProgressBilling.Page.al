@@ -67,9 +67,20 @@ page 60155 "CONS Progress Billing"
 
                 trigger OnAction()
                 begin
-                    Rec.TestField("Project No.");
-                    Rec.Status := Rec.Status::Certified;
-                    Rec.Modify(true);
+                    Rec.Certify();
+                    CurrPage.Update(false);
+                end;
+            }
+            action(Reopen)
+            {
+                Caption = 'Reopen';
+                Image = ReOpen;
+                ToolTip = 'Returns a certified document to Open so its lines can be changed again. Invoiced documents cannot be reopened.';
+
+                trigger OnAction()
+                begin
+                    Rec.Reopen();
+                    CurrPage.Update(false);
                 end;
             }
             action(CreateSalesInvoice)
@@ -108,6 +119,7 @@ page 60155 "CONS Progress Billing"
             {
                 actionref(SeedScheduleOfValues_Promoted; SeedScheduleOfValues) { }
                 actionref(Certify_Promoted; Certify) { }
+                actionref(Reopen_Promoted; Reopen) { }
                 actionref(CreateSalesInvoice_Promoted; CreateSalesInvoice) { }
                 actionref(PrintCertificate_Promoted; PrintCertificate) { }
             }

@@ -1,9 +1,18 @@
+namespace Construction.Test;
+
+using Construction.Core;
+using Construction.Scheduling;
+using Microsoft.Projects.Project.Job;
+using System.TestLibraries.Utilities;
+
 codeunit 64012 "CONS Schedule Rollup Tests"
 {
     Subtype = Test;
+    TestPermissions = Disabled;
 
     var
-        Assert: Codeunit "CONS Assert";
+        Assert: Codeunit "Library Assert";
+        TestLibrary: Codeunit "CONS Test Library";
 
     [Test]
     procedure Rollup_SummaryTask_AggregatesPlannedDatesFromChildren()
@@ -207,6 +216,52 @@ codeunit 64012 "CONS Schedule Rollup Tests"
         Assert.AreEqual(2, Count1100, 'the Task key scopes resource assignments to one project task');
     end;
 
+    [Test]
+    procedure Rollup_LeavesPostingTasksUntouched()
+    var
+        PostingTask: Record "Job Task";
+        JobNo: Code[20];
+    begin
+        // [GIVEN] a summary task over a posting task with its own dates and progress
+        EnableScheduling();
+        JobNo := CreateJob();
+        CreateSummaryTask(JobNo, '1000', 0);
+        CreatePostingTask(JobNo, '1100', 1, 20260101D, 20260110D, 10, 40);
+
+        // [WHEN] the project schedule is rolled up
+        RollupProject(JobNo);
+
+        // [THEN] the roll-up is calc-only: the posting task keeps its own values
+        PostingTask.Get(JobNo, '1100');
+        Assert.AreEqual(20260101D, PostingTask."CONS Planned Start Date", 'posting task start untouched');
+        Assert.AreEqual(20260110D, PostingTask."CONS Planned End Date", 'posting task end untouched');
+        Assert.AreEqual(40, PostingTask."CONS % Complete", 'posting task progress untouched');
+    end;
+
+    [Test]
+    procedure Rollup_ProjectWithoutTasks_ClearsHeader()
+    var
+        Job: Record Job;
+        JobNo: Code[20];
+    begin
+        // [GIVEN] a project without tasks but with stale schedule values on its header
+        EnableScheduling();
+        JobNo := CreateJob();
+        Job.Get(JobNo);
+        Job."CONS Planned Start Date" := 20260101D;
+        Job."CONS Schedule % Complete" := 50;
+        Job.Modify();
+
+        // [WHEN] the project schedule is rolled up
+        RollupProject(JobNo);
+
+        // [THEN] the header is reset to an empty schedule
+        Job.Get(JobNo);
+        Assert.AreEqual(0D, Job."CONS Planned Start Date", 'no start date');
+        Assert.AreEqual(0D, Job."CONS Planned End Date", 'no end date');
+        Assert.AreEqual(0, Job."CONS Schedule % Complete", 'no progress');
+    end;
+
     local procedure CreateAssignment(JobNo: Code[20]; JobTaskNo: Code[20])
     var
         ResourceAssignment: Record "CONS Resource Assignment";
@@ -236,6 +291,7 @@ codeunit 64012 "CONS Schedule Rollup Tests"
         Job: Record Job;
         JobNo: Code[20];
     begin
+        TestLibrary.Initialize();
         JobNo := CopyStr('SCHTEST' + Format(Random(999999)), 1, MaxStrLen(Job."No."));
         Job.Init();
         Job."No." := JobNo;

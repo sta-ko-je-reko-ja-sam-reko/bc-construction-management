@@ -146,6 +146,18 @@ table 60254 "CONS Subc Claim Header"
         Logic().Trigger_OnDelete(Rec);
     end;
 
+    /// <summary>Certifies the claim (locks its lines; required before invoicing).</summary>
+    procedure Certify()
+    begin
+        Logic().Certify(Rec);
+    end;
+
+    /// <summary>Returns a certified claim to Open.</summary>
+    procedure Reopen()
+    begin
+        Logic().Reopen(Rec);
+    end;
+
     var
         ILogic: Interface "CONS ISubcClaimHdr";
         ILogicDefined: Boolean;

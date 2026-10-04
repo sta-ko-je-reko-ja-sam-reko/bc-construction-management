@@ -39,15 +39,29 @@ presented on a certificate before invoicing.
 ## 4. Flow
 
 1. **Create application** for a project + period → seed SoV lines from billable Job Planning Lines
-   (or carry forward the previous application's lines with their completed-to-date).
+   (`CONS Prog. Billing Seed`). Each seeded line's **Previous Amount** is the **Completed To Date** of the
+   same planning line on the latest earlier application of the project that is Certified or Invoiced
+   (draft applications are ignored), so applications are cumulative to date. Previous Amount stays
+   editable. A line inserted with no retention % inherits the header's and its amounts are recalculated.
+   Tests: `CONS Prog Billing Integration.SeedFromProject_SuccessiveApplications_CarryPreviousAmount`,
+   `SeedFromProject_DraftPriorApplication_IsNotCarried`.
 2. **Enter progress** per line (% complete or measured qty). Logic computes this-period, retention,
    net due. Idempotent recalculation; nothing posted yet.
-3. **Certify** → status Certified; print the **certificate report**. Optional approval/Feature-Management
-   gate.
-4. **Invoice** → set each planning line's `Qty./Amount to Transfer to Invoice` for the period, run
-   standard **`Job Create-Invoice`** to build the Sales Invoice, then **append the retention G/L line**
-   (RET Option D) and post via standard `Sales-Post`. A `Sales-Post` subscriber writes the
-   `CONS Retention Entry` ledger.
+3. **Certify** (`Certify()` on the header) → status Certified; print the **certificate report**. A certified
+   or invoiced application's lines cannot be changed, added or deleted (line `OnModify`/`OnInsert`/`OnDelete`
+   guards). **Reopen** returns a Certified application to Open; an Invoiced one cannot be reopened.
+   Tests: `CONS Prog Bill Header Tests.Certify_LocksLines`, `Reopen_UnlocksLines`, `Reopen_Invoiced_Errors`.
+4. **Invoice** (`CONS Prog. Billing Invoice`, Certified applications only — `CreateInvoice_OpenApplication_Errors`)
+   → for each line with an amount this period a **Billable Project Planning Line** (G/L = Revenue Account,
+   qty 1, price = this period + stored materials) is created on the line's task and stamped with
+   `CONS Progress Billing No.` (such lines are never seeded as SoV lines). Standard **`Job Create-Invoice`**
+   (`CreateSalesInvoiceLines`) turns them into job-linked sales lines (Job No., Job Task No., Job Contract
+   Entry No.); the **retention G/L line** (RET Option D) is appended and the header stamped. Posting via
+   standard `Sales-Post` writes project **Sale** ledger entries (invoiced revenue, shown as *Invoiced Revenue*
+   on Project Cost Control) and the `Sales-Post` subscriber writes the `CONS Retention Entry` ledger.
+   The application's bill-to customer must equal the project's (project invoices go to the project's customer).
+   Tests: `CONS Prog Billing Integration.PostInvoice_PostsProjectSaleAndInvoicedRevenue`,
+   `SeedFromProject_IgnoresProgressBillingPlanningLines`.
 5. **Release retention** (RET feature) → generate a release application/invoice that reverses the held
    retention G/L line per the release schedule.
 
